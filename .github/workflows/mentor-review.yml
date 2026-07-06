@@ -5,11 +5,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-# Least-privilege. The reviewer can read the code and write PR comments — nothing else.
-# It cannot push commits, change settings, or close issues, even if prompt-injected.
+# Least-privilege. The reviewer can read code, comment on PRs, and request an OIDC
+# token to authenticate with Anthropic — nothing else. It cannot push commits, change
+# settings, or close issues, even if prompt-injected.
 permissions:
   contents: read
   pull-requests: write
+  id-token: write        # required by claude-code-action for OIDC authentication
 
 # If new commits arrive while a review is still running, cancel the stale run
 # so we don't post two reviews and don't pay for both.

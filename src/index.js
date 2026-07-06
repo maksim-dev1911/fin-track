@@ -1,1 +1,1 @@
-console.log('Hi, mentor!')
+console.log('Hi, mentor! Please write your fist comment if you are here')

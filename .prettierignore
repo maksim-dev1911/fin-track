@@ -7,3 +7,5 @@ yarn.lock
 
 *.log
 .env
+.github
+docs

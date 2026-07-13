@@ -8,11 +8,11 @@ const BalancePreview = () => {
       <div className="mt-[18px] flex items-center gap-[28px]">
         <div>
           <p className="color text-xs text-zinc-400">Income · month</p>
-          <p className="font-semibold text-emerald-400">+$7,400</p>
+          <p className="text-income font-semibold">+$7,400</p>
         </div>
         <div>
           <p className="color text-xs text-zinc-400">Expenses · month</p>
-          <p className="font-semibold text-rose-400">−$4,260</p>
+          <p className="text-expense font-semibold">−$4,260</p>
         </div>
       </div>
     </div>

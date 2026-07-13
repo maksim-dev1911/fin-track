@@ -5,11 +5,9 @@ import LoginForm from '@/features/auth/components/login-form.tsx';
 
 const LoginPage = () => {
   return (
-    <div>
-      <AuthLayout>
-        <LoginForm />
-      </AuthLayout>
-    </div>
+    <AuthLayout>
+      <LoginForm />
+    </AuthLayout>
   );
 };
 

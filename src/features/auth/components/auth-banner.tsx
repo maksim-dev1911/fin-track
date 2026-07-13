@@ -5,7 +5,7 @@ import Logo from '@/shared/components/logo.tsx';
 
 const AuthBanner = () => {
   return (
-    <div className="relative flex h-full flex-col overflow-hidden bg-[rgb(11,10,18)] p-12 text-white">
+    <div className="bg-banner relative flex h-full flex-col overflow-hidden p-12 text-white">
       <Logo />
 
       <div className="absolute top-[-120px] right-[-120px] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,_rgba(124,58,237,0.35),_transparent_70%)]"></div>

@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
+
 import { Button } from '@/components/ui/button.tsx';
-import { Field, FieldLabel } from '@/components/ui/field.tsx';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
 
 import { useLoginForm } from '../hooks/use-login-form';
@@ -32,9 +33,7 @@ const LoginForm = () => {
                 aria-invalid={!!form.formState.errors.email}
                 {...form.register('email')}
               />
-              {form.formState.errors.email && (
-                <p className="mt-1 text-sm text-red-500">{form.formState.errors.email.message}</p>
-              )}
+              <FieldError>{form.formState.errors.email?.message}</FieldError>
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -45,11 +44,7 @@ const LoginForm = () => {
                 aria-invalid={!!form.formState.errors.password}
                 {...form.register('password')}
               />
-              {form.formState.errors.password && (
-                <p className="mt-1 text-sm text-red-500">
-                  {form.formState.errors.password.message}
-                </p>
-              )}
+              <FieldError>{form.formState.errors.password?.message}</FieldError>
             </Field>
             <Field orientation="horizontal" className="w-full">
               <Button type="submit" size="lg" className="bg-brand w-full">

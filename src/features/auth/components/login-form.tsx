@@ -1,29 +1,32 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
-import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
 const LoginForm = () => {
   const form = useLoginForm();
 
-  const onSubmit = (data: LoginFormType) => {
-    console.log(data);
+  const onSubmit = () => {
+    // TODO: wire up to auth mutation
   };
 
   return (
     <div>
       <h3 className="text-2xl font-semibold">Welcome back</h3>
-      <p className="mt-1 text-sm text-[#64748b]">Sign in to continue tracking your finances</p>
+      <p className="text-muted-foreground mt-1 text-sm">
+        Sign in to continue tracking your finances
+      </p>
       <div className="mt-4 flex w-full justify-center">
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-5">
             <Field className="min-w-[360px]">
-              <FieldLabel>Email</FieldLabel>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
+                id="email"
                 type="email"
                 placeholder="email@gmail.com"
                 aria-invalid={!!form.formState.errors.email}
@@ -34,8 +37,9 @@ const LoginForm = () => {
               )}
             </Field>
             <Field>
-              <FieldLabel>Password</FieldLabel>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
               <Input
+                id="password"
                 type="password"
                 placeholder="********"
                 aria-invalid={!!form.formState.errors.password}
@@ -48,15 +52,15 @@ const LoginForm = () => {
               )}
             </Field>
             <Field orientation="horizontal" className="w-full">
-              <Button type="submit" size="lg" className="w-full bg-[#7c3aed]">
+              <Button type="submit" size="lg" className="bg-brand w-full">
                 Sign In
               </Button>
             </Field>
             <div className="flex items-center justify-center gap-2 text-sm font-medium">
-              <p className="text-[#64748b]">Don't have an account?</p>
-              <a href="/" className="text-[#7c3aed]">
+              <p className="text-muted-foreground">Don't have an account?</p>
+              <Link to="/register" className="text-brand">
                 Create one
-              </a>
+              </Link>
             </div>
           </div>
         </form>

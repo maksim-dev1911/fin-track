@@ -11,7 +11,7 @@ const BalancePreview = () => {
           <p className="font-semibold text-emerald-400">+$7,400</p>
         </div>
         <div>
-          <p className="color text-xs text-zinc-400">Income · month</p>
+          <p className="color text-xs text-zinc-400">Expenses · month</p>
           <p className="font-semibold text-rose-400">−$4,260</p>
         </div>
       </div>

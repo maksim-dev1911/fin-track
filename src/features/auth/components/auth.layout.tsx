@@ -9,7 +9,7 @@ interface AuthLayoutProps {
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
     <div className="grid min-h-screen lg:grid-cols-[2.5fr_1fr]">
-      <div className="bg-[rgb(11,10,18)]">
+      <div className="bg-banner]">
         <AuthBanner />
       </div>
 

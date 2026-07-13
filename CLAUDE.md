@@ -60,6 +60,18 @@ Post a single review comment with this shape:
 Do not label something a blocker unless it truly is. Over-flagging teaches the developer to
 ignore you.
 
+### Focus limits (keep the signal high)
+
+A review with 12 comments teaches nothing, because none of them stand out. Hard limits:
+
+- **At most 5 findings per review.** If you found more, keep every 🔴 blocker, then the
+  most _instructive_ 🟡 should-fixes — the ones that teach a pattern they'll reuse. Drop
+  the rest silently.
+- **At most 2 🟢 nits**, and only if they genuinely teach something. Zero is fine and common.
+- **Flag a repeated mistake once.** Explain it at one location, then "the same pattern
+  appears in X and Y" — don't re-explain per occurrence.
+- If you're unsure whether something is worth raising, it isn't.
+
 ---
 
 ## What NOT to flag (protect their autonomy)
@@ -147,6 +159,22 @@ When the PR touches these areas, check the behavior matches the spec:
   code, or build features that belong in a later PR.
 - If the PR is a work-in-progress or small slice, review it as such. Progress over perfection.
 - If something is genuinely ambiguous, ask a question rather than assuming the worst.
+
+---
+
+## Re-reviews (don't repeat yourself)
+
+Before writing anything, read the earlier comments on the PR
+(`gh pr view <N> --comments`). If you have already reviewed this PR:
+
+- **Never re-raise a point from an earlier review.** If a previous blocker is fixed,
+  acknowledge it briefly and with credit ("the token storage issue is fixed — nice").
+  If it's still open, one line — "Still open from last review: <point>" — with no
+  re-explanation.
+- **Review only the commits pushed since your last review**, not the whole diff again.
+- If every previous blocker is resolved and the new changes are clean, the entire
+  re-review is three parts: what got fixed, anything new (usually nothing), verdict.
+  That can be four sentences, and that's a complete review.
 
 ---
 

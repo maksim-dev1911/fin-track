@@ -1,0 +1,23 @@
+import React, {type ReactNode} from 'react';
+
+import AuthBanner from "@/features/auth/components/auth-banner.tsx";
+
+interface AuthLayoutProps {
+    children: ReactNode;
+}
+
+const AuthLayout: React.FC<AuthLayoutProps> = ({children}) => {
+    return (
+        <div className="grid min-h-screen lg:grid-cols-[2.5fr_1fr]">
+            <div className="bg-[rgb(11,10,18)]">
+                <AuthBanner/>
+            </div>
+
+            <div className="flex items-center justify-center w-full p-[40px]">
+                {children}
+            </div>
+        </div>
+    );
+};
+
+export default React.memo(AuthLayout);

@@ -11,7 +11,7 @@ on:
 permissions:
   contents: read
   pull-requests: write
-  id-token: write        # required by claude-code-action for OIDC authentication
+  id-token: write # required by claude-code-action for OIDC authentication
 
 # If new commits arrive while a review is still running, cancel the stale run
 # so we don't post two reviews and don't pay for both.

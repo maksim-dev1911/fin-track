@@ -13,7 +13,7 @@ const AuthBanner = () => {
       <div className="flex-1" />
 
       <div>
-        <h1 className="max-w-xl text-[34px] leading-[1.15] font-bold">
+        <h1 className="max-w-[440px] text-[34px] leading-[1.15] font-bold">
           Where does my money go, and how much do I have — on one screen.
         </h1>
 

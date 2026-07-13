@@ -8,12 +8,14 @@ interface AuthLayoutProps {
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
-    <div className="grid min-h-screen lg:grid-cols-[2.5fr_1fr]">
-      <div>
+    <div className="min-h-screen lg:flex">
+      <div className="flex-1">
         <AuthBanner />
       </div>
 
-      <div className="flex w-full items-center justify-center p-[40px]">{children}</div>
+      <div className="flex w-full basis-[540px] items-center justify-center p-[40px]">
+        {children}
+      </div>
     </div>
   );
 };

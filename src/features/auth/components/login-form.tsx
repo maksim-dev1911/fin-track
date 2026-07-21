@@ -22,10 +22,12 @@ const LoginForm = () => {
         Sign in to continue tracking your finances
       </p>
       <div className="mt-4 flex w-full justify-center">
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-[360px]">
           <div className="flex flex-col gap-5">
-            <Field className="min-w-[360px]">
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+            <Field>
+              <FieldLabel htmlFor="email" className="text-[13px]">
+                Email
+              </FieldLabel>
               <Input
                 id="email"
                 type="email"
@@ -36,7 +38,9 @@ const LoginForm = () => {
               <FieldError>{form.formState.errors.email?.message}</FieldError>
             </Field>
             <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="password" className="text-[13px]">
+                Password
+              </FieldLabel>
               <Input
                 id="password"
                 type="password"
@@ -47,7 +51,7 @@ const LoginForm = () => {
               <FieldError>{form.formState.errors.password?.message}</FieldError>
             </Field>
             <Field orientation="horizontal" className="w-full">
-              <Button type="submit" size="lg" className="bg-brand w-full">
+              <Button type="submit" size="lg" className="bg-brand h-[42px] w-full">
                 Sign In
               </Button>
             </Field>

@@ -51,7 +51,12 @@ const LoginForm = () => {
               <FieldError>{form.formState.errors.password?.message}</FieldError>
             </Field>
             <Field orientation="horizontal" className="w-full">
-              <Button type="submit" size="lg" className="bg-brand h-[42px] w-full">
+              <Button
+                type="submit"
+                size="lg"
+                disabled={!form.formState.isValid || form.formState.isSubmitting}
+                className="bg-brand h-[42px] w-full"
+              >
                 Sign In
               </Button>
             </Field>

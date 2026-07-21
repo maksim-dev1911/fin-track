@@ -6,6 +6,7 @@ import { loginSchema, type LoginFormType } from '../schemas/login.schema';
 export const useLoginForm = () => {
   const form = useForm<LoginFormType>({
     resolver: zodResolver(loginSchema),
+    mode: 'onChange',
     defaultValues: {
       email: '',
       password: '',

@@ -3,7 +3,7 @@ import React from 'react';
 const Logo = () => {
   return (
     <div className="flex items-center gap-3">
-      <div className="bg-brand flex h-8 w-8 items-center justify-center rounded-[9px] font-bold">
+      <div className="bg-brand flex h-8 w-8 items-center justify-center rounded-lg font-bold">
         F
       </div>
 

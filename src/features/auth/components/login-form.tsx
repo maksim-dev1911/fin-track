@@ -24,7 +24,7 @@ const LoginForm = () => {
       <div className="mt-4 flex w-full justify-center">
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-[360px]">
           <div className="flex flex-col gap-5">
-            <Field className="">
+            <Field>
               <FieldLabel htmlFor="email" className="text-[13px]">
                 Email
               </FieldLabel>

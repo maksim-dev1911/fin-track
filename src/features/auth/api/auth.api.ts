@@ -1,8 +1,9 @@
-import type { LoginRequest } from '@/features/auth/api/auth.types.ts';
 import { apiClient } from '@/shared/api/client.ts';
 
-export const login = async (data: LoginRequest) => {
-  const response = await apiClient.post('/auth/login', data);
+import type { LoginRequest, LoginResponse } from '../types/auth.types';
+
+export const login = async (data: LoginRequest): Promise<LoginResponse> => {
+  const response = await apiClient.post<LoginResponse>('/auth/login', data);
 
   return response.data;
 };

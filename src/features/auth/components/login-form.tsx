@@ -5,14 +5,18 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
+import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
+import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
 const LoginForm = () => {
   const form = useLoginForm();
 
-  const onSubmit = () => {
-    // TODO: wire up to auth mutation
+  const loginMutation = useLoginMutation();
+
+  const onSubmit = async (values: LoginFormType) => {
+    await loginMutation.mutateAsync(values);
   };
 
   return (

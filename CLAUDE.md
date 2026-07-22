@@ -37,16 +37,24 @@ and **what standards** the code must meet.
 
 ## How to structure every review
 
-Post a single review comment with this shape:
+Review the way a senior does at work: feedback goes on the code itself, then one short
+summary wraps it up.
 
-1. **Summary** (1–2 sentences): what the PR does and your overall read. Lead with something
-   true and encouraging if the work merits it.
-2. **What's good**: 1–3 specific things done well. Always include this section when it's honest.
-3. **Findings**, grouped by severity (see below). For each: what, _why it matters_, and a
-   suggested direction (not always full code — nudge them to think).
-4. **Optional/nits**: minor style thoughts, clearly marked as non-blocking.
-5. **Verdict**: one of — _Looks great, ship it_ / _Solid, address the blockers then ship_ /
-   _Good direction, needs another pass_. Keep it warm.
+1. **Inline comments** — every finding that maps to specific code goes as an inline comment
+   on the exact line(s). Each one: severity label (see below), what the issue is, _why it
+   matters_, and a suggested direction (not always full code — nudge them to think). Nits
+   are inline too, clearly marked as non-blocking.
+2. **One summary comment** with this shape:
+   - **Summary** (1–2 sentences): what the PR does and your overall read. Lead with something
+     true and encouraging if the work merits it.
+   - **What's good**: 1–3 specific things done well. Always include this section when it's honest.
+   - **Findings that don't fit a single line** (architecture-wide patterns, something missing
+     from the PR entirely), grouped by severity.
+   - **Verdict**: one of — _Looks great, ship it_ / _Solid, address the blockers then ship_ /
+     _Good direction, needs another pass_. Keep it warm.
+
+Don't duplicate: a finding lives either inline or in the summary, never both — the summary
+may briefly count them ("two blockers inline"), not restate them.
 
 ### Severity labels
 
@@ -112,16 +120,20 @@ teach, don't just enforce.
 - **Money is integer minor units (cents), never floats in component math.** Currency formatting
   goes through a single helper. Float arithmetic on money is a data-integrity bug.
 - **All API calls go through the shared Axios instance** with its interceptors — no scattered
-  raw `fetch`/`axios` calls that bypass auth handling.
+  raw `fetch`/`axios` calls that bypass auth handling. The instance must set
+  `withCredentials: true`, or the refresh cookie never travels and auth silently breaks.
 - **Forms use React Hook Form + Zod.** Validation schemas in Zod; the inferred type drives the
-  form. Also handle server-side 422 errors, not just client validation.
+  form. Also handle server-side 422 errors, not just client validation — errors arrive in the
+  contract's envelope `{ error: { code, message, details } }`, and 422 `details` map to
+  field-level messages.
 - **Every data view handles loading, empty, and error states.** No blank screens on load, no
   silently swallowed errors.
 - **Destructive actions (delete) confirm first.**
 
 ### Should-follow (🟡 flag if missing, but coach)
 
-- Feature-based structure: related component + hooks + schema + types live together in the feature.
+- Feature-based structure: related component + hooks + schema + types live together in the
+  feature; features don't deep-import each other's internals — share via `lib/` or public exports.
 - Query keys are structured and include filters (e.g. `['transactions', filters]`) so caching
   is correct.
 - Mutations invalidate the queries they affect, so the UI stays fresh.
@@ -150,6 +162,14 @@ When the PR touches these areas, check the behavior matches the spec:
   redirects. On reload, it silently restores the session.
 - **Transaction list**: paginated, filterable (date range, type, category, account), newest-first
   by default.
+- **Aggregates come from the API, never client-side math** — dashboard numbers from the
+  `/analytics/*` endpoints, filtered totals from the `summary` field of the transactions list
+  response. Summing transactions in a component breaks silently once the list is paginated.
+- **409 CONFLICT is a UX case, not a failure** — deleting an account or category still in use,
+  or changing a category's type once transactions use it, returns 409; the UI must warn (or
+  offer reassigning), never fail silently.
+- **Login errors stay generic** — "invalid email or password", never revealing which of the
+  two was wrong.
 
 ---
 
@@ -159,13 +179,16 @@ When the PR touches these areas, check the behavior matches the spec:
   code, or build features that belong in a later PR.
 - If the PR is a work-in-progress or small slice, review it as such. Progress over perfection.
 - If something is genuinely ambiguous, ask a question rather than assuming the worst.
+- Budgets (Epic F) are an optional stretch feature: never demand budget-related work, and
+  tolerating the absence of the `/budgets` endpoints is correct, not a bug.
 
 ---
 
 ## Re-reviews (don't repeat yourself)
 
-Before writing anything, read the earlier comments on the PR
-(`gh pr view <N> --comments`). If you have already reviewed this PR:
+Before writing anything, read the earlier feedback on the PR — both the discussion
+comments (`gh pr view <N> --comments`) and the inline review comments
+(`gh api repos/<owner>/<repo>/pulls/<N>/comments`). If you have already reviewed this PR:
 
 - **Never re-raise a point from an earlier review.** If a previous blocker is fixed,
   acknowledge it briefly and with credit ("the token storage issue is fixed — nice").

@@ -21,10 +21,15 @@ permissions:
   issues: write # react to the `/review` comment as an acknowledgement
   id-token: write # required by claude-code-action for OIDC authentication
 
-# If a new review is requested while one is still running, cancel the stale run.
+# If a new review is requested while one is still running, cancel the stale run —
+# but ONLY for real review triggers (PR events / `/review` comments). The tracking
+# comment the action posts fires `issue_comment` too (it uses an app token, which
+# is not exempt from re-triggering workflows); that echo run is skipped by the job
+# `if`, but job-level `if` runs AFTER the concurrency group is claimed, so with an
+# unconditional cancel-in-progress it would kill the very review that posted it.
 concurrency:
   group: mentor-review-${{ github.event.pull_request.number || github.event.issue.number }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || startsWith(github.event.comment.body || '', '/review') }}
 
 jobs:
   review:

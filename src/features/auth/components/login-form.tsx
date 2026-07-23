@@ -1,22 +1,34 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
 import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
+import { useAuthStore } from '@/features/auth/store/auth.store.ts';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
 const LoginForm = () => {
+  const setSession = useAuthStore((state) => state.setSession);
+
   const form = useLoginForm();
 
   const loginMutation = useLoginMutation();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (values: LoginFormType) => {
-    await loginMutation.mutateAsync(values);
+    try {
+      const response = await loginMutation.mutateAsync(values);
+
+      setSession(response);
+      navigate('/main', { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -14,3 +14,13 @@ export const refreshSession = async (): Promise<LoginResponse> => {
 
   return response.data;
 };
+
+export const register = async (data: LoginRequest): Promise<LoginResponse> => {
+  const response = await apiClient.post<LoginResponse>(endpoints.REGISTER, data);
+
+  return response.data;
+};
+
+export const logout = async (): Promise<void> => {
+  await apiClient.post(endpoints.LOGOUT);
+};

@@ -5,25 +5,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
-import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
-import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
+import { useRegisterForm } from '@/features/auth/hooks/use-register-form.ts';
+import { useRegisterMutation } from '@/features/auth/hooks/use-register-mutation.ts';
+import type { RegisterFormType } from '@/features/auth/schemas/register.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
 import { getApiErrorMessage } from '@/lib/get-api-error-message.ts';
 import AlertInfo from '@/shared/components/AlertInfo.tsx';
 
-import { useLoginForm } from '../hooks/use-login-form';
-
-const LoginForm = () => {
+const RegisterForm = () => {
   const setSession = useAuthStore((state) => state.setSession);
 
-  const form = useLoginForm();
+  const form = useRegisterForm();
 
-  const loginMutation = useLoginMutation();
+  const registerMutation = useRegisterMutation();
 
   const navigate = useNavigate();
 
-  const onSubmit = async (values: LoginFormType) => {
-    const response = await loginMutation.mutateAsync(values);
+  const onSubmit = async (values: RegisterFormType) => {
+    const response = await registerMutation.mutateAsync(values);
 
     setSession(response);
     navigate('/main', { replace: true });
@@ -31,24 +30,37 @@ const LoginForm = () => {
 
   return (
     <div>
-      {loginMutation.isError && (
+      {registerMutation.isError && (
         <div className="mb-5">
           <AlertInfo
             variant="destructive"
             alertTitle="Sign in failed"
             alertDescription={getApiErrorMessage(
-              loginMutation.error?.response?.data?.error?.message,
+              registerMutation.error?.response?.data?.error?.message,
             )}
           />
         </div>
       )}
-      <h3 className="text-2xl font-semibold">Welcome back</h3>
+      <h3 className="text-2xl font-semibold">Create account</h3>
       <p className="text-muted-foreground mt-1 text-sm">
-        Sign in to continue tracking your finances
+        Start tracking your finances in under a minute
       </p>
       <div className="mt-4 flex w-full justify-center">
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-[360px]">
           <div className="flex flex-col gap-4">
+            <Field>
+              <FieldLabel htmlFor="name" className="text-[13px]">
+                Display name
+              </FieldLabel>
+              <Input
+                id="name"
+                type="name"
+                placeholder="Alex Morgan"
+                aria-invalid={!!form.formState.errors.displayName}
+                {...form.register('displayName')}
+              />
+              <FieldError>{form.formState.errors.displayName?.message}</FieldError>
+            </Field>
             <Field>
               <FieldLabel htmlFor="email" className="text-[13px]">
                 Email
@@ -56,7 +68,7 @@ const LoginForm = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="email@gmail.com"
+                placeholder="you@example.com"
                 aria-invalid={!!form.formState.errors.email}
                 {...form.register('email')}
               />
@@ -69,7 +81,7 @@ const LoginForm = () => {
               <Input
                 id="password"
                 type="password"
-                placeholder="********"
+                placeholder="At least 8 characters"
                 aria-invalid={!!form.formState.errors.password}
                 {...form.register('password')}
               />
@@ -82,13 +94,13 @@ const LoginForm = () => {
                 disabled={!form.formState.isValid || form.formState.isSubmitting}
                 className="bg-brand h-[42px] w-full"
               >
-                Sign In
+                Create account
               </Button>
             </Field>
             <div className="flex items-center justify-center gap-2 text-sm font-medium">
-              <p className="text-muted-foreground">Don't have an account?</p>
-              <Link to="/register" className="text-brand">
-                Create one
+              <p className="text-muted-foreground">Already have an account?</p>
+              <Link to="/login" className="text-brand">
+                Sign in
               </Link>
             </div>
           </div>
@@ -98,4 +110,4 @@ const LoginForm = () => {
   );
 };
 
-export default React.memo(LoginForm);
+export default React.memo(RegisterForm);

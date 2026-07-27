@@ -46,7 +46,7 @@ const RegisterForm = () => {
         <div className="mb-5">
           <AlertInfo
             variant="destructive"
-            alertTitle="Sign is failed"
+            alertTitle="Registration failed"
             alertDescription={getApiErrorMessage(
               registerMutation.error?.response?.data?.error?.message,
             )}

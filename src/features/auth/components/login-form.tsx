@@ -1,15 +1,19 @@
 import React from 'react';
 
+import type { AxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { routes } from '@/app/router/routes.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
 import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
-import { getApiErrorMessage } from '@/lib/get-api-error-message.ts';
 import AlertInfo from '@/shared/components/AlertInfo.tsx';
+import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
+import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import type { ApiValidationError } from '@/shared/types/error.ts';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
@@ -23,10 +27,18 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values: LoginFormType) => {
-    const response = await loginMutation.mutateAsync(values);
+    try {
+      const response = await loginMutation.mutateAsync(values);
 
-    setSession(response);
-    navigate('/main', { replace: true });
+      setSession(response);
+      navigate(routes.home, { replace: true });
+    } catch (error) {
+      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) {
+        return;
+      }
+
+      throw error;
+    }
   };
 
   return (

@@ -1,7 +1,9 @@
 import React from 'react';
 
+import type { AxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { routes } from '@/app/router/routes.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
@@ -9,8 +11,10 @@ import { useRegisterForm } from '@/features/auth/hooks/use-register-form.ts';
 import { useRegisterMutation } from '@/features/auth/hooks/use-register-mutation.ts';
 import type { RegisterFormType } from '@/features/auth/schemas/register.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
-import { getApiErrorMessage } from '@/lib/get-api-error-message.ts';
 import AlertInfo from '@/shared/components/AlertInfo.tsx';
+import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors';
+import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import type { ApiValidationError } from '@/shared/types/error.ts';
 
 const RegisterForm = () => {
   const setSession = useAuthStore((state) => state.setSession);
@@ -22,10 +26,18 @@ const RegisterForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values: RegisterFormType) => {
-    const response = await registerMutation.mutateAsync(values);
+    try {
+      const response = await registerMutation.mutateAsync(values);
 
-    setSession(response);
-    navigate('/main', { replace: true });
+      setSession(response);
+      navigate(routes.home, { replace: true });
+    } catch (error) {
+      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) {
+        return;
+      }
+
+      throw error;
+    }
   };
 
   return (

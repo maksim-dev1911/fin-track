@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input.tsx';
 import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
 import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
+import { getApiErrorMessage } from '@/lib/get-api-error-message.ts';
+import AlertInfo from '@/shared/components/AlertInfo.tsx';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
@@ -21,18 +23,23 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values: LoginFormType) => {
-    try {
-      const response = await loginMutation.mutateAsync(values);
+    const response = await loginMutation.mutateAsync(values);
 
-      setSession(response);
-      navigate('/main', { replace: true });
-    } catch (error) {
-      console.log(error);
-    }
+    setSession(response);
+    navigate('/main', { replace: true });
   };
 
   return (
     <div>
+      <div className="mb-5">
+        {loginMutation.isError && (
+          <AlertInfo
+            variant="destructive"
+            alertTitle="Sign in failed"
+            alertDescription={getApiErrorMessage(loginMutation.error?.response?.data.error.message)}
+          />
+        )}
+      </div>
       <h3 className="text-2xl font-semibold">Welcome back</h3>
       <p className="text-muted-foreground mt-1 text-sm">
         Sign in to continue tracking your finances

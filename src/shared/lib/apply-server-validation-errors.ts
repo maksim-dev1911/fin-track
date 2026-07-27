@@ -7,7 +7,7 @@ export const applyServerValidationErrors = <T extends FieldValues>(
   form: UseFormReturn<T>,
   error: AxiosError<ApiValidationError>,
 ): boolean => {
-  const details = error.response?.data.error.details;
+  const details = error.response?.data?.error?.details;
 
   if (!details) {
     return false;

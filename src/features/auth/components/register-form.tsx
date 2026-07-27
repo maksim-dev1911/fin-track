@@ -46,7 +46,7 @@ const RegisterForm = () => {
         <div className="mb-5">
           <AlertInfo
             variant="destructive"
-            alertTitle="Sign in failed"
+            alertTitle="Sign is failed"
             alertDescription={getApiErrorMessage(
               registerMutation.error?.response?.data?.error?.message,
             )}
@@ -66,7 +66,7 @@ const RegisterForm = () => {
               </FieldLabel>
               <Input
                 id="name"
-                type="name"
+                type="text"
                 placeholder="Alex Morgan"
                 aria-invalid={!!form.formState.errors.displayName}
                 {...form.register('displayName')}

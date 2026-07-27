@@ -36,7 +36,9 @@ const LoginForm = () => {
           <AlertInfo
             variant="destructive"
             alertTitle="Sign in failed"
-            alertDescription={getApiErrorMessage(loginMutation.error?.response?.data.error.message)}
+            alertDescription={getApiErrorMessage(
+              loginMutation.error?.response?.data?.error?.message,
+            )}
           />
         )}
       </div>

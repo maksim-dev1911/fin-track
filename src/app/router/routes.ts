@@ -1,5 +1,8 @@
 export const routes = {
   login: '/login',
   register: '/register',
-  home: '/home',
+  dashboard: '/dashboard',
+  transactions: '/transactions',
+  accounts: '/accounts',
+  categories: '/categories',
 };

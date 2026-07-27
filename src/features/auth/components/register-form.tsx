@@ -30,7 +30,7 @@ const RegisterForm = () => {
       const response = await registerMutation.mutateAsync(values);
 
       setSession(response);
-      navigate(routes.home, { replace: true });
+      navigate(routes.dashboard, { replace: true });
     } catch (error) {
       if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) {
         return;

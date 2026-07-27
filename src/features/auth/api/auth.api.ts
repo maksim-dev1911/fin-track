@@ -1,7 +1,7 @@
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 
-import type { LoginRequest, LoginResponse } from '../types/auth.types';
+import type { LoginRequest, LoginResponse, RegisterRequest } from '../types/auth.types';
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await apiClient.post<LoginResponse>(endpoints.LOGIN, data);
@@ -13,4 +13,14 @@ export const refreshSession = async (): Promise<LoginResponse> => {
   const response = await apiClient.post<LoginResponse>(endpoints.REFRESH);
 
   return response.data;
+};
+
+export const register = async (data: RegisterRequest): Promise<LoginResponse> => {
+  const response = await apiClient.post<LoginResponse>(endpoints.REGISTER, data);
+
+  return response.data;
+};
+
+export const logout = async (): Promise<void> => {
+  await apiClient.post(endpoints.LOGOUT);
 };

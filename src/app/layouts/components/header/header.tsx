@@ -12,7 +12,7 @@ const Header = () => {
     <header className="flex items-center justify-between border-b px-7 py-2">
       <div>
         <h1 className="text-lg font-semibold">{title}</h1>
-        <p className="text-muted-foreground text-xs">{description}</p>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </div>
     </header>
   );

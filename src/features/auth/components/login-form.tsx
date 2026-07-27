@@ -1,22 +1,47 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
+import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
+import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
+import { useAuthStore } from '@/features/auth/store/auth.store.ts';
+import { getApiErrorMessage } from '@/lib/get-api-error-message.ts';
+import AlertInfo from '@/shared/components/AlertInfo.tsx';
 
 import { useLoginForm } from '../hooks/use-login-form';
 
 const LoginForm = () => {
+  const setSession = useAuthStore((state) => state.setSession);
+
   const form = useLoginForm();
 
-  const onSubmit = () => {
-    // TODO: wire up to auth mutation
+  const loginMutation = useLoginMutation();
+
+  const navigate = useNavigate();
+
+  const onSubmit = async (values: LoginFormType) => {
+    const response = await loginMutation.mutateAsync(values);
+
+    setSession(response);
+    navigate('/main', { replace: true });
   };
 
   return (
     <div>
+      <div className="mb-5">
+        {loginMutation.isError && (
+          <AlertInfo
+            variant="destructive"
+            alertTitle="Sign in failed"
+            alertDescription={getApiErrorMessage(
+              loginMutation.error?.response?.data?.error?.message,
+            )}
+          />
+        )}
+      </div>
       <h3 className="text-2xl font-semibold">Welcome back</h3>
       <p className="text-muted-foreground mt-1 text-sm">
         Sign in to continue tracking your finances

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BalancePreview from '@/features/auth/components/balance-preview.tsx';
-import Logo from '@/shared/components/logo.tsx';
+import Logo from '@/shared/components/logo/auth-logo.tsx';
 
 const AuthBanner = () => {
   return (

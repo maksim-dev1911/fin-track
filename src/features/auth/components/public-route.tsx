@@ -16,7 +16,7 @@ export const PublicRoute = () => {
   }
 
   if (status === 'authenticated') {
-    return <Navigate to={routes.home} replace />;
+    return <Navigate to={routes.dashboard} replace />;
   }
 
   return <Outlet />;

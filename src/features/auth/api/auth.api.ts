@@ -1,7 +1,12 @@
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 
-import type { LoginRequest, LoginResponse, RegisterRequest } from '../types/auth.types';
+import type {
+  LoginRequest,
+  LoginResponse,
+  RefreshResponse,
+  RegisterRequest,
+} from '../types/auth.types';
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await apiClient.post<LoginResponse>(endpoints.LOGIN, data);
@@ -9,8 +14,8 @@ export const login = async (data: LoginRequest): Promise<LoginResponse> => {
   return response.data;
 };
 
-export const refreshSession = async (): Promise<LoginResponse> => {
-  const response = await apiClient.post<LoginResponse>(endpoints.REFRESH);
+export const refreshSession = async (): Promise<RefreshResponse> => {
+  const response = await apiClient.post<RefreshResponse>(endpoints.REFRESH);
 
   return response.data;
 };
@@ -23,4 +28,14 @@ export const register = async (data: RegisterRequest): Promise<LoginResponse> =>
 
 export const logout = async (): Promise<void> => {
   await apiClient.post(endpoints.LOGOUT);
+};
+
+export const getMe = async (accessToken: string) => {
+  const response = await apiClient.get(endpoints.ME, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.data;
 };

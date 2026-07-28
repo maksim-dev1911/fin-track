@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { refreshSession } from '@/features/auth/api/auth.api.ts';
+import { getMe, refreshSession } from '@/features/auth/api/auth.api.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
 
 export const useSession = () => {
@@ -19,9 +19,10 @@ export const useSession = () => {
 
       try {
         initializing.current = true;
-        const session = await refreshSession();
+        const { accessToken } = await refreshSession();
+        const user = await getMe(accessToken);
 
-        setSession(session);
+        setSession({ accessToken, user });
       } catch {
         setStatus('unauthenticated');
       } finally {

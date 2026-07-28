@@ -7,7 +7,7 @@ import { routes } from '@/app/router/routes.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
-import { useLoginMutation } from '@/features/auth/hooks/use-login-mutation.ts';
+import { useLoginMutation } from '@/features/auth/hooks/mutations/use-login-mutation.ts';
 import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
 import AlertInfo from '@/shared/components/AlertInfo.tsx';
@@ -15,7 +15,7 @@ import { applyServerValidationErrors } from '@/shared/lib/apply-server-validatio
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
-import { useLoginForm } from '../hooks/use-login-form';
+import { useLoginForm } from '../hooks/forms/use-login-form.ts';
 
 const LoginForm = () => {
   const setSession = useAuthStore((state) => state.setSession);

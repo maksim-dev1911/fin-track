@@ -6,6 +6,7 @@ import type {
   LoginResponse,
   RefreshResponse,
   RegisterRequest,
+  User,
 } from '../types/auth.types';
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
@@ -26,12 +27,12 @@ export const register = async (data: RegisterRequest): Promise<LoginResponse> =>
   return response.data;
 };
 
-export const logout = async (): Promise<void> => {
+export const logout = async () => {
   await apiClient.post(endpoints.LOGOUT);
 };
 
 export const getMe = async (accessToken: string) => {
-  const response = await apiClient.get(endpoints.ME, {
+  const response = await apiClient.get<User>(endpoints.ME, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

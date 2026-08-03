@@ -13,8 +13,10 @@ const AppLayout = () => {
       <div className="flex flex-1 flex-col">
         <Header />
 
-        <main className="flex-1 p-6">
-          <Outlet />
+        <main className="flex-1 bg-slate-50">
+          <div className="mx-auto max-w-7xl p-8">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

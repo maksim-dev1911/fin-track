@@ -23,11 +23,11 @@ const chartData = [
 const chartConfig = {
   income: {
     label: 'Income',
-    color: '#1DAA71',
+    color: 'var(--income)',
   },
   expense: {
     label: 'Expenses',
-    color: '#F14962',
+    color: 'var(--expense)',
   },
 } satisfies ChartConfig;
 
@@ -47,7 +47,7 @@ const ChartBarMultiple = () => {
     <Card className="flex h-full flex-col p-5">
       <CardHeader className="flex flex-row items-start justify-between p-0">
         <div>
-          <CardTitle className="f fo text-[15px] font-semibold">Income vs expenses</CardTitle>
+          <CardTitle className="text-[15px] font-semibold">Income vs expenses</CardTitle>
           <CardDescription className="text-[14px]">last 6 months</CardDescription>
         </div>
         <Legend />

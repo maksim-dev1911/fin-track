@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input.tsx';
 import { useLoginMutation } from '@/features/auth/hooks/mutations/use-login-mutation.ts';
 import type { LoginFormType } from '@/features/auth/schemas/login.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
-import AlertInfo from '@/shared/components/AlertInfo.tsx';
+import AlertInfo from '@/shared/components/alert-info.tsx';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';

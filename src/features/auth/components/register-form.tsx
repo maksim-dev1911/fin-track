@@ -11,7 +11,7 @@ import { useRegisterForm } from '@/features/auth/hooks/forms/use-register-form.t
 import { useRegisterMutation } from '@/features/auth/hooks/mutations/use-register-mutation.ts';
 import type { RegisterFormType } from '@/features/auth/schemas/register.schema.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
-import AlertInfo from '@/shared/components/AlertInfo.tsx';
+import AlertInfo from '@/shared/components/alert-info.tsx';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';

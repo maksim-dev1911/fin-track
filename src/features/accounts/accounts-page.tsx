@@ -1,9 +1,11 @@
 import React from 'react';
 
+import PageHeader from '@/shared/components/page-header';
+
 const AccountsPage = () => {
   return (
     <div>
-      <h1>Accounts</h1>
+      <PageHeader total="$40,335" title="Account" description="Total balance" />
     </div>
   );
 };

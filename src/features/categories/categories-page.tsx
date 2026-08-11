@@ -1,9 +1,11 @@
 import React from 'react';
 
+import PageHeader from '@/shared/components/page-header.tsx';
+
 const CategoriesPage = () => {
   return (
     <div>
-      <h1>Categories</h1>
+      <PageHeader total="11" title="Category" description="Categories" />
     </div>
   );
 };

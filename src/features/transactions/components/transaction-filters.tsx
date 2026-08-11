@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import DataPicker from '@/shared/components/data-picker.tsx';
+import DataPicker from '@/shared/components/date-picker.tsx';
 
 const TransactionFilters = () => {
   return (

@@ -7,37 +7,34 @@ import TransactionsPagination from '@/shared/components/transactions-pagination.
 
 const transactions: Transaction[] = [
   {
-    type: 'Income',
+    type: 'income',
     accountId: '312',
     categoryId: '33',
-    dateFrom: '2019-06-01',
-    dateTo: '2026-05-01',
+    occurredAt: 'Jul 5, 2026',
     accountName: 'John Doe',
     categoryName: 'Freelance',
     description: 'Freelance project',
-    amount: 4544,
+    amount: 4444,
   },
   {
-    type: 'Expense',
+    type: 'expense',
     accountId: '312',
     categoryId: '33',
-    dateFrom: '2019-06-01',
-    dateTo: '2026-05-01',
+    occurredAt: 'Jul 5, 2026',
     accountName: 'John Doe',
     categoryName: 'Freelance',
     description: 'Freelance project',
-    amount: 4544,
+    amount: 3131,
   },
   {
-    type: 'Income',
+    type: 'income',
     accountId: '312',
     categoryId: '33',
-    dateFrom: '2019-06-01',
-    dateTo: '2026-05-01',
+    occurredAt: 'Jul 5, 2026',
     accountName: 'John Doe',
     categoryName: 'Freelance',
     description: 'Freelance project',
-    amount: 4544,
+    amount: 31313,
   },
 ];
 
@@ -56,8 +53,8 @@ const TransactionsTable = () => {
         </TableHeader>
 
         <TableBody>
-          {transactions.map((transaction) => (
-            <TransactionRow key={transaction.categoryId} transaction={transaction} />
+          {transactions.map((transaction, index) => (
+            <TransactionRow key={index} transaction={transaction} />
           ))}
         </TableBody>
       </Table>

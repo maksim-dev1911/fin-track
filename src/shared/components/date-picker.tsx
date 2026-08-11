@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
 
-const DataPicker = () => {
+const DatePicker = () => {
   const [date, setDate] = React.useState<Date>();
 
   return (
@@ -30,4 +30,4 @@ const DataPicker = () => {
   );
 };
 
-export default React.memo(DataPicker);
+export default React.memo(DatePicker);

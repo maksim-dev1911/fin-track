@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import DataPicker from '@/shared/components/date-picker.tsx';
+import DatePicker from '@/shared/components/date-picker.tsx';
 
 const TransactionFilters = () => {
   return (
@@ -61,11 +61,11 @@ const TransactionFilters = () => {
         </div>
         <div>
           <Label className="text-muted-foreground mb-2 text-xs">From</Label>
-          <DataPicker />
+          <DatePicker />
         </div>
         <div>
           <Label className="text-muted-foreground mb-2 text-xs">To</Label>
-          <DataPicker />
+          <DatePicker />
         </div>
       </CardContent>
     </Card>

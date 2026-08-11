@@ -6,7 +6,7 @@ import { Label, Pie, PieChart } from 'recharts';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
-import CategoryLegend from '@/shared/components/CategoryLegend.tsx';
+import CategoryLegend from '@/shared/components/category-legend.tsx';
 
 const categories = [
   { key: 'rent', name: 'Rent', amount: 1850, color: '#7C6FEA' },

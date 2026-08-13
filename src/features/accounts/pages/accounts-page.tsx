@@ -1,11 +1,13 @@
 import React from 'react';
 
-import PageHeader from '@/shared/components/page-header';
+import CardsAccounts from '@/features/accounts/components/cards-accounts.tsx';
+import PageHeader from '@/shared/components/page-header.tsx';
 
 const AccountsPage = () => {
   return (
     <div>
       <PageHeader total="$40,335" title="Account" description="Total balance" />
+      <CardsAccounts />
     </div>
   );
 };

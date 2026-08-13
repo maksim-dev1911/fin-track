@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import AppLayout from '@/app/layouts/app-layout.tsx';
 import { routes } from '@/app/router/routes.ts';
-import AccountsPage from '@/features/accounts/accounts-page.tsx';
+import AccountsPage from '@/features/accounts/pages/accounts-page.tsx';
 import { ProtectedRoute } from '@/features/auth/components/protected-route.tsx';
 import { PublicRoute } from '@/features/auth/components/public-route.tsx';
 import LoginPage from '@/features/auth/pages/login-page.tsx';

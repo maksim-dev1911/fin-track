@@ -1,8 +1,11 @@
-export const formatTransactionAmount = (cents: number, type: 'income' | 'expense') => {
-  const amount = Math.abs(cents) / 100;
+export const formatTransactionAmount = (amount: number, type: 'income' | 'expense' | 'default') => {
+  const absoluteAmount = Math.abs(amount);
 
-  return `${type === 'income' ? '+' : '-'}$${amount.toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+  return `${type === 'income' ? '+' : type === 'expense' ? '-' : ''}$${absoluteAmount.toLocaleString(
+    'en-US',
+    {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    },
+  )}`;
 };

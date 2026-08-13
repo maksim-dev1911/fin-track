@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button.tsx';
 const ItemActions = () => {
   return (
     <div className="flex items-center gap-2">
-      <Button variant="outline" size="icon">
-        <Pencil />
+      <Button variant="ghost" size="sm">
+        <Pencil className="text-muted-foreground" />
       </Button>
 
-      <Button variant="outline" size="icon">
-        <Trash2 />
+      <Button variant="ghost" size="sm">
+        <Trash2 className="text-muted-foreground" />
       </Button>
     </div>
   );

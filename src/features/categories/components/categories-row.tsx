@@ -1,11 +1,11 @@
 import React from 'react';
 
-import type { Categories } from '@/features/categories/types/categories.types.ts';
+import type { Category } from '@/features/categories/types/categories.types.ts';
 import ItemActions from '@/shared/components/item-actions.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 
 type PropsType = {
-  category: Categories;
+  category: Category;
 };
 
 const CategoriesRow: React.FC<PropsType> = ({ category }) => {

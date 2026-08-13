@@ -1,37 +1,41 @@
 import React from 'react';
 
 import CategoriesCard from '@/features/categories/components/categories-card.tsx';
-import type { Categories } from '@/features/categories/types/categories.types.ts';
+import type { Category } from '@/features/categories/types/categories.types.ts';
 import PageHeader from '@/shared/components/page-header.tsx';
 
-const items: Categories[] = [
-  { type: 'expense', title: 'Groceries', count: 43, balance: 323232 },
+const items: Category[] = [
+  { type: 'expense', title: 'Groceries', count: 43, balance: 323232, id: 7 },
   {
     type: 'expense',
     title: 'Groceries',
     count: 43,
     balance: 323232,
+    id: 6,
   },
-  { type: 'expense', title: 'Groceries', count: 43, balance: 323232 },
+  { type: 'expense', title: 'Groceries', count: 43, balance: 323232, id: 5 },
   {
     type: 'expense',
     title: 'Groceries',
     count: 43,
     balance: 323232,
+    id: 4,
   },
-  { type: 'expense', title: 'Groceries', count: 43, balance: 323232 },
+  { type: 'expense', title: 'Groceries', count: 43, balance: 323232, id: 1 },
   {
     type: 'expense',
     title: 'Groceries',
     count: 43,
     balance: 323232,
+    id: 8,
   },
-  { type: 'expense', title: 'Groceries', count: 43, balance: 323232 },
+  { type: 'expense', title: 'Groceries', count: 43, balance: 323232, id: 2 },
   {
     type: 'expense',
     title: 'Groceries',
     count: 43,
     balance: 323232,
+    id: 3,
   },
 ];
 

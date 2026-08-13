@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Card } from '@/components/ui/card.tsx';
 import CategoriesRow from '@/features/categories/components/categories-row.tsx';
-import type { Categories } from '@/features/categories/types/categories.types.ts';
+import type { Category } from '@/features/categories/types/categories.types.ts';
 import { cn } from '@/shared/lib/utils.ts';
 
 type PropsType = {
-  categories: Categories[];
+  categories: Category[];
   variant: 'Income' | 'Expense';
 };
 
@@ -25,8 +25,8 @@ const CategoriesCard: React.FC<PropsType> = ({ categories, variant }) => {
           <p className="text-muted-foreground text-xs">{categories.length}</p>
         </div>
       </div>
-      {categories.map((category, index) => (
-        <CategoriesRow category={category} key={index} />
+      {categories.map((category) => (
+        <CategoriesRow category={category} key={category.id} />
       ))}
     </Card>
   );

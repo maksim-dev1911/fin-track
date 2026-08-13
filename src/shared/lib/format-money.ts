@@ -1,11 +1,14 @@
-export const formatTransactionAmount = (amount: number, type: 'income' | 'expense' | 'default') => {
-  const absoluteAmount = Math.abs(amount);
+export const formatTransactionAmount = (
+  cents: number,
+  type: 'income' | 'expense' | 'default',
+  options?: {
+    hideDecimals?: boolean;
+  },
+) => {
+  const amount = Math.abs(cents) / 100;
 
-  return `${type === 'income' ? '+' : type === 'expense' ? '-' : ''}$${absoluteAmount.toLocaleString(
-    'en-US',
-    {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    },
-  )}`;
+  return `${type === 'income' ? '+' : '-'}$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: options?.hideDecimals ? 0 : 2,
+    maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+  })}`;
 };

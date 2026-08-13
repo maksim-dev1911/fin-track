@@ -7,7 +7,7 @@ import { ProtectedRoute } from '@/features/auth/components/protected-route.tsx';
 import { PublicRoute } from '@/features/auth/components/public-route.tsx';
 import LoginPage from '@/features/auth/pages/login-page.tsx';
 import RegisterPage from '@/features/auth/pages/register-page.tsx';
-import CategoriesPage from '@/features/categories/categories-page.tsx';
+import CategoriesPage from '@/features/categories/pages/categories-page.tsx';
 import DashboardPage from '@/features/dashboard/pages/dashboard-page.tsx';
 import TransactionsPage from '@/features/transactions/pages/transactions-page.tsx';
 

@@ -4,4 +4,5 @@ export const endpoints = {
   REFRESH: '/auth/refresh',
   ME: '/auth/me',
   LOGOUT: '/auth/logout',
+  TRANSACTION: '/transactions',
 };

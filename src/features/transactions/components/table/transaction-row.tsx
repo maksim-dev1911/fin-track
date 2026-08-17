@@ -17,16 +17,22 @@ const TransactionRow: React.FC<PropsType> = ({ transaction }) => {
   return (
     <TableRow className="bg-white">
       <TableCell>
-        <p className="font-semibold">{transaction.categoryName}</p>
-        <p className="text-muted-foreground text-xs">{transaction.description}</p>
+        <p className="font-semibold">{transaction.category.name}</p>
+        <p className="text-muted-foreground text-xs">{transaction.note}</p>
       </TableCell>
 
       <TableCell>
-        <p className="text-muted-foreground">{transaction.accountName}</p>
+        <p className="text-muted-foreground">{transaction.account.name}</p>
       </TableCell>
 
       <TableCell>
-        <p className="text-muted-foreground">{transaction.occurredAt}</p>
+        <p className="text-muted-foreground">
+          {new Date(`${transaction.date}T00:00:00`).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          })}
+        </p>
       </TableCell>
 
       <TableCell>

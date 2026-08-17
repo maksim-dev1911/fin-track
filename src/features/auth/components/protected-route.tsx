@@ -8,11 +8,7 @@ export const ProtectedRoute = () => {
   const status = useAuthStore((state) => state.status);
 
   if (status === 'loading') {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner className="size-20" />
-      </div>
-    );
+    return <Spinner className="size-20" />;
   }
 
   if (status === 'unauthenticated') {

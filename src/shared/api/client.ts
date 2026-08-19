@@ -31,11 +31,18 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const { data } = await apiClient.post(endpoints.REFRESH, null, {
+        const { data: refreshData } = await apiClient.post(endpoints.REFRESH, null, {
           withCredentials: true,
         });
 
-        useAuthStore.getState().setSession(data);
+        const { data: user } = await apiClient.get(endpoints.ME, {
+          headers: { Authorization: `Bearer ${refreshData.accessToken}` },
+        });
+
+        useAuthStore.getState().setSession({
+          accessToken: refreshData.accessToken,
+          user,
+        });
 
         return apiClient(originalRequest);
       } catch (refreshError) {

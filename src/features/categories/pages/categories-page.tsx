@@ -42,7 +42,7 @@ const items: Category[] = [
 const CategoriesPage = () => {
   return (
     <div>
-      <PageHeader total="11" title="Category" description="Categories" />
+      <PageHeader total={323} title="Category" description="Categories" />
       <div className="grid grid-cols-2 gap-5">
         <CategoriesCard categories={items} variant="Expense" />
         <CategoriesCard categories={items} variant="Income" />

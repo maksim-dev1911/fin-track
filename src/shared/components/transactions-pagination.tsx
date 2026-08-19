@@ -8,27 +8,57 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import type { TransactionsPaginationType } from '@/features/transactions/types/transaction.types';
 
-const TransactionsPagination = () => {
+type PropsType = {
+  page: number;
+  setPage: (page: number) => void;
+  data?: TransactionsPaginationType;
+};
+
+const TransactionsPagination: React.FC<PropsType> = ({ setPage, page, data }) => {
   return (
     <Pagination className="justify-end">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page > 1) {
+                setPage(page - 1);
+              }
+            }}
+          />
         </PaginationItem>
+        {Array.from({ length: data?.totalPages ?? 0 }, (_, index) => index + 1).map(
+          (pageNumber) => (
+            <PaginationItem key={pageNumber}>
+              <PaginationLink
+                href="#"
+                isActive={pageNumber === page}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(pageNumber);
+                }}
+              >
+                {pageNumber}
+              </PaginationLink>
+            </PaginationItem>
+          ),
+        )}
+
         <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">3</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" />
+          <PaginationNext
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+
+              if (page < (data?.totalPages ?? 1)) {
+                setPage(page + 1);
+              }
+            }}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

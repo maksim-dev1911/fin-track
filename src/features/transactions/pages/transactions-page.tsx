@@ -40,7 +40,7 @@ const TransactionsPage = () => {
 
   return (
     <div>
-      <PageHeader title="Transactions" total={data?.data.length} description="Total records" />
+      <PageHeader title="Transactions" total={data?.pagination.total} description="Total records" />
       <div className="grid gap-5">
         <TransactionFilters />
         {isError ? (

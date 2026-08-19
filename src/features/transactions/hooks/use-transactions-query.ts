@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import {
   getTransactions,
@@ -9,5 +9,6 @@ export const useTransactionsQuery = (params: GetTransactionsParams) => {
   return useQuery({
     queryKey: ['transactions', params],
     queryFn: () => getTransactions(params),
+    placeholderData: keepPreviousData,
   });
 };

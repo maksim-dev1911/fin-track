@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
+import { endpoints } from '@/shared/api/endpoints.ts';
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -19,3 +20,20 @@ apiClient.interceptors.request.use((config) => {
 
   return config;
 });
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      const { data } = await axios.post(endpoints.REFRESH, {
+        refreshToken: useAuthStore.getState().accessToken,
+      });
+
+      useAuthStore.getState().setSession(data.accessToken);
+
+      return apiClient(error.config);
+    }
+
+    return Promise.reject(error);
+  },
+);

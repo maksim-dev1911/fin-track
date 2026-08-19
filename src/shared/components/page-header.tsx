@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button.tsx';
 type PropsType = {
   title: string;
   description: string;
-  total: string;
+  total?: number | 0;
 };
 
 const PageHeader: React.FC<PropsType> = ({ description, title, total }) => {

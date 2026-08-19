@@ -35,9 +35,9 @@ apiClient.interceptors.response.use(
           withCredentials: true,
         });
 
-        const { data: user } = await apiClient.get(endpoints.ME, {
-          headers: { Authorization: `Bearer ${refreshData.accessToken}` },
-        });
+        useAuthStore.setState({ accessToken: refreshData.accessToken });
+
+        const { data: user } = await apiClient.get(endpoints.ME);
 
         useAuthStore.getState().setSession({
           accessToken: refreshData.accessToken,

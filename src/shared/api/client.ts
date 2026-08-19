@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import { routes } from '@/app/router/routes.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 
@@ -24,14 +25,24 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      const { data } = await axios.post(endpoints.REFRESH, {
-        refreshToken: useAuthStore.getState().accessToken,
-      });
+    const originalRequest = error.config;
 
-      useAuthStore.getState().setSession(data.accessToken);
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
 
-      return apiClient(error.config);
+      try {
+        const { data } = await apiClient.post(endpoints.REFRESH, null, {
+          withCredentials: true,
+        });
+
+        useAuthStore.getState().setSession(data);
+
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        useAuthStore.getState().clearSession();
+        window.location.href = routes.login;
+        return Promise.reject(refreshError);
+      }
     }
 
     return Promise.reject(error);

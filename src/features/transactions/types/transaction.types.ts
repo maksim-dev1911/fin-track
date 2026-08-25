@@ -41,3 +41,12 @@ export interface TransactionsResponse {
   pagination: TransactionsPaginationType;
   summary: TransactionsSummary;
 }
+
+export type TransactionRequest = {
+  type: TransactionType;
+  amount: number;
+  date: string;
+  note: string;
+  accountId: string;
+  categoryId: string;
+};

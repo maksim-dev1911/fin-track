@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner.tsx';
 import TransactionsTable from '@/features/transactions/components/transactions-table.tsx';
 import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
+import CreateModal from '@/shared/components/create-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
@@ -13,8 +14,14 @@ import TransactionFilters from '../components/transaction-filters';
 
 const TransactionsPage = () => {
   const [page, setPage] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const { data, isLoading, isError, refetch } = useTransactionsQuery({ page, limit: 8 });
+  const {
+    data: transactions,
+    isLoading,
+    isError,
+    refetch,
+  } = useTransactionsQuery({ page, limit: 8 });
 
   useEffect(() => {
     if (isError) {
@@ -38,15 +45,25 @@ const TransactionsPage = () => {
     );
   };
 
+  const renderModal = () => {
+    return <CreateModal isOpen={modalOpen} setOpenModal={setModalOpen} />;
+  };
+
   return (
     <div>
-      <PageHeader title="Transactions" total={data?.pagination.total} description="Total records" />
+      <PageHeader
+        title="Transactions"
+        total={transactions?.pagination.total}
+        description="Total records"
+        setOpenModal={setModalOpen}
+      />
+      {modalOpen && renderModal()}
       <div className="grid gap-5">
         <TransactionFilters />
         {isError ? (
           renderError()
         ) : (
-          <TransactionsTable transactions={data} setPage={setPage} page={page} />
+          <TransactionsTable transactions={transactions} setPage={setPage} page={page} />
         )}
       </div>
     </div>

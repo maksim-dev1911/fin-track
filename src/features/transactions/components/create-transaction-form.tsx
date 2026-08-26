@@ -1,7 +1,9 @@
 import React, { type Dispatch, type SetStateAction } from 'react';
 
+import type { AxiosError } from 'axios';
+
 import { Button } from '@/components/ui/button.tsx';
-import { Field, FieldLabel } from '@/components/ui/field.tsx';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import {
   Select,
@@ -17,6 +19,8 @@ import { useCategoriesQuery } from '@/features/categories/hooks/use-categories-q
 import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
 import { useTransactionsMutation } from '@/features/transactions/hooks/use-transactions-mutation.ts';
 import type { TransactionFormType } from '@/features/transactions/schemas/transaction.schema.ts';
+import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
+import type { ApiValidationError } from '@/shared/types/error.ts';
 
 import { useTransactionForm } from '../hooks/use-transaction-form';
 
@@ -37,7 +41,23 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
   );
 
   const onSubmit = (values: TransactionFormType) => {
-    createTransaction.mutateAsync(values);
+    const amountInCents = Math.round(values.amount * 100);
+
+    try {
+      createTransaction.mutateAsync({
+        ...values,
+        amount: amountInCents,
+      });
+
+      form.reset();
+      setOpenModal(false);
+    } catch (error) {
+      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) {
+        return;
+      }
+
+      throw error;
+    }
   };
   return (
     <div>
@@ -55,21 +75,16 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
               shouldValidate: true,
               shouldDirty: true,
             });
+            form.setValue('categoryId', '', {
+              shouldValidate: true,
+            });
           }}
         >
-          <ToggleGroupItem
-            value="expense"
-            className="text-expense flex-1 data-[pressed]:bg-white"
-            {...form.register('type')}
-          >
+          <ToggleGroupItem value="expense" className="text-expense flex-1 data-[pressed]:bg-white">
             Expense
           </ToggleGroupItem>
 
-          <ToggleGroupItem
-            value="income"
-            className="text-income flex-1 data-[pressed]:bg-white"
-            {...form.register('type')}
-          >
+          <ToggleGroupItem value="income" className="text-income flex-1 data-[pressed]:bg-white">
             Income
           </ToggleGroupItem>
         </ToggleGroup>
@@ -83,12 +98,13 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
               placeholder="0.00"
               aria-invalid={!!form.formState.errors.amount}
               {...form.register('amount', {
-                valueAsNumber: true,
+                setValueAs: (value) => (value === '' ? undefined : Number(value)),
               })}
             />
+            <FieldError>{form.formState.errors.amount?.message}</FieldError>
           </Field>
           <Field>
-            <FieldLabel htmlFor="amount" className="text-[13px]">
+            <FieldLabel htmlFor="date" className="text-[13px]">
               Date
             </FieldLabel>
             <Input
@@ -96,11 +112,12 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
               aria-invalid={!!form.formState.errors.date}
               {...form.register('date')}
             />
+            <FieldError>{form.formState.errors.date?.message}</FieldError>
           </Field>
         </div>
 
-        <div>
-          <FieldLabel htmlFor="amount" className="text-[13px]">
+        <div className="flex flex-col gap-2">
+          <FieldLabel htmlFor="category" className="text-[13px]">
             Category
           </FieldLabel>
           <Select
@@ -128,10 +145,11 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
                 </SelectItem>
               ))}
             </SelectContent>
+            <FieldError>{form.formState.errors.categoryId?.message}</FieldError>
           </Select>
         </div>
-        <div>
-          <FieldLabel htmlFor="amount" className="text-[13px]">
+        <div className="flex flex-col gap-2">
+          <FieldLabel htmlFor="account" className="text-[13px]">
             Account
           </FieldLabel>
           <Select
@@ -158,10 +176,11 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
                 </SelectItem>
               ))}
             </SelectContent>
+            <FieldError>{form.formState.errors.accountId?.message}</FieldError>
           </Select>
         </div>
         <Field>
-          <FieldLabel htmlFor="email" className="text-[13px]">
+          <FieldLabel htmlFor="note" className="text-[13px]">
             Note — optional
           </FieldLabel>
           <Input
@@ -169,6 +188,7 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
             placeholder="e.g Groceries at Whole Foods"
             {...form.register('note')}
           />
+          <FieldError>{form.formState.errors.note?.message}</FieldError>
         </Field>
         <Separator />
         <div className="flex justify-end gap-2">

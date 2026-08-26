@@ -40,11 +40,11 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
     (category: CategoryResponse) => category.type === form.watch('type'),
   );
 
-  const onSubmit = (values: TransactionFormType) => {
+  const onSubmit = async (values: TransactionFormType) => {
     const amountInCents = Math.round(values.amount * 100);
 
     try {
-      createTransaction.mutateAsync({
+      await createTransaction.mutateAsync({
         ...values,
         amount: amountInCents,
       });
@@ -52,10 +52,7 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
       form.reset();
       setOpenModal(false);
     } catch (error) {
-      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) {
-        return;
-      }
-
+      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) return;
       throw error;
     }
   };

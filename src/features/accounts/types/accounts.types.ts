@@ -1,8 +1,8 @@
-export type Account = {
-  title: string;
-  wallet: string;
-  startCount: number;
-  transactions: number;
-  amount: number;
-  type: 'income' | 'expense' | 'default';
+export type AccountResponse = {
+  id: '';
+  name: string;
+  startingBalance: number;
+  type: '';
+  currentBalance: number;
+  createdAt: '';
 };

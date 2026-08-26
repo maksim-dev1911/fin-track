@@ -1,7 +1,7 @@
-export type Category = {
+export type CategoryResponse = {
   type: 'income' | 'expense' | 'default';
-  title: string;
-  count: number;
-  balance: number;
+  color: '';
+  createdAt: string;
   id: number;
+  name: '';
 };

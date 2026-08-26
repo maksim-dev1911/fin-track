@@ -5,4 +5,6 @@ export const endpoints = {
   ME: '/auth/me',
   LOGOUT: '/auth/logout',
   TRANSACTION: '/transactions',
+  ACCOUNT: '/accounts',
+  CATEGORIES: '/categories',
 };

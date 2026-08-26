@@ -1,8 +1,11 @@
+import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 import { routes } from '@/app/router/routes.ts';
 import { useAuthStore } from '@/features/auth/store/auth.store.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
+
+export const queryClient = new QueryClient();
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

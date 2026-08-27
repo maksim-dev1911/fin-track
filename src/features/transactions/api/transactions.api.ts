@@ -16,14 +16,24 @@ export interface GetTransactionsParams {
   sort?: string;
 }
 
-export const getTransactions = async (params: GetTransactionsParams) => {
-  const response = await apiClient.get<TransactionsResponse>(endpoints.TRANSACTION, { params });
+class TransactionsApi {
+  private readonly client: typeof apiClient;
 
-  return response.data;
-};
+  constructor(client: typeof apiClient) {
+    this.client = client;
+  }
 
-export const createTransaction = async (value: TransactionRequest) => {
-  const response = await apiClient.post<TransactionsResponse>(endpoints.TRANSACTION, value);
+  async getTransactions(params: GetTransactionsParams) {
+    const response = await this.client.get<TransactionsResponse>(endpoints.TRANSACTION, { params });
 
-  return response.data;
-};
+    return response.data;
+  }
+
+  async createTransaction(value: TransactionRequest) {
+    const response = await this.client.post<TransactionsResponse>(endpoints.TRANSACTION, value);
+
+    return response.data;
+  }
+}
+
+export const transactionsApi = new TransactionsApi(apiClient);

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
-import { createTransaction } from '@/features/transactions/api/transactions.api.ts';
+import { transactionsApi } from '@/features/transactions/api/transactions.api.ts';
 import type {
   TransactionRequest,
   TransactionsResponse,
@@ -11,7 +11,7 @@ import type { ApiError } from '@/shared/types/error.ts';
 
 export const useTransactionsMutation = () => {
   return useMutation<TransactionsResponse, AxiosError<ApiError>, TransactionRequest>({
-    mutationFn: createTransaction,
+    mutationFn: transactionsApi.createTransaction,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },

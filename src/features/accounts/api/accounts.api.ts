@@ -18,9 +18,3 @@ class AccountsApi {
 }
 
 export const accountsApi = new AccountsApi(apiClient);
-
-export const getAccounts = async () => {
-  const response = await apiClient.get<ApiResponse<AccountResponse[]>>(endpoints.ACCOUNT);
-
-  return response.data.data;
-};

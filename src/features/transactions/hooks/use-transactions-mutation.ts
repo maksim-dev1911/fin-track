@@ -11,7 +11,7 @@ import type { ApiError } from '@/shared/types/error.ts';
 
 export const useTransactionsMutation = () => {
   return useMutation<TransactionsResponse, AxiosError<ApiError>, TransactionRequest>({
-    mutationFn: transactionsApi.createTransaction,
+    mutationFn: (data: TransactionRequest) => transactionsApi.createTransaction(data),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },

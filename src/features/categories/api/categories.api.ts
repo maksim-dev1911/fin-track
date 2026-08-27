@@ -3,8 +3,18 @@ import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 import type { ApiResponse } from '@/shared/api/types.ts';
 
-export const getCategories = async () => {
-  const response = await apiClient.get<ApiResponse<CategoryResponse[]>>(endpoints.CATEGORIES);
+class CategoriesApi {
+  private readonly client: typeof apiClient;
 
-  return response.data.data;
-};
+  constructor(client: typeof apiClient) {
+    this.client = client;
+  }
+
+  async getCategories() {
+    const response = await this.client.get<ApiResponse<CategoryResponse[]>>(endpoints.CATEGORIES);
+
+    return response.data.data;
+  }
+}
+
+export const categoriesApi = new CategoriesApi(apiClient);

@@ -9,34 +9,44 @@ import type {
   User,
 } from '../types/auth.types';
 
-export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await apiClient.post<LoginResponse>(endpoints.LOGIN, data);
+class AuthApi {
+  private readonly client: typeof apiClient;
 
-  return response.data;
-};
+  constructor(client: typeof apiClient) {
+    this.client = client;
+  }
 
-export const refreshSession = async (): Promise<RefreshResponse> => {
-  const response = await apiClient.post<RefreshResponse>(endpoints.REFRESH);
+  async login(data: LoginRequest): Promise<LoginResponse> {
+    const response = await this.client.post<LoginResponse>(endpoints.LOGIN, data);
 
-  return response.data;
-};
+    return response.data;
+  }
 
-export const register = async (data: RegisterRequest): Promise<LoginResponse> => {
-  const response = await apiClient.post<LoginResponse>(endpoints.REGISTER, data);
+  async refreshSession(): Promise<RefreshResponse> {
+    const response = await this.client.post<RefreshResponse>(endpoints.REFRESH);
 
-  return response.data;
-};
+    return response.data;
+  }
 
-export const logout = async () => {
-  await apiClient.post(endpoints.LOGOUT);
-};
+  async register(data: RegisterRequest): Promise<LoginResponse> {
+    const response = await this.client.post<LoginResponse>(endpoints.REGISTER, data);
 
-export const getMe = async (accessToken: string) => {
-  const response = await apiClient.get<User>(endpoints.ME, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
+    return response.data;
+  }
 
-  return response.data;
-};
+  async logout(): Promise<void> {
+    await this.client.post(endpoints.LOGOUT);
+  }
+
+  async getMe(accessToken: string): Promise<User> {
+    const response = await this.client.get<User>(endpoints.ME, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data;
+  }
+}
+
+export const authApi = new AuthApi(apiClient);

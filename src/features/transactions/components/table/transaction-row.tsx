@@ -62,7 +62,7 @@ const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit }) => {
           >
             {formatTransactionAmount(transaction.amount, transaction.type)}
           </p>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
             <Trash2 />
           </Button>
         </div>

@@ -24,6 +24,7 @@ import {
 import type { TransactionFormType } from '@/features/transactions/schemas/transaction.schema.ts';
 import type { TransactionModalState } from '@/features/transactions/types/transaction.types.ts';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
+import { centsToInputs } from '@/shared/lib/format-money.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
 import { useTransactionForm } from '../hooks/use-transaction-form';
@@ -54,7 +55,7 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
 
       form.reset({
         type: transaction.type,
-        amount: transaction.amount / 100,
+        amount: centsToInputs(transaction.amount),
         date: transaction.date,
         categoryId: transaction.category.id,
         accountId: transaction.account.id,

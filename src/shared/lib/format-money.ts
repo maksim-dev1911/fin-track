@@ -1,3 +1,7 @@
+export const centsToInputs = (cents: number): number => {
+  return cents / 100;
+};
+
 export const formatTransactionAmount = (
   cents: number,
   type: 'income' | 'expense' | 'default',

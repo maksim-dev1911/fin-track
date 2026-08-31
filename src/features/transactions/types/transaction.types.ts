@@ -42,11 +42,15 @@ export interface TransactionsResponse {
   summary: TransactionsSummary;
 }
 
-export type TransactionRequest = {
+export interface TransactionRequest {
+  id?: string;
   type: TransactionType;
   amount: number;
   date: string;
   note: string;
   accountId: string;
   categoryId: string;
-};
+}
+
+export type TransactionModalState =
+  { mode: 'create' } | { mode: 'edit'; transaction: Transaction } | null;

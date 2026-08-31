@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import TransactionRow from '@/features/transactions/components/table/transaction-row.tsx';
-import type { TransactionsResponse } from '@/features/transactions/types/transaction.types.ts';
+import type {
+  TransactionModalState,
+  TransactionsResponse,
+} from '@/features/transactions/types/transaction.types.ts';
 import TransactionsPagination from '@/shared/components/transactions-pagination.tsx';
 
 type PropsType = {
   transactions?: TransactionsResponse;
   setPage: (page: number) => void;
+  onEdit: Dispatch<SetStateAction<TransactionModalState>>;
   page: number;
 };
 
-const TransactionsTable: React.FC<PropsType> = ({ transactions, page, setPage }) => {
+const TransactionsTable: React.FC<PropsType> = ({ transactions, page, setPage, onEdit }) => {
   const data = transactions?.data ?? [];
 
   return (
@@ -29,7 +33,7 @@ const TransactionsTable: React.FC<PropsType> = ({ transactions, page, setPage })
 
         <TableBody>
           {data.map((transaction) => (
-            <TransactionRow key={transaction.id} transaction={transaction} />
+            <TransactionRow key={transaction.id} transaction={transaction} onEdit={onEdit} />
           ))}
         </TableBody>
       </Table>

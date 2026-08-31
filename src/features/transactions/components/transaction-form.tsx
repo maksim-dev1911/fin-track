@@ -1,4 +1,4 @@
-import React, { type Dispatch, type SetStateAction } from 'react';
+import React, { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import type { AxiosError } from 'axios';
 
@@ -17,22 +17,28 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useAccountsQuery } from '@/features/accounts/hooks/use-accounts-query.ts';
 import { useCategoriesQuery } from '@/features/categories/hooks/use-categories-query';
 import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
-import { useTransactionsMutation } from '@/features/transactions/hooks/use-transactions-mutation.ts';
+import {
+  useTransactionsMutation,
+  useUpdateTransactionMutation,
+} from '@/features/transactions/hooks/use-transactions-mutation.ts';
 import type { TransactionFormType } from '@/features/transactions/schemas/transaction.schema.ts';
+import type { TransactionModalState } from '@/features/transactions/types/transaction.types.ts';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
 import { useTransactionForm } from '../hooks/use-transaction-form';
 
 type PropsType = {
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
+  setOpenModal: Dispatch<SetStateAction<TransactionModalState>>;
+  stateModal: TransactionModalState;
 };
 
-const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
+const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
   const { data: accounts = [] } = useAccountsQuery();
   const { data: categories = [] } = useCategoriesQuery();
 
   const createTransaction = useTransactionsMutation();
+  const updateTransaction = useUpdateTransactionMutation();
 
   const form = useTransactionForm();
 
@@ -40,17 +46,44 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
     (category: CategoryResponse) => category.type === form.watch('type'),
   );
 
+  const isEdit = stateModal?.mode === 'edit';
+
+  useEffect(() => {
+    if (stateModal && isEdit) {
+      const transaction = stateModal?.transaction;
+
+      form.reset({
+        type: transaction.type,
+        amount: transaction.amount / 100,
+        date: transaction.date,
+        categoryId: transaction.category.id,
+        accountId: transaction.account.id,
+        note: transaction.note ?? '',
+      });
+    }
+  }, [stateModal]);
+
   const onSubmit = async (values: TransactionFormType) => {
     const amountInCents = Math.round(values.amount * 100);
 
     try {
-      await createTransaction.mutateAsync({
-        ...values,
-        amount: amountInCents,
-      });
+      if (!isEdit) {
+        await createTransaction.mutateAsync({
+          ...values,
+          amount: amountInCents,
+        });
+      } else {
+        await updateTransaction.mutateAsync({
+          id: stateModal?.transaction.id,
+          value: {
+            ...values,
+            amount: amountInCents,
+          },
+        });
+      }
 
       form.reset();
-      setOpenModal(false);
+      setOpenModal(null);
     } catch (error) {
       if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) return;
       throw error;
@@ -59,7 +92,9 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
   return (
     <div>
       <div className="px-6 py-5">
-        <h1 className="text-lg font-semibold">New transaction</h1>
+        <h1 className="text-lg font-semibold">
+          {isEdit ? 'Edit transaction' : 'Create transaction'}
+        </h1>
         <p className="text-muted-foreground text-sm">Fill in the transaction details</p>
       </div>
       <Separator />
@@ -189,11 +224,16 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
         </Field>
         <Separator />
         <div className="flex justify-end gap-2">
-          <Button className="px-4 py-5" onClick={() => setOpenModal(false)}>
+          <Button
+            variant="outline"
+            type="button"
+            className="px-4 py-5"
+            onClick={() => setOpenModal(null)}
+          >
             Cancel
           </Button>
           <Button className="px-4 py-5" type="submit">
-            Create Transaction
+            {isEdit ? 'Save changes' : 'Add transaction'}
           </Button>
         </div>
       </form>
@@ -201,4 +241,4 @@ const CreateTransactionForm: React.FC<PropsType> = ({ setOpenModal }) => {
   );
 };
 
-export default React.memo(CreateTransactionForm);
+export default React.memo(TransactionForm);

@@ -43,6 +43,7 @@ export interface TransactionsResponse {
 }
 
 export type TransactionRequest = {
+  id?: string;
   type: TransactionType;
   amount: number;
   date: string;
@@ -50,3 +51,6 @@ export type TransactionRequest = {
   accountId: string;
   categoryId: string;
 };
+
+export type TransactionModalState =
+  { mode: 'create' } | { mode: 'edit'; transaction: Transaction } | null;

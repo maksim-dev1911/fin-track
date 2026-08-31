@@ -34,6 +34,15 @@ class TransactionsApi {
 
     return response.data;
   }
+
+  async updateTransaction(id: string, value: TransactionRequest) {
+    const response = await this.client.patch<TransactionsResponse>(
+      `${endpoints.TRANSACTION}/${id}`,
+      value,
+    );
+
+    return response.data;
+  }
 }
 
 export const transactionsApi = new TransactionsApi(apiClient);

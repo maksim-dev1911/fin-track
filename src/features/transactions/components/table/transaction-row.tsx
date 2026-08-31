@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 
 import { Trash2 } from 'lucide-react';
 
@@ -7,15 +7,19 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 import { cn } from '@/shared/lib/utils.ts';
 
-import type { Transaction } from '../../types/transaction.types';
+import type { Transaction, TransactionModalState } from '../../types/transaction.types';
 
 type PropsType = {
   transaction: Transaction;
+  onEdit: Dispatch<SetStateAction<TransactionModalState>>;
 };
 
-const TransactionRow: React.FC<PropsType> = ({ transaction }) => {
+const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit }) => {
   return (
-    <TableRow className="bg-white">
+    <TableRow
+      className="bg-white"
+      onClick={() => onEdit({ mode: 'edit', transaction: transaction })}
+    >
       <TableCell>
         <p className="font-semibold">{transaction.category.name}</p>
         <p className="text-muted-foreground text-xs">{transaction.note}</p>

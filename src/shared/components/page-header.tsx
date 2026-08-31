@@ -1,12 +1,13 @@
 import React, { type Dispatch, type SetStateAction } from 'react';
 
 import { Button } from '@/components/ui/button.tsx';
+import type { TransactionModalState } from '@/features/transactions/types/transaction.types.ts';
 
 type PropsType = {
   title: string;
   description: string;
   total?: number | 0;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
+  setOpenModal: Dispatch<SetStateAction<TransactionModalState>>;
 };
 
 const PageHeader: React.FC<PropsType> = ({ description, title, total, setOpenModal }) => {
@@ -16,7 +17,7 @@ const PageHeader: React.FC<PropsType> = ({ description, title, total, setOpenMod
         <p className="text-muted-foreground">{description}:</p>
         <p>{total}</p>
       </div>
-      <Button className="px-4 py-5" onClick={() => setOpenModal(true)}>
+      <Button className="px-4 py-5" onClick={() => setOpenModal({ mode: 'create' })}>
         + {title}
       </Button>
     </div>

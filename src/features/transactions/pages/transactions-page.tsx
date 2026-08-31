@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
-import TransactionsTable from '@/features/transactions/components/transactions-table.tsx';
+import TransactionsTable from '@/features/transactions/components/table/transactions-table.tsx';
+import TransactionModal from '@/features/transactions/components/transaction-modal.tsx';
 import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
-import CreateModal from '@/shared/components/create-modal.tsx';
+import type { TransactionModalState } from '@/features/transactions/types/transaction.types.ts';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
@@ -14,8 +15,7 @@ import TransactionFilters from '../components/transaction-filters';
 
 const TransactionsPage = () => {
   const [page, setPage] = useState(1);
-  const [modalOpen, setModalOpen] = useState(false);
-
+  const [transactionModal, setTransactionModal] = useState<TransactionModalState>(null);
   const {
     data: transactions,
     isLoading,
@@ -45,25 +45,28 @@ const TransactionsPage = () => {
     );
   };
 
-  const renderModal = () => {
-    return <CreateModal isOpen={modalOpen} setOpenModal={setModalOpen} />;
-  };
-
   return (
     <div>
       <PageHeader
         title="Transactions"
         total={transactions?.pagination.total}
         description="Total records"
-        setOpenModal={setModalOpen}
+        setOpenModal={setTransactionModal}
       />
-      {modalOpen && renderModal()}
+      {transactionModal && (
+        <TransactionModal stateModal={transactionModal} setOpenModal={setTransactionModal} />
+      )}
       <div className="grid gap-5">
         <TransactionFilters />
         {isError ? (
           renderError()
         ) : (
-          <TransactionsTable transactions={transactions} setPage={setPage} page={page} />
+          <TransactionsTable
+            transactions={transactions}
+            setPage={setPage}
+            page={page}
+            onEdit={setTransactionModal}
+          />
         )}
       </div>
     </div>

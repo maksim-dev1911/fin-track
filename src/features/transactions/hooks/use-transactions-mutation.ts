@@ -17,3 +17,16 @@ export const useTransactionsMutation = () => {
     },
   });
 };
+
+export const useUpdateTransactionMutation = () => {
+  return useMutation<
+    TransactionsResponse,
+    AxiosError<ApiError>,
+    { id: string; value: TransactionRequest }
+  >({
+    mutationFn: ({ id, value }) => transactionsApi.updateTransaction(id, value),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['transactions'] });
+    },
+  });
+};

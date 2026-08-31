@@ -24,7 +24,7 @@ import {
 import type { TransactionFormType } from '@/features/transactions/schemas/transaction.schema.ts';
 import type { TransactionModalState } from '@/features/transactions/types/transaction.types.ts';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
-import { centsToInputs } from '@/shared/lib/format-money.ts';
+import { centsToInputs, inputToCents } from '@/shared/lib/format-money.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
 import { useTransactionForm } from '../hooks/use-transaction-form';
@@ -65,20 +65,18 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
   }, [stateModal]);
 
   const onSubmit = async (values: TransactionFormType) => {
-    const amountInCents = Math.round(values.amount * 100);
-
     try {
       if (!isEdit) {
         await createTransaction.mutateAsync({
           ...values,
-          amount: amountInCents,
+          amount: inputToCents(values.amount),
         });
       } else {
         await updateTransaction.mutateAsync({
           id: stateModal?.transaction.id,
           value: {
             ...values,
-            amount: amountInCents,
+            amount: inputToCents(values.amount),
           },
         });
       }

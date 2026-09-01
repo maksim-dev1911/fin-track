@@ -30,3 +30,12 @@ export const useUpdateTransactionMutation = () => {
     },
   });
 };
+
+export const useDeleteTransactionMutation = () => {
+  return useMutation<void, AxiosError<ApiError>, string>({
+    mutationFn: (id: string) => transactionsApi.deleteTransaction(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['transactions'] });
+    },
+  });
+};

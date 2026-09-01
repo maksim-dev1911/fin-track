@@ -7,17 +7,22 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 import { cn } from '@/shared/lib/utils.ts';
 
-import type { Transaction, TransactionModalState } from '../../types/transaction.types';
+import type {
+  Transaction,
+  TransactionDeleteState,
+  TransactionModalState,
+} from '../../types/transaction.types';
 
 type PropsType = {
   transaction: Transaction;
   onEdit: Dispatch<SetStateAction<TransactionModalState>>;
+  onOpenDeleteModal: Dispatch<SetStateAction<TransactionDeleteState>>;
 };
 
-const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit }) => {
+const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit, onOpenDeleteModal }) => {
   return (
     <TableRow
-      className="bg-white"
+      className="cursor-pointer bg-white"
       onClick={() => onEdit({ mode: 'edit', transaction: transaction })}
     >
       <TableCell>
@@ -62,7 +67,14 @@ const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit }) => {
           >
             {formatTransactionAmount(transaction.amount, transaction.type)}
           </p>
-          <Button variant="ghost" size="icon" onClick={(e) => e.stopPropagation()}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenDeleteModal({ open: true, id: transaction.id });
+            }}
+          >
             <Trash2 />
           </Button>
         </div>

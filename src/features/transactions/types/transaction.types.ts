@@ -54,3 +54,8 @@ export interface TransactionRequest {
 
 export type TransactionModalState =
   { mode: 'create' } | { mode: 'edit'; transaction: Transaction } | null;
+
+export type TransactionDeleteState = {
+  open: boolean;
+  id?: string;
+} | null;

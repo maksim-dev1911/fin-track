@@ -3,6 +3,7 @@ import React, { type Dispatch, type SetStateAction } from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import TransactionRow from '@/features/transactions/components/table/transaction-row.tsx';
 import type {
+  TransactionDeleteState,
   TransactionModalState,
   TransactionsResponse,
 } from '@/features/transactions/types/transaction.types.ts';
@@ -12,10 +13,17 @@ type PropsType = {
   transactions?: TransactionsResponse;
   setPage: (page: number) => void;
   onEdit: Dispatch<SetStateAction<TransactionModalState>>;
+  onOpenDeleteModal: Dispatch<SetStateAction<TransactionDeleteState>>;
   page: number;
 };
 
-const TransactionsTable: React.FC<PropsType> = ({ transactions, page, setPage, onEdit }) => {
+const TransactionsTable: React.FC<PropsType> = ({
+  transactions,
+  page,
+  setPage,
+  onEdit,
+  onOpenDeleteModal,
+}) => {
   const data = transactions?.data ?? [];
 
   return (
@@ -33,7 +41,12 @@ const TransactionsTable: React.FC<PropsType> = ({ transactions, page, setPage, o
 
         <TableBody>
           {data.map((transaction) => (
-            <TransactionRow key={transaction.id} transaction={transaction} onEdit={onEdit} />
+            <TransactionRow
+              key={transaction.id}
+              transaction={transaction}
+              onEdit={onEdit}
+              onOpenDeleteModal={onOpenDeleteModal}
+            />
           ))}
         </TableBody>
       </Table>

@@ -43,6 +43,12 @@ class TransactionsApi {
 
     return response.data;
   }
+
+  async deleteTransaction(id: string) {
+    const response = await this.client.delete(`${endpoints.TRANSACTION}/${id}`);
+
+    return response.data;
+  }
 }
 
 export const transactionsApi = new TransactionsApi(apiClient);

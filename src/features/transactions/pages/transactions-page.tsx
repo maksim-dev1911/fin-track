@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
@@ -15,6 +16,7 @@ import DeleteModal from '@/shared/components/delete-modal';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import type { ApiError } from '@/shared/types/error.ts';
 
 import TransactionFilters from '../components/transaction-filters';
 
@@ -29,7 +31,7 @@ const TransactionsPage = () => {
     refetch,
   } = useTransactionsQuery({ page, limit: 8 });
 
-  const deleteTransaction = useDeleteTransactionMutation();
+  const { mutateAsync: deleteTransaction, isPending } = useDeleteTransactionMutation();
 
   useEffect(() => {
     if (isError) {
@@ -44,9 +46,10 @@ const TransactionsPage = () => {
   const handleDeleteTransaction = async (id?: string) => {
     if (!id) return;
     try {
-      await deleteTransaction.mutateAsync(id);
+      await deleteTransaction(id);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const err = error as AxiosError<ApiError>;
+      const errorMessage = getApiErrorMessage(err.response?.data?.error?.message);
       toast.error(`Failed to delete the transaction: ${errorMessage}`);
     } finally {
       setOpenDeleteModal(null);
@@ -83,6 +86,7 @@ const TransactionsPage = () => {
           onDelete={handleDeleteTransaction}
           id={openDeleteModal.id}
           open={openDeleteModal.open}
+          isPending={isPending}
           setClose={handleCloseModal}
           title="Delete transaction?"
           description="This action can’t be undone. Balances and analytics will be recalculated."

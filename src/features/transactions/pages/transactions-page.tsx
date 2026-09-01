@@ -49,7 +49,7 @@ const TransactionsPage = () => {
       await deleteTransaction(id);
     } catch (error) {
       const err = error as AxiosError<ApiError>;
-      const errorMessage = getApiErrorMessage(err.response?.data?.error?.message);
+      const errorMessage = err.response?.data?.error?.message ?? 'Something went wrong.';
       toast.error(`Failed to delete the transaction: ${errorMessage}`);
     } finally {
       setOpenDeleteModal(null);

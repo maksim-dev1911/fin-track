@@ -59,3 +59,16 @@ export type TransactionDeleteState = {
   open: boolean;
   id?: string;
 } | null;
+
+export type TransactionSort = 'date' | '-date' | 'amount' | '-amount' | 'createdAt' | '-createdAt';
+
+export interface TransactionFiltersState {
+  type?: TransactionType;
+  page?: number;
+  limit?: number;
+  categoryId?: string;
+  accountId?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  sort?: TransactionSort;
+}

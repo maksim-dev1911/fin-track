@@ -10,6 +10,7 @@ import { useDeleteTransactionMutation } from '@/features/transactions/hooks/use-
 import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
 import type {
   TransactionDeleteState,
+  TransactionFiltersState,
   TransactionModalState,
 } from '@/features/transactions/types/transaction.types.ts';
 import DeleteModal from '@/shared/components/delete-modal';
@@ -24,12 +25,15 @@ const TransactionsPage = () => {
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<TransactionDeleteState>(null);
   const [transactionModal, setTransactionModal] = useState<TransactionModalState>(null);
-  const {
-    data: transactions,
-    isLoading,
-    isError,
-    refetch,
-  } = useTransactionsQuery({ page, limit: 8 });
+  const [filters, setFilters] = useState<TransactionFiltersState>({});
+
+  const queryParams: TransactionFiltersState = {
+    page,
+    limit: 8,
+    ...filters,
+  };
+
+  const { data: transactions, isLoading, isError, refetch } = useTransactionsQuery(queryParams);
 
   const { mutateAsync: deleteTransaction, isPending } = useDeleteTransactionMutation();
 
@@ -93,7 +97,13 @@ const TransactionsPage = () => {
         />
       )}
       <div className="grid gap-5">
-        <TransactionFilters />
+        <TransactionFilters
+          filters={filters}
+          onChange={(newFilters) => {
+            setFilters(newFilters);
+            setPage(1);
+          }}
+        />
         {isError ? (
           renderError()
         ) : (

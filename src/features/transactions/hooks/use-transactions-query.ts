@@ -1,8 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
+import { transactionsApi } from '@/features/transactions/api/transactions.api.ts';
 import type { TransactionFiltersState } from '@/features/transactions/types/transaction.types.ts';
-
-import { transactionsApi } from '../api/transactions.api';
 
 export const useTransactionsQuery = (params: TransactionFiltersState) => {
   return useQuery({

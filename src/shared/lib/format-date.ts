@@ -4,3 +4,9 @@ export const formatDateLocal = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+export const parseLocalDate = (date: string) => {
+  const [year, month, day] = date.split('-').map(Number);
+
+  return new Date(year, month - 1, day);
+};

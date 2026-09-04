@@ -16,7 +16,7 @@ import type {
   TransactionType,
 } from '@/features/transactions/types/transaction.types.ts';
 import DatePicker from '@/shared/components/date-picker.tsx';
-import { formatDateLocal } from '@/shared/lib/format-date.ts';
+import { formatDateLocal, parseLocalDate } from '@/shared/lib/format-date.ts';
 
 type PropsType = {
   filters: TransactionFiltersState;
@@ -63,11 +63,11 @@ const TransactionFilters: React.FC<PropsType> = ({ filters, onChange }) => {
         <div>
           <Label className="text-muted-foreground mb-2 text-xs">Categories</Label>
           <Select
-            value={filters.categoryId ?? 'All categories'}
+            value={filters.categoryId ?? 'all'}
             onValueChange={(value) => {
               onChange({
                 ...filters,
-                categoryId: value === 'all' ? undefined : (value as TransactionType),
+                categoryId: value === 'all' ? undefined : (value ?? undefined),
               });
             }}
           >
@@ -97,7 +97,7 @@ const TransactionFilters: React.FC<PropsType> = ({ filters, onChange }) => {
             onValueChange={(value) => {
               onChange({
                 ...filters,
-                accountId: value === 'all' ? undefined : (value as TransactionType),
+                accountId: value === 'all' ? undefined : (value ?? undefined),
               });
             }}
           >
@@ -120,7 +120,7 @@ const TransactionFilters: React.FC<PropsType> = ({ filters, onChange }) => {
         <div>
           <Label className="text-muted-foreground mb-2 text-xs">From</Label>
           <DatePicker
-            value={filters.dateFrom ? new Date(filters.dateFrom) : undefined}
+            value={filters.dateFrom ? parseLocalDate(filters.dateFrom) : undefined}
             onChange={(date) => {
               onChange({
                 ...filters,
@@ -132,7 +132,7 @@ const TransactionFilters: React.FC<PropsType> = ({ filters, onChange }) => {
         <div>
           <Label className="text-muted-foreground mb-2 text-xs">To</Label>
           <DatePicker
-            value={filters.dateTo ? new Date(filters.dateTo) : undefined}
+            value={filters.dateTo ? parseLocalDate(filters.dateTo) : undefined}
             onChange={(date) => {
               onChange({
                 ...filters,

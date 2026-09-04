@@ -1,7 +1,7 @@
 export type CategoryResponse = {
   type: 'income' | 'expense' | 'default';
-  color: '';
+  color: string;
   createdAt: string;
-  id: number;
-  name: '';
+  id: string;
+  name: string;
 };

@@ -1,20 +1,10 @@
 import type {
+  TransactionFiltersState,
   TransactionRequest,
   TransactionsResponse,
 } from '@/features/transactions/types/transaction.types.ts';
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints';
-
-export interface GetTransactionsParams {
-  page?: number;
-  limit?: number;
-  type?: 'income' | 'expense';
-  categoryId?: string;
-  accountId?: string;
-  dateFrom?: string;
-  dateTo?: string;
-  sort?: string;
-}
 
 class TransactionsApi {
   private readonly client: typeof apiClient;
@@ -23,7 +13,7 @@ class TransactionsApi {
     this.client = client;
   }
 
-  async getTransactions(params: GetTransactionsParams) {
+  async getTransactions(params: TransactionFiltersState) {
     const response = await this.client.get<TransactionsResponse>(endpoints.TRANSACTION, { params });
 
     return response.data;

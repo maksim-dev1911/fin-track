@@ -6,25 +6,38 @@ import { Button } from '@/components/ui/button.tsx';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
 
-const DatePicker = () => {
-  const [date, setDate] = React.useState<Date>();
+type PropsType = {
+  value?: Date;
+  onChange: (date: Date | undefined) => void;
+};
+
+const DatePicker: React.FC<PropsType> = ({ value, onChange }) => {
+  const [open, setOpen] = React.useState(false);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         render={
           <Button
             variant={'outline'}
-            data-empty={!date}
-            className="data-[empty=true]:text-muted-foreground w-[212px] justify-between text-left font-normal"
+            data-empty={!value}
+            className="w-full justify-between py-5 text-left font-normal"
           >
-            {date ? date.toLocaleDateString() : <span>Pick a date</span>}
+            {value ? value.toLocaleDateString() : <span>dd/mm/yyyy</span>}
             <ChevronDownIcon data-icon="inline-end" />
           </Button>
         }
       />
       <PopoverContent className="w-auto p-0" align="start">
-        <Calendar mode="single" selected={date} onSelect={setDate} defaultMonth={date} />
+        <Calendar
+          mode="single"
+          selected={value}
+          onSelect={(date) => {
+            onChange(date);
+            setOpen(false);
+          }}
+          defaultMonth={value}
+        />
       </PopoverContent>
     </Popover>
   );

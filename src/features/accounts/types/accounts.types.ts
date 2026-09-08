@@ -1,8 +1,10 @@
+import type { TransactionType } from '@/features/transactions/types/transaction.types.ts';
+
 export type AccountResponse = {
-  id: '';
+  id: string;
   name: string;
   startingBalance: number;
-  type: '';
+  type: TransactionType;
   currentBalance: number;
-  createdAt: '';
+  createdAt: string;
 };

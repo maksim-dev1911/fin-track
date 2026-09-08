@@ -6,10 +6,13 @@ import { Spinner } from '@/components/ui/spinner.tsx';
 import CardsAccounts from '@/features/accounts/components/cards-accounts.tsx';
 import { useAccountsQuery } from '@/features/accounts/hooks/use-accounts-query.ts';
 import PageHeader from '@/shared/components/page-header.tsx';
+import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
 
 const AccountsPage = () => {
-  const { data: accounts, isLoading, isError } = useAccountsQuery();
+  const { data: accounts = [], isLoading, isError } = useAccountsQuery();
+
+  const totalBalance = accounts.reduce((sum, account) => sum + account.currentBalance, 0);
 
   useEffect(() => {
     if (isError) {
@@ -26,12 +29,12 @@ const AccountsPage = () => {
   return (
     <div>
       <PageHeader
-        total={accounts?.length}
+        total={formatTransactionAmount(totalBalance, 'default')}
         title="Account"
         description="Total balance"
         setOpenModal={() => {}}
       />
-      <CardsAccounts accounts={accounts ?? []} />
+      <CardsAccounts accounts={accounts} />
     </div>
   );
 };

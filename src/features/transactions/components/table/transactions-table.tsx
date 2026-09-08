@@ -7,6 +7,7 @@ import type {
   TransactionModalState,
   TransactionsResponse,
 } from '@/features/transactions/types/transaction.types.ts';
+import EmptyError from '@/shared/components/empty-error.tsx';
 import TransactionsPagination from '@/shared/components/transactions-pagination.tsx';
 
 type PropsType = {
@@ -25,6 +26,16 @@ const TransactionsTable: React.FC<PropsType> = ({
   onOpenDeleteModal,
 }) => {
   const data = transactions?.data ?? [];
+
+  if (!transactions?.data.length) {
+    return (
+      <EmptyError
+        title="No transactions yet"
+        description="You don't have any transactions yet."
+        variant="empty"
+      />
+    );
+  }
 
   return (
     <div className="border-border bg-card mt-5 overflow-hidden rounded-2xl border">

@@ -20,6 +20,8 @@ type PropsType = {
 };
 
 const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit, onOpenDeleteModal }) => {
+  const transactionType = transaction.type[0].toUpperCase() + transaction.type.slice(1);
+
   return (
     <TableRow
       className="cursor-pointer bg-white"
@@ -53,7 +55,7 @@ const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit, onOpenDelete
               : 'bg-expense/10 text-expense',
           )}
         >
-          {transaction.type}
+          {transactionType}
         </span>
       </TableCell>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, Wallet } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,18 +13,17 @@ import {
 } from '@/components/ui/empty';
 
 type PropsType = {
-  refetch: () => void;
+  refetch?: () => void;
   title: string;
   description: string;
+  variant: 'error' | 'empty';
 };
 
-const EmptyError: React.FC<PropsType> = ({ refetch, title, description }) => {
+const EmptyError: React.FC<PropsType> = ({ refetch, title, description, variant }) => {
   return (
     <Empty className="min-h-[400px] rounded-lg border">
       <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <AlertCircle />
-        </EmptyMedia>
+        <EmptyMedia variant="icon">{variant === 'error' ? <AlertCircle /> : <Wallet />}</EmptyMedia>
 
         <EmptyTitle>{title}</EmptyTitle>
 
@@ -32,10 +31,12 @@ const EmptyError: React.FC<PropsType> = ({ refetch, title, description }) => {
       </EmptyHeader>
 
       <EmptyContent>
-        <Button onClick={() => refetch()}>
-          <RefreshCw />
-          Try again
-        </Button>
+        {refetch && (
+          <Button onClick={() => refetch()}>
+            <RefreshCw />
+            Try again
+          </Button>
+        )}
       </EmptyContent>
     </Empty>
   );

@@ -70,6 +70,7 @@ const TransactionsPage = () => {
         refetch={refetch}
         title="Failed to load transactions"
         description="We couldn't load your transactions right now. Please try again later."
+        variant="error"
       />
     );
   };

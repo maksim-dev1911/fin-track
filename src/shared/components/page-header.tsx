@@ -6,7 +6,7 @@ import type { TransactionModalState } from '@/features/transactions/types/transa
 type PropsType = {
   title: string;
   description: string;
-  total?: number | 0;
+  total?: number | string | 0;
   setOpenModal: Dispatch<SetStateAction<TransactionModalState>>;
 };
 

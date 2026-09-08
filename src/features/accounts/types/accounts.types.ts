@@ -1,8 +1,8 @@
 export type AccountResponse = {
-  id: '';
+  id: string;
   name: string;
   startingBalance: number;
-  type: '';
+  type: string;
   currentBalance: number;
-  createdAt: '';
+  createdAt: string;
 };

@@ -10,7 +10,7 @@ export const useAccountsForm = () => {
   const form = useForm<AccountsFormType>({
     resolver: zodResolver(accountSchema),
     defaultValues: {
-      type: '',
+      type: undefined,
       name: '',
       startingBalance: 0,
     },

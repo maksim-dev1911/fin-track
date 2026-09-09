@@ -18,6 +18,7 @@ import { useAccountsMutation } from '@/features/accounts/hooks/use-accounts-muta
 import type { AccountsFormType } from '@/features/accounts/schemas/account.schema.ts';
 import type { AccountsModalState } from '@/features/accounts/types/accounts.types.ts';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
+import { inputToCents } from '@/shared/lib/format-money.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
 type PropsType = {
@@ -42,7 +43,10 @@ const AccountsForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
 
   const onSubmit = async (values: AccountsFormType) => {
     try {
-      await createAccount.mutateAsync(values);
+      await createAccount.mutateAsync({
+        ...values,
+        startingBalance: inputToCents(values.startingBalance),
+      });
 
       form.reset();
       setOpenModal(null);

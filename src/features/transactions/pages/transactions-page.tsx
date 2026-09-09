@@ -81,7 +81,7 @@ const TransactionsPage = () => {
         title="Transactions"
         total={transactions?.pagination.total}
         description="Total records"
-        setOpenModal={setTransactionModal}
+        setOpenModal={() => setTransactionModal({ mode: 'create' })}
       />
       {transactionModal && (
         <TransactionModal stateModal={transactionModal} setOpenModal={setTransactionModal} />

@@ -11,7 +11,7 @@ type PropsType = {
 
 const TransactionModal: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
   return (
-    <Dialog open onOpenChange={(open) => !open && setOpenModal(null)}>
+    <Dialog open={!!stateModal} onOpenChange={(open) => !open && setOpenModal(null)}>
       <DialogContent className="min-w-[468px] p-0 sm:max-w-sm" showCloseButton={false}>
         <TransactionForm setOpenModal={setOpenModal} stateModal={stateModal} />
       </DialogContent>

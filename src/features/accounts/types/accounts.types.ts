@@ -6,3 +6,12 @@ export type AccountResponse = {
   currentBalance: number;
   createdAt: string;
 };
+
+export type AccountRequest = {
+  name: string;
+  startingBalance: number;
+  type: string;
+};
+
+export type AccountsModalState =
+  { mode: 'create' } | { mode: 'edit'; account: AccountResponse } | null;

@@ -5,7 +5,7 @@ import type { AccountResponse } from '@/features/accounts/types/accounts.types.t
 
 export const useAccountsQuery = () => {
   return useQuery<AccountResponse[]>({
-    queryKey: ['account'],
+    queryKey: ['accounts'],
     queryFn: () => accountsApi.getAccounts(),
   });
 };

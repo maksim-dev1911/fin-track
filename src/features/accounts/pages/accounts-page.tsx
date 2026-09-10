@@ -83,9 +83,6 @@ const AccountsPage = () => {
           setClose={() => setTransactionError(null)}
           title="Can’t delete this account"
           description={transactionError}
-          onDelete={async () => {}}
-          id=""
-          isPending={false}
         />
       )}
       {openDeleteModal?.open && (

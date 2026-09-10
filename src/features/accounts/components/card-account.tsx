@@ -22,7 +22,7 @@ const CardAccount: React.FC<PropsType> = ({ account, onDelete }) => {
         <div className="bg-primary/10 flex h-[42px] w-[42px] items-center justify-center rounded-lg">
           <p className="text-primary text-base font-semibold">{getInitials(account.name)}</p>
         </div>
-        <ItemActions onDelete={onDelete} id={account.id} />
+        <ItemActions onDelete={() => onDelete({ open: true, accountId: account.id })} />
       </div>
       <div>
         <h2 className="text-base font-semibold">{account.name}</h2>

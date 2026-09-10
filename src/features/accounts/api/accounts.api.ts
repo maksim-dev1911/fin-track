@@ -23,9 +23,7 @@ class AccountsApi {
   }
 
   async deleteAccount(id: string): Promise<void> {
-    const response = await this.client.delete(`${endpoints.ACCOUNT}/${id}`);
-
-    return response.data.data;
+    await this.client.delete(`${endpoints.ACCOUNT}/${id}`);
   }
 }
 

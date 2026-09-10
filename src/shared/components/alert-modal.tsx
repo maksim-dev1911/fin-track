@@ -7,11 +7,11 @@ import { cn } from '@/shared/lib/utils.ts';
 type PropsType = {
   open: boolean;
   setClose: (open: boolean) => void;
-  onDelete: (id?: string) => void;
+  onDelete?: (id?: string) => void;
   id?: string;
   title: string;
   description: string;
-  isPending: boolean;
+  isPending?: boolean;
   variant: 'delete' | 'warning';
 };
 
@@ -59,7 +59,7 @@ const AlertModal: React.FC<PropsType> = ({
                 variant="destructive"
                 className="px-4 py-2"
                 disabled={isPending}
-                onClick={() => onDelete(id)}
+                onClick={() => onDelete && onDelete(id)}
               >
                 Delete
               </Button>

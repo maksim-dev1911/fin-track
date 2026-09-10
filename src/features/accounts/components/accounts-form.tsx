@@ -1,4 +1,4 @@
-import React, { type Dispatch, type SetStateAction } from 'react';
+import React, { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import type { AxiosError } from 'axios';
 
@@ -14,9 +14,12 @@ import {
 } from '@/components/ui/select.tsx';
 import { Separator } from '@/components/ui/separator.tsx';
 import { useAccountsForm } from '@/features/accounts/hooks/use-accounts-form.ts';
-import { useAccountsMutation } from '@/features/accounts/hooks/use-accounts-mutation.ts';
+import {
+  useAccountsMutation,
+  useUpdateAccountMutation,
+} from '@/features/accounts/hooks/use-accounts-mutation.ts';
 import type { AccountsFormType } from '@/features/accounts/schemas/account.schema.ts';
-import type { AccountsModalState } from '@/features/accounts/types/accounts.types.ts';
+import type { AccountsModalState, AccountType } from '@/features/accounts/types/accounts.types.ts';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
 import { inputToCents } from '@/shared/lib/format-money.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
@@ -40,13 +43,24 @@ const AccountsForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
   const form = useAccountsForm();
 
   const createAccount = useAccountsMutation();
+  const updateAccount = useUpdateAccountMutation();
 
   const onSubmit = async (values: AccountsFormType) => {
     try {
-      await createAccount.mutateAsync({
-        ...values,
-        startingBalance: inputToCents(values.startingBalance),
-      });
+      if (!isEdit) {
+        await createAccount.mutateAsync({
+          ...values,
+          startingBalance: inputToCents(values.startingBalance),
+        });
+      } else {
+        await updateAccount.mutateAsync({
+          id: stateModal?.account.id,
+          value: {
+            ...values,
+            startingBalance: inputToCents(values.startingBalance),
+          },
+        });
+      }
 
       form.reset();
       setOpenModal(null);
@@ -57,6 +71,18 @@ const AccountsForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
   };
 
   const isEdit = stateModal?.mode === 'edit';
+
+  useEffect(() => {
+    if (stateModal && isEdit) {
+      const account = stateModal?.account;
+
+      form.reset({
+        type: account.type as AccountType,
+        name: account.name,
+        startingBalance: account.startingBalance,
+      });
+    }
+  }, [stateModal]);
 
   return (
     <div>

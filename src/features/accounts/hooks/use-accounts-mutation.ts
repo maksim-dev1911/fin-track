@@ -23,3 +23,12 @@ export const useDeleteAccountMutation = () => {
     },
   });
 };
+
+export const useUpdateAccountMutation = () => {
+  return useMutation<AccountResponse, AxiosError<ApiError>, { id: string; value: AccountRequest }>({
+    mutationFn: ({ id, value }) => accountsApi.updateAccount(id, value),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['accounts'] });
+    },
+  });
+};

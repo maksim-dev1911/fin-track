@@ -20,3 +20,5 @@ export type DeleteAccountState = {
 
 export type AccountsModalState =
   { mode: 'create' } | { mode: 'edit'; account: AccountResponse } | null;
+
+export type AccountType = 'cash' | 'card' | 'savings' | 'other';

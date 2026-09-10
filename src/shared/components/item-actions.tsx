@@ -6,16 +6,17 @@ import { Button } from '@/components/ui/button.tsx';
 
 type PropsType = {
   onDelete: () => void;
+  onEdit: () => void;
 };
 
-const ItemActions: React.FC<PropsType> = ({ onDelete }) => {
+const ItemActions: React.FC<PropsType> = ({ onDelete, onEdit }) => {
   return (
     <div className="flex items-center gap-2">
-      <Button variant="ghost" size="sm">
+      <Button variant="ghost" size="sm" onClick={onEdit}>
         <Pencil className="text-muted-foreground" />
       </Button>
 
-      <Button variant="ghost" size="sm" onClick={() => onDelete()}>
+      <Button variant="ghost" size="sm" onClick={onDelete}>
         <Trash2 className="text-muted-foreground" />
       </Button>
     </div>

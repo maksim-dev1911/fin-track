@@ -20,7 +20,7 @@ import type { ApiError } from '@/shared/types/error.ts';
 
 const AccountsPage = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState<DeleteAccountState>(null);
-  const [createModal, setCreateModal] = useState<AccountsModalState>(null);
+  const [accountModal, setAccountModal] = useState<AccountsModalState>(null);
   const [transactionError, setTransactionError] = useState<string | null>(null);
 
   const { data: accounts = [], isLoading, isError } = useAccountsQuery();
@@ -69,12 +69,11 @@ const AccountsPage = () => {
 
   return (
     <div>
-      <AccountsModal setOpenModal={setCreateModal} stateModal={createModal} />
       <PageHeader
         total={formatTransactionAmount(totalBalance, 'default')}
         title="Account"
         description="Total balance"
-        setOpenModal={() => setCreateModal({ mode: 'create' })}
+        setOpenModal={() => setAccountModal({ mode: 'create' })}
       />
       {transactionError && (
         <AlertModal
@@ -97,7 +96,12 @@ const AccountsPage = () => {
           description="This action can’t be undone. Balances and analytics will be recalculated."
         />
       )}
-      <CardsAccounts accounts={accounts} onDelete={setOpenDeleteModal} />
+      {accountModal && <AccountsModal setOpenModal={setAccountModal} stateModal={accountModal} />}
+      <CardsAccounts
+        accounts={accounts}
+        onDelete={setOpenDeleteModal}
+        setOnEdit={setAccountModal}
+      />
     </div>
   );
 };

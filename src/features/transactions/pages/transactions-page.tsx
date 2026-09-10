@@ -13,7 +13,7 @@ import type {
   TransactionFiltersState,
   TransactionModalState,
 } from '@/features/transactions/types/transaction.types.ts';
-import DeleteModal from '@/shared/components/delete-modal';
+import AlertModal from '@/shared/components/alert-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
@@ -87,12 +87,13 @@ const TransactionsPage = () => {
         <TransactionModal stateModal={transactionModal} setOpenModal={setTransactionModal} />
       )}
       {openDeleteModal && (
-        <DeleteModal
+        <AlertModal
           onDelete={handleDeleteTransaction}
           id={openDeleteModal.id}
           open={openDeleteModal.open}
           isPending={isPending}
           setClose={handleCloseModal}
+          variant="delete"
           title="Delete transaction?"
           description="This action can’t be undone. Balances and analytics will be recalculated."
         />

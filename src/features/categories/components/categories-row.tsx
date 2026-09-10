@@ -19,7 +19,7 @@ const CategoriesRow: React.FC<PropsType> = () => {
       </div>
       <div className="flex items-center gap-3">
         <p className="text-muted-foreground text-sm">dsadasd</p>
-        <ItemActions />
+        <ItemActions onDelete={() => {}} />
       </div>
     </div>
   );

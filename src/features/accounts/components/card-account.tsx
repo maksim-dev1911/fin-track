@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator.tsx';
-import type { AccountResponse } from '@/features/accounts/types/accounts.types.ts';
+import type {
+  AccountResponse,
+  DeleteAccountState,
+} from '@/features/accounts/types/accounts.types.ts';
 import ItemActions from '@/shared/components/item-actions';
 import { formatTransactionAmount } from '@/shared/lib/format-money';
 import { getInitials } from '@/shared/lib/get-initials.ts';
 
 type PropsType = {
   account: AccountResponse;
+  onDelete: Dispatch<SetStateAction<DeleteAccountState>>;
 };
 
-const CardAccount: React.FC<PropsType> = ({ account }) => {
+const CardAccount: React.FC<PropsType> = ({ account, onDelete }) => {
   return (
     <Card className="p-5">
       <div className="flex items-center justify-between">
         <div className="bg-primary/10 flex h-[42px] w-[42px] items-center justify-center rounded-lg">
           <p className="text-primary text-base font-semibold">{getInitials(account.name)}</p>
         </div>
-        <ItemActions />
+        <ItemActions onDelete={() => onDelete({ open: true, accountId: account.id })} />
       </div>
       <div>
         <h2 className="text-base font-semibold">{account.name}</h2>

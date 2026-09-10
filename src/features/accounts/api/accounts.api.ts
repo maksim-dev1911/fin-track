@@ -21,6 +21,10 @@ class AccountsApi {
 
     return response.data.data;
   }
+
+  async deleteAccount(id: string): Promise<void> {
+    await this.client.delete(`${endpoints.ACCOUNT}/${id}`);
+  }
 }
 
 export const accountsApi = new AccountsApi(apiClient);

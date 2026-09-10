@@ -13,5 +13,10 @@ export type AccountRequest = {
   type: string;
 };
 
+export type DeleteAccountState = {
+  open: boolean;
+  accountId?: string;
+} | null;
+
 export type AccountsModalState =
   { mode: 'create' } | { mode: 'edit'; account: AccountResponse } | null;

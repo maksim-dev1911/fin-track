@@ -14,3 +14,12 @@ export const useAccountsMutation = () => {
     },
   });
 };
+
+export const useDeleteAccountMutation = () => {
+  return useMutation<void, AxiosError<ApiError>, string>({
+    mutationFn: (id: string) => accountsApi.deleteAccount(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['accounts'] });
+    },
+  });
+};

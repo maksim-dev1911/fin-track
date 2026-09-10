@@ -27,7 +27,10 @@ class AccountsApi {
   }
 
   async updateAccount(id: string, value: AccountRequest) {
-    const response = await this.client.patch(`${endpoints.ACCOUNT}/${id}`, value);
+    const response = await this.client.patch<ApiResponse<AccountResponse>>(
+      `${endpoints.ACCOUNT}/${id}`,
+      value,
+    );
     return response.data.data;
   }
 }

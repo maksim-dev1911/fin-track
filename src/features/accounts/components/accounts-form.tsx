@@ -21,7 +21,7 @@ import {
 import type { AccountsFormType } from '@/features/accounts/schemas/account.schema.ts';
 import type { AccountsModalState, AccountType } from '@/features/accounts/types/accounts.types.ts';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
-import { inputToCents } from '@/shared/lib/format-money.ts';
+import { centsToInputs, inputToCents } from '@/shared/lib/format-money.ts';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
 type PropsType = {
@@ -47,18 +47,18 @@ const AccountsForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
 
   const onSubmit = async (values: AccountsFormType) => {
     try {
-      if (!isEdit) {
-        await createAccount.mutateAsync({
-          ...values,
-          startingBalance: inputToCents(values.startingBalance),
-        });
-      } else {
+      if (stateModal?.mode === 'edit') {
         await updateAccount.mutateAsync({
           id: stateModal?.account.id,
           value: {
             ...values,
             startingBalance: inputToCents(values.startingBalance),
           },
+        });
+      } else {
+        await createAccount.mutateAsync({
+          ...values,
+          startingBalance: inputToCents(values.startingBalance),
         });
       }
 
@@ -79,7 +79,7 @@ const AccountsForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
       form.reset({
         type: account.type as AccountType,
         name: account.name,
-        startingBalance: account.startingBalance,
+        startingBalance: centsToInputs(account.startingBalance),
       });
     }
   }, [stateModal]);

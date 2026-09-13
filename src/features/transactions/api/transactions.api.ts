@@ -13,7 +13,7 @@ class TransactionsApi {
     this.client = client;
   }
 
-  async getTransactions(params: TransactionFiltersState) {
+  async getTransactions(params?: TransactionFiltersState) {
     const response = await this.client.get<TransactionsResponse>(endpoints.TRANSACTION, { params });
 
     return response.data;

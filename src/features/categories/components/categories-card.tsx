@@ -8,7 +8,10 @@ import CategoriesRow from './categories-row';
 
 type PropsType = {
   variant: 'Income' | 'Expense';
-  categories: CategoryResponse[];
+  categories: (CategoryResponse & {
+    transactionsCount: number;
+    totalAmount: number;
+  })[];
 };
 
 const CategoriesCard: React.FC<PropsType> = ({ categories, variant }) => {

@@ -16,7 +16,7 @@ import { Separator } from '@/components/ui/separator.tsx';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useAccountsQuery } from '@/features/accounts/hooks/use-accounts-query.ts';
 import { useCategoriesQuery } from '@/features/categories/hooks/use-categories-query';
-import type { CategoriesResponse } from '@/features/categories/types/categories.types.ts';
+import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
 import {
   useTransactionsMutation,
   useUpdateTransactionMutation,
@@ -44,7 +44,7 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
   const form = useTransactionForm();
 
   const filteredCategories = categories.filter(
-    (category: CategoriesResponse) => category.type === form.watch('type'),
+    (category: CategoryResponse) => category.type === form.watch('type'),
   );
 
   const isEdit = stateModal?.mode === 'edit';

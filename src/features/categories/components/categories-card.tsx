@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { Card } from '@/components/ui/card.tsx';
-import type { CategoriesResponse } from '@/features/categories/types/categories.types.ts';
+import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
 import { cn } from '@/shared/lib/utils';
 
 import CategoriesRow from './categories-row';
 
 type PropsType = {
   variant: 'Income' | 'Expense';
-  categories: CategoriesResponse[];
+  categories: CategoryResponse[];
 };
 
 const CategoriesCard: React.FC<PropsType> = ({ categories, variant }) => {
-  const categoryLength = categories.filter((c) => c.type === variant.toLowerCase());
+  const visibleCategories = categories.filter((c) => c.type === variant.toLowerCase());
 
   return (
     <Card className="gap-0 p-0">
@@ -25,14 +25,12 @@ const CategoriesCard: React.FC<PropsType> = ({ categories, variant }) => {
         ></div>
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-semibold">{variant}</h2>
-          <p className="text-muted-foreground text-xs">{categoryLength.length}</p>
+          <p className="text-muted-foreground text-xs">{visibleCategories.length}</p>
         </div>
       </div>
-      {categories
-        .filter((category) => category.type === variant.toLowerCase())
-        .map((category) => (
-          <CategoriesRow category={category} key={category.id} />
-        ))}
+      {visibleCategories.map((category) => (
+        <CategoriesRow category={category} key={category.id} />
+      ))}
     </Card>
   );
 };

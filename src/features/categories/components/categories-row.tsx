@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { CategoriesResponse } from '@/features/categories/types/categories.types.ts';
+import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
 import ItemActions from '@/shared/components/item-actions.tsx';
 
 type PropsType = {
-  category: CategoriesResponse;
+  category: CategoryResponse;
 };
 
 const CategoriesRow: React.FC<PropsType> = () => {

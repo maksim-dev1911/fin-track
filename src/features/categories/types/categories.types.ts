@@ -1,4 +1,4 @@
-export type CategoriesResponse = {
+export type CategoryResponse = {
   type: 'income' | 'expense' | 'default';
   color: string;
   createdAt: string;

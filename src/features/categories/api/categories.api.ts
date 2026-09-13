@@ -1,4 +1,4 @@
-import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
+import type { CategoriesResponse } from '@/features/categories/types/categories.types.ts';
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 import type { ApiResponse } from '@/shared/api/types.ts';
@@ -11,7 +11,7 @@ class CategoriesApi {
   }
 
   async getCategories() {
-    const response = await this.client.get<ApiResponse<CategoryResponse[]>>(endpoints.CATEGORIES);
+    const response = await this.client.get<ApiResponse<CategoriesResponse[]>>(endpoints.CATEGORIES);
 
     return response.data.data;
   }

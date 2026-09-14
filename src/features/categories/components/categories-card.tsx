@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 
 import { Card } from '@/components/ui/card.tsx';
-import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
+import type {
+  CategoryModalState,
+  CategoryResponse,
+} from '@/features/categories/types/categories.types.ts';
 import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
 import { cn } from '@/shared/lib/utils';
 
@@ -11,9 +14,10 @@ type PropsType = {
   variant: 'Income' | 'Expense';
   categories: CategoryResponse[];
   analytics: AnalyticResponse[];
+  onEdit: Dispatch<SetStateAction<CategoryModalState>>;
 };
 
-const CategoriesCard: React.FC<PropsType> = ({ categories, variant, analytics }) => {
+const CategoriesCard: React.FC<PropsType> = ({ categories, variant, analytics, onEdit }) => {
   const visibleCategories = categories.filter((c) => c.type === variant.toLowerCase());
 
   return (
@@ -31,7 +35,12 @@ const CategoriesCard: React.FC<PropsType> = ({ categories, variant, analytics })
         </div>
       </div>
       {visibleCategories.map((category) => (
-        <CategoriesRow category={category} key={category.id} analytics={analytics} />
+        <CategoriesRow
+          category={category}
+          key={category.id}
+          analytics={analytics}
+          onEdit={onEdit}
+        />
       ))}
     </Card>
   );

@@ -2,6 +2,7 @@ import React, { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import type { AxiosError } from 'axios';
 import { Controller } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
@@ -42,7 +43,7 @@ const CategoriesForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
         color: category.color,
       });
     }
-  }, [stateModal]);
+  }, [stateModal, isEdit, form]);
 
   const onSubmit = async (values: CategoryFormType) => {
     try {
@@ -58,8 +59,20 @@ const CategoriesForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
       form.reset();
       setOpenModal(null);
     } catch (error) {
-      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) return;
-      throw error;
+      const axiosError = error as AxiosError<ApiValidationError>;
+
+      if (applyServerValidationErrors(form, axiosError)) return;
+
+      if (axiosError.response?.status === 409) {
+        toast.error(
+          isEdit
+            ? 'This category is used by transactions and its type or name cannot be changed.'
+            : 'A category with this name already exists.',
+        );
+        return;
+      }
+
+      toast.error('Something went wrong. Please try again.');
     }
   };
 

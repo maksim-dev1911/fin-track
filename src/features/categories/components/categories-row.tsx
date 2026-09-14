@@ -1,6 +1,7 @@
 import React, { type Dispatch, type SetStateAction } from 'react';
 
 import type {
+  CategoryDeleteModalState,
   CategoryModalState,
   CategoryResponse,
 } from '@/features/categories/types/categories.types.ts';
@@ -12,9 +13,10 @@ type PropsType = {
   category: CategoryResponse;
   analytics: AnalyticResponse[];
   onEdit: Dispatch<SetStateAction<CategoryModalState>>;
+  onDelete: Dispatch<SetStateAction<CategoryDeleteModalState>>;
 };
 
-const CategoriesRow: React.FC<PropsType> = ({ category, analytics, onEdit }) => {
+const CategoriesRow: React.FC<PropsType> = ({ category, analytics, onEdit, onDelete }) => {
   const currentAnalytic = analytics.find((a) => a.categoryId === category.id);
   const totalAmount = currentAnalytic ? currentAnalytic.total : 0;
 
@@ -35,7 +37,7 @@ const CategoriesRow: React.FC<PropsType> = ({ category, analytics, onEdit }) => 
         </p>
         <ItemActions
           onEdit={() => onEdit({ mode: 'edit', category: category })}
-          onDelete={() => {}}
+          onDelete={() => onDelete({ open: true, id: category.id })}
         />
       </div>
     </div>

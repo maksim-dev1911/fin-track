@@ -55,8 +55,17 @@ const CategoriesPage = () => {
       await deleteCategory(id);
     } catch (error) {
       const err = error as AxiosError<ApiError>;
-      const errorMessage = err.response?.data?.error?.message ?? 'Something went wrong.';
-      toast.error(`Failed to delete the category: ${errorMessage}`);
+      const status = err.response?.status;
+      const errorMessage = err.response?.data?.error.message || err.response?.data?.error?.message;
+
+      if (status === 409) {
+        toast.warning(
+          errorMessage || 'This category is in use. Reassign or clear its transactions first.',
+        );
+        return;
+      }
+
+      toast.error(`Failed to delete the category: ${errorMessage || 'Something went wrong'}`);
     } finally {
       setOpenDeleteModal(null);
     }

@@ -36,6 +36,7 @@ export const useDeleteTransactionMutation = () => {
     mutationFn: (id: string) => transactionsApi.deleteTransaction(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      await queryClient.invalidateQueries({ queryKey: ['analytics'] });
     },
   });
 };

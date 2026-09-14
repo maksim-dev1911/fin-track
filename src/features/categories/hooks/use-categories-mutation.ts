@@ -17,3 +17,16 @@ export const useCreateCategoryMutation = () => {
     },
   });
 };
+
+export const useUpdateCategoryMutation = () => {
+  return useMutation<
+    CategoryResponse,
+    AxiosError<ApiError>,
+    { id: string; value: CategoryRequest }
+  >({
+    mutationFn: ({ id, value }) => categoriesApi.updateCategory(id, value),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['categories'] });
+    },
+  });
+};

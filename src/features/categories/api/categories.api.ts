@@ -24,6 +24,12 @@ class CategoriesApi {
 
     return response.data.data;
   }
+
+  async updateCategory(id: string, data: CategoryRequest) {
+    const response = await this.client.patch(`${endpoints.CATEGORIES}/${id}`, data);
+
+    return response.data.data;
+  }
 }
 
 export const categoriesApi = new CategoriesApi(apiClient);

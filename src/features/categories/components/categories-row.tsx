@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
 
-import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
+import type {
+  CategoryModalState,
+  CategoryResponse,
+} from '@/features/categories/types/categories.types.ts';
 import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
 import ItemActions from '@/shared/components/item-actions.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
@@ -8,9 +11,10 @@ import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 type PropsType = {
   category: CategoryResponse;
   analytics: AnalyticResponse[];
+  onEdit: Dispatch<SetStateAction<CategoryModalState>>;
 };
 
-const CategoriesRow: React.FC<PropsType> = ({ category, analytics }) => {
+const CategoriesRow: React.FC<PropsType> = ({ category, analytics, onEdit }) => {
   const currentAnalytic = analytics.find((a) => a.categoryId === category.id);
   const totalAmount = currentAnalytic ? currentAnalytic.total : 0;
 
@@ -29,7 +33,10 @@ const CategoriesRow: React.FC<PropsType> = ({ category, analytics }) => {
         <p className="text-muted-foreground text-sm">
           {formatTransactionAmount(totalAmount, 'default')}
         </p>
-        <ItemActions onEdit={() => {}} onDelete={() => {}} />
+        <ItemActions
+          onEdit={() => onEdit({ mode: 'edit', category: category })}
+          onDelete={() => {}}
+        />
       </div>
     </div>
   );

@@ -73,8 +73,18 @@ const CategoriesPage = () => {
         renderError()
       ) : (
         <div className="grid grid-cols-2 items-start gap-5">
-          <CategoriesCard variant="Income" categories={incomeCategories} analytics={analytics} />
-          <CategoriesCard variant="Expense" categories={expenseCategories} analytics={analytics} />
+          <CategoriesCard
+            variant="Expense"
+            categories={expenseCategories}
+            analytics={analytics}
+            onEdit={setCategoryModal}
+          />
+          <CategoriesCard
+            variant="Income"
+            categories={incomeCategories}
+            analytics={analytics}
+            onEdit={setCategoryModal}
+          />
         </div>
       )}
     </div>

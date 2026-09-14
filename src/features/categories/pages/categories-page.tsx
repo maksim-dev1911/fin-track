@@ -56,7 +56,7 @@ const CategoriesPage = () => {
     } catch (error) {
       const err = error as AxiosError<ApiError>;
       const status = err.response?.status;
-      const errorMessage = err.response?.data?.error.message || err.response?.data?.error?.message;
+      const errorMessage = err.response?.data?.error?.message;
 
       if (status === 409) {
         toast.warning(

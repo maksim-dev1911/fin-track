@@ -30,3 +30,12 @@ export const useUpdateCategoryMutation = () => {
     },
   });
 };
+
+export const useDeleteCategoryMutation = () => {
+  return useMutation<void, AxiosError<ApiError>, string>({
+    mutationFn: (id: string) => categoriesApi.deleteCategory(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['categories'] });
+    },
+  });
+};

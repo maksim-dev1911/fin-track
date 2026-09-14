@@ -30,6 +30,10 @@ class CategoriesApi {
 
     return response.data.data;
   }
+
+  async deleteCategory(id: string) {
+    await this.client.delete(`${endpoints.CATEGORIES}/${id}`);
+  }
 }
 
 export const categoriesApi = new CategoriesApi(apiClient);

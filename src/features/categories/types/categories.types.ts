@@ -14,3 +14,8 @@ export type CategoryRequest = {
 
 export type CategoryModalState =
   { mode: 'create' } | { mode: 'edit'; category: CategoryResponse } | null;
+
+export type CategoryDeleteModalState = {
+  open: boolean;
+  id?: string;
+} | null;

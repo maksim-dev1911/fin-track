@@ -2,6 +2,7 @@ import React, { type Dispatch, type SetStateAction } from 'react';
 
 import { Card } from '@/components/ui/card.tsx';
 import type {
+  CategoryDeleteModalState,
   CategoryModalState,
   CategoryResponse,
 } from '@/features/categories/types/categories.types.ts';
@@ -15,9 +16,16 @@ type PropsType = {
   categories: CategoryResponse[];
   analytics: AnalyticResponse[];
   onEdit: Dispatch<SetStateAction<CategoryModalState>>;
+  onDelete: Dispatch<SetStateAction<CategoryDeleteModalState>>;
 };
 
-const CategoriesCard: React.FC<PropsType> = ({ categories, variant, analytics, onEdit }) => {
+const CategoriesCard: React.FC<PropsType> = ({
+  categories,
+  variant,
+  analytics,
+  onEdit,
+  onDelete,
+}) => {
   const visibleCategories = categories.filter((c) => c.type === variant.toLowerCase());
 
   return (
@@ -40,6 +48,7 @@ const CategoriesCard: React.FC<PropsType> = ({ categories, variant, analytics, o
           key={category.id}
           analytics={analytics}
           onEdit={onEdit}
+          onDelete={onDelete}
         />
       ))}
     </Card>

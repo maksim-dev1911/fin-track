@@ -7,4 +7,5 @@ export const endpoints = {
   TRANSACTION: '/transactions',
   ACCOUNT: '/accounts',
   CATEGORIES: '/categories',
+  ANALYTICS: '/analytics/by-category',
 };

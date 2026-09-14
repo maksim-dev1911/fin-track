@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
@@ -7,7 +7,7 @@ import CategoriesCard from '@/features/categories/components/categories-card.tsx
 import CategoriesModal from '@/features/categories/components/categories-modal.tsx';
 import { useCategoriesQuery } from '@/features/categories/hooks/use-categories-query.ts';
 import type { CategoryModalState } from '@/features/categories/types/categories.types.ts';
-import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
+import { useAnalyticsQuery } from '@/features/dashboard/hooks/use-analytics-query.ts';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
@@ -22,44 +22,28 @@ const CategoriesPage = () => {
     refetch: refetchCategories,
   } = useCategoriesQuery();
   const {
-    data: transactionsResponse,
-    isLoading: isTransactionsLoading,
-    isError: isTransactionsError,
-    refetch: refetchTransactions,
-  } = useTransactionsQuery();
-
-  const transactions = transactionsResponse?.data ?? [];
+    data: analytics = [],
+    isLoading: isAnalyticsLoading,
+    isError: isAnalyticsError,
+    refetch: refetchAnalytics,
+  } = useAnalyticsQuery();
 
   useEffect(() => {
-    if (isCategoriesError || isTransactionsError) {
+    if (isCategoriesError || isAnalyticsError) {
       toast.error('Failed to load data', {
         description: getApiErrorMessage(),
       });
     }
-  }, [isCategoriesError, isTransactionsError]);
-
-  const enrichedCategories = useMemo(() => {
-    return categories.map((category) => {
-      const categoryTransactions = transactions.filter((t) => t.category.id === category.id);
-
-      const totalAmount = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
-
-      return {
-        ...category,
-        transactionsCount: categoryTransactions.length,
-        totalAmount,
-      };
-    });
-  }, [categories, transactions]);
+  }, [isCategoriesError, isAnalyticsError]);
 
   const handleRefetchAll = async () => {
-    await Promise.all([refetchCategories(), refetchTransactions()]);
+    await Promise.all([refetchCategories(), refetchAnalytics()]);
   };
 
-  const expenseCategories = enrichedCategories.filter((c) => c.type === 'expense');
-  const incomeCategories = enrichedCategories.filter((c) => c.type === 'income');
+  const expenseCategories = categories.filter((c) => c.type === 'expense');
+  const incomeCategories = categories.filter((c) => c.type === 'income');
 
-  if (isCategoriesLoading || isTransactionsLoading) {
+  if (isCategoriesLoading || isAnalyticsLoading) {
     return <Spinner className="size-10" />;
   }
 
@@ -85,12 +69,12 @@ const CategoriesPage = () => {
       {categoryModal && (
         <CategoriesModal stateModal={categoryModal} setOpenModal={setCategoryModal} />
       )}
-      {isTransactionsError || isCategoriesError ? (
+      {isAnalyticsError || isCategoriesError ? (
         renderError()
       ) : (
         <div className="grid grid-cols-2 items-start gap-5">
-          <CategoriesCard variant="Income" categories={incomeCategories} />
-          <CategoriesCard variant="Expense" categories={expenseCategories} />
+          <CategoriesCard variant="Income" categories={incomeCategories} analytics={analytics} />
+          <CategoriesCard variant="Expense" categories={expenseCategories} analytics={analytics} />
         </div>
       )}
     </div>

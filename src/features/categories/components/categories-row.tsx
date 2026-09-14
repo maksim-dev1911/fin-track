@@ -1,17 +1,19 @@
 import React from 'react';
 
 import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
+import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
 import ItemActions from '@/shared/components/item-actions.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 
 type PropsType = {
-  category: CategoryResponse & {
-    transactionsCount: number;
-    totalAmount: number;
-  };
+  category: CategoryResponse;
+  analytics: AnalyticResponse[];
 };
 
-const CategoriesRow: React.FC<PropsType> = ({ category }) => {
+const CategoriesRow: React.FC<PropsType> = ({ category, analytics }) => {
+  const currentAnalytic = analytics.find((a) => a.categoryId === category.id);
+  const totalAmount = currentAnalytic ? currentAnalytic.total : 0;
+
   return (
     <div className="hover:bg-muted-foreground/10 flex items-center justify-between border-t px-5 py-4">
       <div className="flex items-center justify-between gap-2">
@@ -21,14 +23,11 @@ const CategoriesRow: React.FC<PropsType> = ({ category }) => {
         ></div>
         <div>
           <h2 className="text-sm font-medium">{category.name}</h2>
-          <h2 className="text-muted-foreground text-xs">
-            {category.transactionsCount} transactions
-          </h2>
         </div>
       </div>
       <div className="flex items-center gap-3">
         <p className="text-muted-foreground text-sm">
-          {formatTransactionAmount(category.totalAmount, 'default')}
+          {formatTransactionAmount(totalAmount, 'default')}
         </p>
         <ItemActions onEdit={() => {}} onDelete={() => {}} />
       </div>

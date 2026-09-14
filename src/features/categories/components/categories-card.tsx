@@ -2,19 +2,18 @@ import React from 'react';
 
 import { Card } from '@/components/ui/card.tsx';
 import type { CategoryResponse } from '@/features/categories/types/categories.types.ts';
+import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
 import { cn } from '@/shared/lib/utils';
 
 import CategoriesRow from './categories-row';
 
 type PropsType = {
   variant: 'Income' | 'Expense';
-  categories: (CategoryResponse & {
-    transactionsCount: number;
-    totalAmount: number;
-  })[];
+  categories: CategoryResponse[];
+  analytics: AnalyticResponse[];
 };
 
-const CategoriesCard: React.FC<PropsType> = ({ categories, variant }) => {
+const CategoriesCard: React.FC<PropsType> = ({ categories, variant, analytics }) => {
   const visibleCategories = categories.filter((c) => c.type === variant.toLowerCase());
 
   return (
@@ -32,7 +31,7 @@ const CategoriesCard: React.FC<PropsType> = ({ categories, variant }) => {
         </div>
       </div>
       {visibleCategories.map((category) => (
-        <CategoriesRow category={category} key={category.id} />
+        <CategoriesRow category={category} key={category.id} analytics={analytics} />
       ))}
     </Card>
   );

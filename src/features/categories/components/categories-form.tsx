@@ -1,4 +1,7 @@
-import React, { type Dispatch, type SetStateAction, useState } from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
+
+import type { AxiosError } from 'axios';
+import { Controller } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
@@ -9,7 +12,9 @@ import { useCreateCategoryMutation } from '@/features/categories/hooks/use-categ
 import { useCategoryForm } from '@/features/categories/hooks/use-category-form.ts';
 import type { CategoryFormType } from '@/features/categories/schemas/category.schema.ts';
 import type { CategoryModalState } from '@/features/categories/types/categories.types.ts';
+import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
 import ColorPicker from '@/shared/lib/color-picker.tsx';
+import type { ApiValidationError } from '@/shared/types/error.ts';
 
 type PropsType = {
   stateModal: CategoryModalState;
@@ -17,8 +22,6 @@ type PropsType = {
 };
 
 const CategoriesForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
-  const [selectedColor, setSelectedColor] = useState('yellow');
-
   const createCategory = useCreateCategoryMutation();
 
   const form = useCategoryForm();
@@ -26,13 +29,21 @@ const CategoriesForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
   const isEdit = stateModal?.mode === 'edit';
 
   const onSubmit = async (values: CategoryFormType) => {
-    await createCategory.mutateAsync(values);
+    try {
+      await createCategory.mutateAsync(values);
+
+      form.reset();
+      setOpenModal(null);
+    } catch (error) {
+      if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) return;
+      throw error;
+    }
   };
 
   return (
     <div>
       <div className="px-6 py-5">
-        <h1 className="text-lg font-semibold">{isEdit ? 'Edit transaction' : 'New category'}</h1>
+        <h1 className="text-lg font-semibold">{isEdit ? 'Edit category' : 'New category'}</h1>
       </div>
       <Separator />
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-5 p-6">
@@ -61,7 +72,11 @@ const CategoriesForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
             Income
           </ToggleGroupItem>
         </ToggleGroup>
-        <ColorPicker onChange={setSelectedColor} value={selectedColor} />
+        <Controller
+          control={form.control}
+          name="color"
+          render={({ field }) => <ColorPicker value={field.value} onChange={field.onChange} />}
+        />
         <Separator />
         <div className="flex justify-end gap-2">
           <Button

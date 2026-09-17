@@ -1,4 +1,7 @@
-import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
+import type {
+  AnalyticByCategoryResponse,
+  AnalyticSummary,
+} from '@/features/dashboard/types/analytics.types.ts';
 import { apiClient } from '@/shared/api/client';
 import { endpoints } from '@/shared/api/endpoints.ts';
 import type { ApiResponse } from '@/shared/api/types.ts';
@@ -10,10 +13,23 @@ class DashboardApi {
     this.client = client;
   }
 
-  async getAnalytics() {
-    const response = await this.client.get<ApiResponse<AnalyticResponse[]>>(endpoints.ANALYTICS);
+  async getAnalyticsByCategory() {
+    const response = await this.client.get<ApiResponse<AnalyticByCategoryResponse[]>>(
+      endpoints.ANALYTICS_BY_CATEGORY,
+    );
 
     return response.data.data;
+  }
+
+  async getAnalyticsSummary(dateFrom: string, dateTo: string) {
+    const response = await this.client.get<AnalyticSummary>(endpoints.ANALYTICS_SUMMARY, {
+      params: {
+        dateFrom,
+        dateTo,
+      },
+    });
+
+    return response.data;
   }
 }
 

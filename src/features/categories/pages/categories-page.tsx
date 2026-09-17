@@ -12,7 +12,7 @@ import type {
   CategoryDeleteModalState,
   CategoryModalState,
 } from '@/features/categories/types/categories.types.ts';
-import { useAnalyticsQuery } from '@/features/dashboard/hooks/use-analytics-query.ts';
+import { useAnalyticsByCategoryQuery } from '@/features/dashboard/hooks/use-analytics-query.ts';
 import AlertModal from '@/shared/components/alert-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
@@ -34,7 +34,7 @@ const CategoriesPage = () => {
     isLoading: isAnalyticsLoading,
     isError: isAnalyticsError,
     refetch: refetchAnalytics,
-  } = useAnalyticsQuery();
+  } = useAnalyticsByCategoryQuery();
   const { mutateAsync: deleteCategory, isPending } = useDeleteCategoryMutation();
 
   useEffect(() => {

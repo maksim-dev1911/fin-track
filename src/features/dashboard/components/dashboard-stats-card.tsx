@@ -2,6 +2,7 @@ import React from 'react';
 
 import { cva } from 'class-variance-authority';
 
+import type { AnalyticSummary } from '@/features/dashboard/types/analytics.types.ts';
 import Section from '@/shared/components/Section.tsx';
 import { cn } from '@/shared/lib/utils.ts';
 
@@ -12,6 +13,7 @@ export type PropsType = {
   value: string;
   description: string;
   variant: DashboardStatCardVariant;
+  analyticSummary?: AnalyticSummary;
 };
 
 const valueVariants = cva('text-4xl font-bold', {

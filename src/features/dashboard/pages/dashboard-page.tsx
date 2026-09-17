@@ -55,9 +55,7 @@ const DashboardPage = () => {
         customRange={customRange}
         setCustomRange={setCustomRange}
       />
-      {analyticsSummary && (
-        <DashboardStats summaryData={analyticsSummary} dateRange={formattedCustomRange} />
-      )}
+      {analyticsSummary && <DashboardStats summaryData={analyticsSummary} dateRange={dateRange} />}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <ExpensesByCategoryCard />
         <IncomeVsExpensesChart />

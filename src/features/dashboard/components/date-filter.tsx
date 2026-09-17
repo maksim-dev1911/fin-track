@@ -15,21 +15,21 @@ const DateFilter: React.FC<PropsType> = ({ value, onChange, customRange, setCust
   return (
     <div className="flex justify-between">
       <Tabs defaultValue="last-month" value={value} onValueChange={onChange}>
-        <TabsList className="h-auto gap-1 rounded-lg bg-[#F0F2F6] p-1">
+        <TabsList className="bg-foreground/3 h-auto gap-1 rounded-lg p-1">
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:text-foreground rounded-md px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            className="text-muted-foreground rounded-md px-4 py-1.5 text-sm font-medium transition-all"
             value="this-month"
           >
             This month
           </TabsTrigger>
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:text-foreground rounded-md px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            className="text-muted-foreground rounded-md px-4 py-1.5 text-sm font-medium transition-all"
             value="last-month"
           >
             Last month
           </TabsTrigger>
           <TabsTrigger
-            className="text-muted-foreground data-[state=active]:text-foreground rounded-md px-4 py-1.5 text-sm font-medium transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            className="text-muted-foreground rounded-md px-4 py-1.5 text-sm font-medium transition-all"
             value="custom"
           >
             Custom

@@ -11,9 +11,9 @@ import ExpensesByCategoryCard from '@/features/dashboard/components/expenses-by-
 import IncomeVsExpensesChart from '@/features/dashboard/components/income-vs-expenses-chart.tsx';
 import RecentTransactionsCard from '@/features/dashboard/components/recent-transactions-card.tsx';
 import { useAnalyticsSummary } from '@/features/dashboard/hooks/use-analytics-query.ts';
+import { getDateRange } from '@/features/dashboard/lib/getDateRange.ts';
 import type { DashboardPeriod, RangeType } from '@/features/dashboard/types/analytics.types.ts';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
-import { getDateRange } from '@/shared/lib/utils.ts';
 
 const DashboardPage = () => {
   const [period, setPeriod] = useState<DashboardPeriod>('this-month');
@@ -55,7 +55,9 @@ const DashboardPage = () => {
         customRange={customRange}
         setCustomRange={setCustomRange}
       />
-      {analyticsSummary && <DashboardStats summaryData={analyticsSummary} />}
+      {analyticsSummary && (
+        <DashboardStats summaryData={analyticsSummary} dateRange={formattedCustomRange} />
+      )}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <ExpensesByCategoryCard />
         <IncomeVsExpensesChart />

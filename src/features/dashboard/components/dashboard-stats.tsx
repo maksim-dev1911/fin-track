@@ -1,9 +1,12 @@
 import React from 'react';
 
+import { format } from 'date-fns/format';
+import { parseISO } from 'date-fns/parseISO';
+
 import DashboardStatsCard, {
   type DashboardStatCardVariant,
 } from '@/features/dashboard/components/dashboard-stats-card.tsx';
-import type { AnalyticSummary } from '@/features/dashboard/types/analytics.types.ts';
+import type { AnalyticSummary, DateRange } from '@/features/dashboard/types/analytics.types.ts';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 
 type DashboardStatsItem = {
@@ -15,9 +18,23 @@ type DashboardStatsItem = {
 
 type PropsType = {
   summaryData: AnalyticSummary;
+  dateRange: DateRange;
 };
 
-const DashboardStats: React.FC<PropsType> = ({ summaryData }) => {
+const DashboardStats: React.FC<PropsType> = ({ summaryData, dateRange }) => {
+  const getPeriodDescription = () => {
+    if (!dateRange?.dateFrom || !dateRange?.dateTo) return 'No period selected';
+
+    const fromDate = parseISO(dateRange.dateFrom);
+    const toDate = parseISO(dateRange.dateTo);
+
+    if (format(fromDate, 'yyyy-MM') === format(toDate, 'yyyy-MM')) {
+      return `In ${format(fromDate, 'MMMM yyyy')}`;
+    }
+
+    return `${format(fromDate, 'dd.MM.yyyy')} - ${format(toDate, 'dd.MM.yyyy')}`;
+  };
+
   const cardStats: DashboardStatsItem[] = [
     {
       title: 'Total balance',
@@ -28,13 +45,13 @@ const DashboardStats: React.FC<PropsType> = ({ summaryData }) => {
     {
       title: 'Income',
       amount: `${formatTransactionAmount(summaryData.periodIncome, 'income')}`,
-      description: 'in July 2026',
+      description: getPeriodDescription(),
       variant: 'income',
     },
     {
       title: 'Expenses',
       amount: `${formatTransactionAmount(summaryData.periodExpense, 'expense')}`,
-      description: 'in July 2026',
+      description: getPeriodDescription(),
       variant: 'expense',
     },
     {

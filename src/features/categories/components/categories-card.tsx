@@ -6,7 +6,7 @@ import type {
   CategoryModalState,
   CategoryResponse,
 } from '@/features/categories/types/categories.types.ts';
-import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
+import type { AnalyticByCategoryResponse } from '@/features/dashboard/types/analytics.types.ts';
 import { cn } from '@/shared/lib/utils';
 
 import CategoriesRow from './categories-row';
@@ -14,7 +14,7 @@ import CategoriesRow from './categories-row';
 type PropsType = {
   variant: 'Income' | 'Expense';
   categories: CategoryResponse[];
-  analytics: AnalyticResponse[];
+  analytics: AnalyticByCategoryResponse[];
   onEdit: Dispatch<SetStateAction<CategoryModalState>>;
   onDelete: Dispatch<SetStateAction<CategoryDeleteModalState>>;
 };

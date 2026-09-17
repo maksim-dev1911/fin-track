@@ -5,13 +5,13 @@ import type {
   CategoryModalState,
   CategoryResponse,
 } from '@/features/categories/types/categories.types.ts';
-import type { AnalyticResponse } from '@/features/dashboard/types/analytics.types.ts';
+import type { AnalyticByCategoryResponse } from '@/features/dashboard/types/analytics.types.ts';
 import ItemActions from '@/shared/components/item-actions.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 
 type PropsType = {
   category: CategoryResponse;
-  analytics: AnalyticResponse[];
+  analytics: AnalyticByCategoryResponse[];
   onEdit: Dispatch<SetStateAction<CategoryModalState>>;
   onDelete: Dispatch<SetStateAction<CategoryDeleteModalState>>;
 };

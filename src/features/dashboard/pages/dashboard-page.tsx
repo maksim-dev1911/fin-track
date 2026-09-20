@@ -10,7 +10,10 @@ import DateFilter from '@/features/dashboard/components/date-filter.tsx';
 import ExpensesByCategoryCard from '@/features/dashboard/components/expenses-by-category-card.tsx';
 import IncomeVsExpensesChart from '@/features/dashboard/components/income-vs-expenses-chart.tsx';
 import RecentTransactionsCard from '@/features/dashboard/components/recent-transactions-card.tsx';
-import { useAnalyticsSummary } from '@/features/dashboard/hooks/use-analytics-query.ts';
+import {
+  useAnalyticsByCategoryQuery,
+  useAnalyticsSummary,
+} from '@/features/dashboard/hooks/use-analytics-query.ts';
 import { getDateRange } from '@/features/dashboard/lib/getDateRange.ts';
 import type { DashboardPeriod, RangeType } from '@/features/dashboard/types/analytics.types.ts';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
@@ -35,6 +38,8 @@ const DashboardPage = () => {
     isError: isErrorSummary,
   } = useAnalyticsSummary(dateRange);
 
+  const { data: analyticsByCategory } = useAnalyticsByCategoryQuery(dateRange);
+
   useEffect(() => {
     if (isErrorSummary) {
       toast.error('Failed to load data', {
@@ -57,7 +62,9 @@ const DashboardPage = () => {
       />
       {analyticsSummary && <DashboardStats summaryData={analyticsSummary} dateRange={dateRange} />}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-        <ExpensesByCategoryCard />
+        {analyticsByCategory && (
+          <ExpensesByCategoryCard analyticsByCategory={analyticsByCategory} />
+        )}
         <IncomeVsExpensesChart />
       </div>
       <RecentTransactionsCard />

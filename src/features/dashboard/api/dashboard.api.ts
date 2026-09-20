@@ -1,6 +1,7 @@
 import type {
   AnalyticByCategoryResponse,
   AnalyticSummary,
+  DateRange,
 } from '@/features/dashboard/types/analytics.types.ts';
 import { apiClient } from '@/shared/api/client';
 import { endpoints } from '@/shared/api/endpoints.ts';
@@ -13,9 +14,10 @@ class DashboardApi {
     this.client = client;
   }
 
-  async getAnalyticsByCategory() {
+  async getAnalyticsByCategory(params?: Partial<DateRange>) {
     const response = await this.client.get<ApiResponse<AnalyticByCategoryResponse[]>>(
       endpoints.ANALYTICS_BY_CATEGORY,
+      { params: params },
     );
 
     return response.data.data;

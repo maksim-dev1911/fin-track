@@ -7,10 +7,10 @@ import type {
   DateRange,
 } from '@/features/dashboard/types/analytics.types.ts';
 
-export const useAnalyticsByCategoryQuery = () => {
+export const useAnalyticsByCategoryQuery = (params?: Partial<DateRange>) => {
   return useQuery<AnalyticByCategoryResponse[]>({
-    queryKey: ['analyticsByCategory'],
-    queryFn: () => dashboardApi.getAnalyticsByCategory(),
+    queryKey: ['analyticsByCategory', params],
+    queryFn: () => dashboardApi.getAnalyticsByCategory(params),
   });
 };
 

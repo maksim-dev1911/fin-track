@@ -17,6 +17,7 @@ import {
 } from '@/features/dashboard/hooks/use-analytics-query.ts';
 import { getDateRange } from '@/features/dashboard/lib/getDateRange.ts';
 import type { DashboardPeriod, RangeType } from '@/features/dashboard/types/analytics.types.ts';
+import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
 
 const DashboardPage = () => {
@@ -51,15 +52,26 @@ const DashboardPage = () => {
     isError: isErrorAnalyticsOverTime,
   } = useAnalyticsOverTime();
 
+  const {
+    data: transactions,
+    isLoading: isLoadingTransactions,
+    isError: isErrorTransactions,
+  } = useTransactionsQuery();
+
   useEffect(() => {
-    if (isErrorSummary || isErrorByCategory || isErrorAnalyticsOverTime) {
+    if (isErrorSummary || isErrorByCategory || isErrorAnalyticsOverTime || isErrorTransactions) {
       toast.error('Failed to load data', {
         description: getApiErrorMessage(),
       });
     }
-  }, [isErrorSummary, isErrorByCategory, isErrorAnalyticsOverTime]);
+  }, [isErrorSummary, isErrorByCategory, isErrorAnalyticsOverTime, isErrorTransactions]);
 
-  if (isLoadingSummary || isLoadingByCategory || isLoadingAnalyticsOverTime) {
+  if (
+    isLoadingSummary ||
+    isLoadingByCategory ||
+    isLoadingAnalyticsOverTime ||
+    isLoadingTransactions
+  ) {
     return <Spinner className="size-10" />;
   }
 
@@ -79,7 +91,7 @@ const DashboardPage = () => {
 
         {analyticsOverTime && <IncomeVsExpensesChart analyticsOverTime={analyticsOverTime} />}
       </div>
-      <RecentTransactionsCard />
+      <RecentTransactionsCard transactions={transactions?.data} />
     </div>
   );
 };

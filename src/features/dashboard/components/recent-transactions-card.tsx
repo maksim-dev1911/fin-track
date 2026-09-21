@@ -16,17 +16,20 @@ const RecentTransactionsCard: React.FC<PropsType> = ({ transactions }) => {
     <Section>
       <div className="mb-2 flex items-center justify-between">
         <h2 className="text-[15px] font-semibold">Recent transactions</h2>
-        <Link to={routes.transactions} className="text-primary cursor-pointer text-sm">
-          View all -
-        </Link>
+        {transactions && transactions.length > 0 && (
+          <Link to={routes.transactions} className="text-primary cursor-pointer text-sm">
+            View all
+          </Link>
+        )}
       </div>
-      {transactions?.slice(0, 6).map((transaction) => {
-        return (
-          <div key={transaction.id}>
-            <RecentTransactionItem transaction={transaction} />
-          </div>
-        );
-      })}
+
+      {transactions && transactions.length > 0 ? (
+        transactions.map((transaction) => (
+          <RecentTransactionItem transaction={transaction} key={transaction.id} />
+        ))
+      ) : (
+        <p className="text-muted-foreground text-sm">No transactions yet</p>
+      )}
     </Section>
   );
 };

@@ -56,7 +56,7 @@ const DashboardPage = () => {
     data: transactions,
     isLoading: isLoadingTransactions,
     isError: isErrorTransactions,
-  } = useTransactionsQuery();
+  } = useTransactionsQuery({ limit: 6, sort: '-date' });
 
   useEffect(() => {
     if (isErrorSummary || isErrorByCategory || isErrorAnalyticsOverTime || isErrorTransactions) {

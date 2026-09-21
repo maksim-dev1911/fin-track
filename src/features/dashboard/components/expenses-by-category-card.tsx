@@ -6,37 +6,33 @@ import { Label, Pie, PieChart } from 'recharts';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
-import type { AnalyticByCategoryResponse } from '@/features/dashboard/types/analytics.types.ts';
+import type {
+  AnalyticByCategoryResponse,
+  DateRange,
+} from '@/features/dashboard/types/analytics.types.ts';
 import CategoryLegend from '@/shared/components/category-legend.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
-
-const categories = [
-  { key: 'rent', name: 'Rent', amount: 1850, color: '#7C6FEA' },
-  { key: 'shopping', name: 'Shopping', amount: 350, color: '#F2994A' },
-  { key: 'groceries', name: 'Groceries', amount: 127, color: '#F2C94C' },
-  { key: 'transport', name: 'Transport', amount: 50, color: '#2FD5C8' },
-  { key: 'entertainment', name: 'Entertainment', amount: 41, color: '#B084F5' },
-  { key: 'dining', name: 'Dining out', amount: 27, color: '#EF5DA8' },
-];
-
-const chartConfig = categories.reduce((config, cat) => {
-  config[cat.key] = {
-    label: cat.name,
-    color: cat.color,
-  };
-
-  return config;
-}, {} as ChartConfig);
+import { getPeriodDescription } from '@/shared/lib/get-period-description.ts';
 
 type PropsType = {
   analyticsByCategory: AnalyticByCategoryResponse[];
+  dateRange: DateRange;
 };
 
-const PieChartDonut: React.FC<PropsType> = ({ analyticsByCategory }) => {
+const PieChartDonut: React.FC<PropsType> = ({ analyticsByCategory, dateRange }) => {
   const total = React.useMemo(
     () => analyticsByCategory.reduce((acc, curr) => acc + curr.total, 0),
     [analyticsByCategory],
   );
+
+  const chartConfig = analyticsByCategory.reduce((config, analytic) => {
+    config[analytic.categoryId] = {
+      label: analytic.name,
+      color: analytic.color,
+    };
+
+    return config;
+  }, {} as ChartConfig);
 
   const chartData = analyticsByCategory.map((analytic) => ({
     category: analytic.name,
@@ -46,7 +42,7 @@ const PieChartDonut: React.FC<PropsType> = ({ analyticsByCategory }) => {
 
   const legendItems = analyticsByCategory.map((analytic) => ({
     name: analytic.name,
-    percent: `${Math.round((analytic.total / total) * 100)}%`,
+    percent: `${total > 0 ? Math.round((analytic.total / total) * 100) : 0}%`,
     amount: analytic.total,
     color: analytic.color,
   }));
@@ -55,7 +51,7 @@ const PieChartDonut: React.FC<PropsType> = ({ analyticsByCategory }) => {
     <Card className="flex h-full flex-col p-5">
       <CardHeader className="space-y-1 p-0">
         <CardTitle className="text-[15px] font-semibold">Expenses by category</CardTitle>
-        <CardDescription className="text-sm">July 2026</CardDescription>
+        <CardDescription className="text-sm">{getPeriodDescription(dateRange)}</CardDescription>
       </CardHeader>
 
       {analyticsByCategory.length > 0 && (

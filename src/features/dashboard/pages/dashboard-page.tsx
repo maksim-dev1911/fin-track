@@ -38,17 +38,21 @@ const DashboardPage = () => {
     isError: isErrorSummary,
   } = useAnalyticsSummary(dateRange);
 
-  const { data: analyticsByCategory } = useAnalyticsByCategoryQuery(dateRange);
+  const {
+    data: analyticsByCategory,
+    isLoading: isLoadingByCategory,
+    isError: isErrorByCategory,
+  } = useAnalyticsByCategoryQuery(dateRange);
 
   useEffect(() => {
-    if (isErrorSummary) {
+    if (isErrorSummary || isErrorByCategory) {
       toast.error('Failed to load data', {
         description: getApiErrorMessage(),
       });
     }
-  }, [isErrorSummary]);
+  }, [isErrorSummary, isErrorByCategory]);
 
-  if (isLoadingSummary) {
+  if (isLoadingSummary || isLoadingByCategory) {
     return <Spinner className="size-10" />;
   }
 
@@ -63,7 +67,7 @@ const DashboardPage = () => {
       {analyticsSummary && <DashboardStats summaryData={analyticsSummary} dateRange={dateRange} />}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         {analyticsByCategory && (
-          <ExpensesByCategoryCard analyticsByCategory={analyticsByCategory} />
+          <ExpensesByCategoryCard analyticsByCategory={analyticsByCategory} dateRange={dateRange} />
         )}
         <IncomeVsExpensesChart />
       </div>

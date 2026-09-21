@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { format } from 'date-fns/format';
-import { parseISO } from 'date-fns/parseISO';
-
 import DashboardStatsCard, {
   type DashboardStatCardVariant,
 } from '@/features/dashboard/components/dashboard-stats-card.tsx';
-import type { AnalyticSummary, DateRange } from '@/features/dashboard/types/analytics.types.ts';
+import type { AnalyticSummary } from '@/features/dashboard/types/analytics.types.ts';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
+import { type DateRange, getPeriodDescription } from '@/shared/lib/get-period-description.ts';
 
 type DashboardStatsItem = {
   title: string;
@@ -22,19 +20,6 @@ type PropsType = {
 };
 
 const DashboardStats: React.FC<PropsType> = ({ summaryData, dateRange }) => {
-  const getPeriodDescription = () => {
-    if (!dateRange?.dateFrom || !dateRange?.dateTo) return 'No period selected';
-
-    const fromDate = parseISO(dateRange.dateFrom);
-    const toDate = parseISO(dateRange.dateTo);
-
-    if (format(fromDate, 'yyyy-MM') === format(toDate, 'yyyy-MM')) {
-      return `In ${format(fromDate, 'MMMM yyyy')}`;
-    }
-
-    return `${format(fromDate, 'dd.MM.yyyy')} - ${format(toDate, 'dd.MM.yyyy')}`;
-  };
-
   const cardStats: DashboardStatsItem[] = [
     {
       title: 'Total balance',
@@ -45,19 +30,19 @@ const DashboardStats: React.FC<PropsType> = ({ summaryData, dateRange }) => {
     {
       title: 'Income',
       amount: `${formatTransactionAmount(summaryData.periodIncome, 'income')}`,
-      description: getPeriodDescription(),
+      description: getPeriodDescription(dateRange),
       variant: 'income',
     },
     {
       title: 'Expenses',
       amount: `${formatTransactionAmount(summaryData.periodExpense, 'expense')}`,
-      description: getPeriodDescription(),
+      description: getPeriodDescription(dateRange),
       variant: 'expense',
     },
     {
       title: 'Net',
       amount: `${formatTransactionAmount(summaryData.periodNet, 'income')}`,
-      description: 'income − expenses',
+      description: 'Income − expenses',
       variant: 'income',
     },
   ];

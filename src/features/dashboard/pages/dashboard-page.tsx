@@ -57,7 +57,7 @@ const DashboardPage = () => {
         description: getApiErrorMessage(),
       });
     }
-  }, [isErrorSummary, isErrorByCategory]);
+  }, [isErrorSummary, isErrorByCategory, isErrorAnalyticsOverTime]);
 
   if (isLoadingSummary || isLoadingByCategory || isLoadingAnalyticsOverTime) {
     return <Spinner className="size-10" />;

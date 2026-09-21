@@ -14,11 +14,6 @@ export type AnalyticSummary = {
 
 export type DashboardPeriod = 'this-month' | 'last-month' | 'custom';
 
-export type DateRange = {
-  dateFrom: string;
-  dateTo: string;
-};
-
 export type RangeType = {
   dateFrom: Date;
   dateTo: Date;

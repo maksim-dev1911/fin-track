@@ -1,11 +1,11 @@
 import type {
   AnalyticByCategoryResponse,
   AnalyticSummary,
-  DateRange,
 } from '@/features/dashboard/types/analytics.types.ts';
 import { apiClient } from '@/shared/api/client';
 import { endpoints } from '@/shared/api/endpoints.ts';
 import type { ApiResponse } from '@/shared/api/types.ts';
+import type { DateRange } from '@/shared/lib/get-period-description.ts';
 
 class DashboardApi {
   private readonly client: typeof apiClient;

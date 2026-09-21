@@ -4,8 +4,8 @@ import { dashboardApi } from '@/features/dashboard/api/dashboard.api.ts';
 import type {
   AnalyticByCategoryResponse,
   AnalyticSummary,
-  DateRange,
 } from '@/features/dashboard/types/analytics.types.ts';
+import type { DateRange } from '@/shared/lib/get-period-description';
 
 export const useAnalyticsByCategoryQuery = (params?: Partial<DateRange>) => {
   return useQuery<AnalyticByCategoryResponse[]>({

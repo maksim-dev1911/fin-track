@@ -3,9 +3,9 @@ import React from 'react';
 import DashboardStatsCard, {
   type DashboardStatCardVariant,
 } from '@/features/dashboard/components/dashboard-stats-card.tsx';
-import type { AnalyticSummary, DateRange } from '@/features/dashboard/types/analytics.types.ts';
+import type { AnalyticSummary } from '@/features/dashboard/types/analytics.types.ts';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
-import { getPeriodDescription } from '@/shared/lib/get-period-description.ts';
+import { type DateRange, getPeriodDescription } from '@/shared/lib/get-period-description.ts';
 
 type DashboardStatsItem = {
   title: string;

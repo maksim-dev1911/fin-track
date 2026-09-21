@@ -1,7 +1,10 @@
 import { format } from 'date-fns/format';
 import { parseISO } from 'date-fns/parseISO';
 
-import type { DateRange } from '@/features/dashboard/types/analytics.types.ts';
+export type DateRange = {
+  dateFrom: string;
+  dateTo: string;
+};
 
 export const getPeriodDescription = (dateRange: DateRange) => {
   if (!dateRange?.dateFrom || !dateRange?.dateTo) return 'No period selected';

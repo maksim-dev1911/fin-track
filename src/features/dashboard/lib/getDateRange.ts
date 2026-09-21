@@ -3,7 +3,8 @@ import { format } from 'date-fns/format';
 import { startOfMonth } from 'date-fns/startOfMonth';
 import { subMonths } from 'date-fns/subMonths';
 
-import type { DashboardPeriod, DateRange } from '@/features/dashboard/types/analytics.types.ts';
+import type { DashboardPeriod } from '@/features/dashboard/types/analytics.types.ts';
+import type { DateRange } from '@/shared/lib/get-period-description';
 
 export const getDateRange = (period: DashboardPeriod, customRange?: DateRange): DateRange => {
   const today = new Date();

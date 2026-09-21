@@ -1,18 +1,13 @@
-'use client';
-
 import * as React from 'react';
 
 import { Label, Pie, PieChart } from 'recharts';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
-import type {
-  AnalyticByCategoryResponse,
-  DateRange,
-} from '@/features/dashboard/types/analytics.types.ts';
+import type { AnalyticByCategoryResponse } from '@/features/dashboard/types/analytics.types.ts';
 import CategoryLegend from '@/shared/components/category-legend.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
-import { getPeriodDescription } from '@/shared/lib/get-period-description.ts';
+import { getPeriodDescription, type DateRange } from '@/shared/lib/get-period-description.ts';
 
 type PropsType = {
   analyticsByCategory: AnalyticByCategoryResponse[];

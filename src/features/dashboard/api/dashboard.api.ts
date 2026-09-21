@@ -1,5 +1,6 @@
 import type {
   AnalyticByCategoryResponse,
+  AnalyticsOverTimeType,
   AnalyticSummary,
 } from '@/features/dashboard/types/analytics.types.ts';
 import { apiClient } from '@/shared/api/client';
@@ -32,6 +33,14 @@ class DashboardApi {
     });
 
     return response.data;
+  }
+
+  async getAnalyticsOverTime() {
+    const response = await this.client.get<ApiResponse<AnalyticsOverTimeType[]>>(
+      endpoints.ANALYTICS_OVER_TIME,
+    );
+
+    return response.data.data;
   }
 }
 

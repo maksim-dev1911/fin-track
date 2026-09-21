@@ -9,4 +9,5 @@ export const endpoints = {
   CATEGORIES: '/categories',
   ANALYTICS_BY_CATEGORY: '/analytics/by-category',
   ANALYTICS_SUMMARY: '/analytics/summary',
+  ANALYTICS_OVER_TIME: '/analytics/over-time',
 };

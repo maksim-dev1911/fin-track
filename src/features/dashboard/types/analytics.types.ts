@@ -18,3 +18,9 @@ export type RangeType = {
   dateFrom: Date;
   dateTo: Date;
 };
+
+export type AnalyticsOverTimeType = {
+  month: string;
+  income: number;
+  expense: number;
+};

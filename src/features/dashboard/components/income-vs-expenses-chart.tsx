@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { format } from 'date-fns/format';
 import { Bar, BarChart, XAxis } from 'recharts';
 
 import {
@@ -10,15 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card.tsx';
 import { type ChartConfig, ChartContainer } from '@/components/ui/chart.tsx';
-
-const chartData = [
-  { month: 'Feb', income: 2210, expense: 1050 },
-  { month: 'Mar', income: 2400, expense: 1080 },
-  { month: 'Apr', income: 2180, expense: 1180 },
-  { month: 'May', income: 2520, expense: 1030 },
-  { month: 'Jun', income: 2200, expense: 1040 },
-  { month: 'Jul', income: 2445, expense: 780 },
-];
+import type { AnalyticsOverTimeType } from '@/features/dashboard/types/analytics.types.ts';
 
 const chartConfig = {
   income: {
@@ -31,6 +24,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+type PropsType = {
+  analyticsOverTime: AnalyticsOverTimeType[];
+};
+
 const Legend = () => (
   <div className="flex items-center gap-4">
     {Object.entries(chartConfig).map(([key, cfg]) => (
@@ -42,7 +39,7 @@ const Legend = () => (
   </div>
 );
 
-const ChartBarMultiple = () => {
+const ChartBarMultiple: React.FC<PropsType> = ({ analyticsOverTime }) => {
   return (
     <Card className="flex h-full flex-col p-5">
       <CardHeader className="flex flex-row items-start justify-between p-0">
@@ -54,8 +51,18 @@ const ChartBarMultiple = () => {
       </CardHeader>
       <CardContent className="p-0 pt-4">
         <ChartContainer config={chartConfig} className="h-[240px] w-full">
-          <BarChart accessibilityLayer data={chartData} barGap={4}>
-            <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} />
+          <BarChart accessibilityLayer data={analyticsOverTime} barGap={4}>
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              tickFormatter={(value) => {
+                if (!value) return '';
+
+                return format(new Date(value), 'MMM');
+              }}
+              tickMargin={10}
+              axisLine={false}
+            />
             <Bar dataKey="income" fill="var(--color-income)" radius={[4, 4, 0, 0]} barSize={15} />
             <Bar dataKey="expense" fill="var(--color-expense)" radius={[4, 4, 0, 0]} barSize={15} />
           </BarChart>

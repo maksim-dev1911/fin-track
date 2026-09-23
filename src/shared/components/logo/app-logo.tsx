@@ -1,13 +1,17 @@
 import React from 'react';
 
-const AppLogo = () => {
+type PropsType = {
+  textLogo: boolean;
+};
+
+const AppLogo: React.FC<PropsType> = ({ textLogo }) => {
   return (
-    <div className="flex items-center gap-3 px-2 pt-1 pb-0">
+    <div className="flex items-center gap-3">
       <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-lg text-base font-semibold text-white">
         F
       </div>
 
-      <span className="text-lg font-semibold">FinTrack</span>
+      {textLogo && <span className="text-lg font-semibold">FinTrack</span>}
     </div>
   );
 };

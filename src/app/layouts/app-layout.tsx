@@ -7,13 +7,13 @@ import Sidebar from '@/app/layouts/components/sidebar/side-bar.tsx';
 
 const AppLayout = () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <Header />
 
-        <main className="flex-1 bg-slate-50">
+        <main className="flex-1 overflow-y-auto bg-slate-50">
           <div className="mx-auto max-w-7xl p-8">
             <Outlet />
           </div>

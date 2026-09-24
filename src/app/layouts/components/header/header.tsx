@@ -32,6 +32,7 @@ const Header = () => {
         <button
           type="button"
           onClick={logout}
+          aria-label="Logout"
           disabled={isPending}
           className="border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground flex size-8 cursor-pointer items-center justify-center rounded-lg border transition-colors"
         >

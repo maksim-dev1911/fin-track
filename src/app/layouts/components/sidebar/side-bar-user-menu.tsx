@@ -26,6 +26,7 @@ const SideBarUserMenu: React.FC = () => {
         type="button"
         onClick={logout}
         disabled={isPending}
+        aria-label="Logout"
         className="border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground flex size-8 cursor-pointer items-center justify-center rounded-lg border transition-colors"
       >
         <LogOut className="size-4" />

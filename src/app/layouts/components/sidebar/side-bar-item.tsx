@@ -31,8 +31,8 @@ const navigation = [
 
 const SideBarItem = () => {
   return (
-    <div>
-      <div className="mt-6 flex flex-col gap-1">
+    <div className="w-full">
+      <div className="flex w-full flex-row items-center justify-around md:mt-6 md:flex-col md:items-stretch md:justify-start md:gap-1">
         {navigation.map((n) => {
           return (
             <NavLink
@@ -40,13 +40,17 @@ const SideBarItem = () => {
               to={n.to}
               className={({ isActive }) =>
                 cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 transition-colors',
-                  isActive ? 'bg-primary-muted text-primary' : 'text-muted-foreground',
+                  'flex flex-col items-center justify-center gap-1 rounded-xl bg-transparent p-1.5 transition-colors md:w-full md:flex-row md:justify-start md:gap-3 md:px-3 md:py-2',
+                  isActive
+                    ? 'text-primary md:bg-primary-muted'
+                    : 'text-muted-foreground hover:text-foreground',
                 )
               }
             >
-              <n.icon className="size-5" />
-              <p className="text-sm font-semibold">{n.title}</p>
+              <n.icon className="size-5 shrink-0" />
+              <p className="text-[11px] font-medium tracking-tight md:text-sm md:font-semibold">
+                {n.title}
+              </p>
             </NavLink>
           );
         })}

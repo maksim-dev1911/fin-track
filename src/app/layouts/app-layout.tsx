@@ -13,7 +13,7 @@ const AppLayout = () => {
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header />
 
-        <main className="flex-1 overflow-y-auto bg-slate-50">
+        <main className="flex-1 overflow-y-auto bg-slate-50 pb-16 md:pb-0">
           <div className="mx-auto max-w-7xl p-8">
             <Outlet />
           </div>

@@ -20,6 +20,7 @@ export const formatTransactionAmount = (
     {
       minimumFractionDigits: options?.hideDecimals ? 0 : 2,
       maximumFractionDigits: options?.hideDecimals ? 0 : 2,
+      trailingZeroDisplay: options?.hideDecimals ? 'auto' : 'stripIfInteger',
     },
   )}`;
 };

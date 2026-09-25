@@ -13,7 +13,7 @@ type PropsType = {
 
 const DateFilter: React.FC<PropsType> = ({ value, onChange, customRange, setCustomRange }) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-col justify-between md:flex-row">
       <Tabs defaultValue="last-month" value={value} onValueChange={onChange}>
         <TabsList className="bg-foreground/3 h-auto gap-1 rounded-lg p-1">
           <TabsTrigger
@@ -36,9 +36,9 @@ const DateFilter: React.FC<PropsType> = ({ value, onChange, customRange, setCust
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div>
+      <div className="mt-2 md:mt-0">
         {value === 'custom' && (
-          <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center">
+          <div className="flex flex-row gap-1.5 sm:items-center">
             <div className="w-full sm:w-[180px]">
               <DatePicker
                 value={customRange.dateFrom}

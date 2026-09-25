@@ -35,7 +35,7 @@ const TransactionFilters: React.FC<PropsType> = ({ filters, onChange }) => {
 
   return (
     <Card>
-      <CardContent className="grid gap-4 lg:grid-cols-5">
+      <CardContent className="grid grid-cols-2 gap-4 md:grid-cols-5">
         <div>
           <Label className="text-muted-foreground mb-2 text-xs">Type</Label>
           <Select

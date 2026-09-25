@@ -27,7 +27,7 @@ const CardsAccounts: React.FC<PropsType> = ({ accounts, onDelete, setOnEdit }) =
   }
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
       {accounts.map((account) => (
         <CardAccount key={account.id} account={account} onDelete={onDelete} setOnEdit={setOnEdit} />
       ))}

@@ -12,7 +12,10 @@ type PropsType = {
 const AccountsModal: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
   return (
     <Dialog open={!!stateModal} onOpenChange={(open) => !open && setOpenModal(null)}>
-      <DialogContent className="min-w-[468px] p-0 sm:max-w-sm" showCloseButton={false}>
+      <DialogContent
+        className="min-w-[200px] p-0 sm:max-w-sm md:min-w-[468px]"
+        showCloseButton={false}
+      >
         <AccountsForm setOpenModal={setOpenModal} stateModal={stateModal} />
       </DialogContent>
     </Dialog>

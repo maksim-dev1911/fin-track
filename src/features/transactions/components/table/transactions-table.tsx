@@ -1,6 +1,7 @@
 import React, { type Dispatch, type SetStateAction } from 'react';
 
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
+import TransactionMobileRow from '@/features/transactions/components/table/transaction-mobile-row.tsx';
 import TransactionRow from '@/features/transactions/components/table/transaction-row.tsx';
 import type {
   TransactionDeleteState,
@@ -39,28 +40,41 @@ const TransactionsTable: React.FC<PropsType> = ({
 
   return (
     <div className="border-border bg-card mt-5 overflow-hidden rounded-2xl border">
-      <Table>
-        <TableHeader className="bg-muted-foreground/10">
-          <TableRow>
-            <TableHead className="text-xs">CATEGORY</TableHead>
-            <TableHead className="text-xs">ACCOUNT</TableHead>
-            <TableHead className="text-xs">DATE</TableHead>
-            <TableHead className="text-xs">TYPE</TableHead>
-            <TableHead className="text-right text-xs">AMOUNT</TableHead>
-          </TableRow>
-        </TableHeader>
+      <div className="hidden md:block">
+        <Table>
+          <TableHeader className="bg-muted-foreground/10">
+            <TableRow>
+              <TableHead className="text-xs">CATEGORY</TableHead>
+              <TableHead className="text-xs">ACCOUNT</TableHead>
+              <TableHead className="text-xs">DATE</TableHead>
+              <TableHead className="text-xs">TYPE</TableHead>
+              <TableHead className="text-right text-xs">AMOUNT</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody>
-          {data.map((transaction) => (
-            <TransactionRow
-              key={transaction.id}
-              transaction={transaction}
-              onEdit={onEdit}
-              onOpenDeleteModal={onOpenDeleteModal}
-            />
-          ))}
-        </TableBody>
-      </Table>
+          <TableBody>
+            {data.map((transaction) => (
+              <TransactionRow
+                key={transaction.id}
+                transaction={transaction}
+                onEdit={onEdit}
+                onOpenDeleteModal={onOpenDeleteModal}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div className="block md:hidden">
+        {data.map((transaction) => (
+          <TransactionMobileRow
+            key={transaction.id}
+            transaction={transaction}
+            onEdit={onEdit}
+            onOpenDeleteModal={onOpenDeleteModal}
+          />
+        ))}
+      </div>
       <div className="border-t px-3 py-4">
         <TransactionsPagination setPage={setPage} page={page} data={transactions?.pagination} />
       </div>

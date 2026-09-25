@@ -117,7 +117,7 @@ const CategoriesPage = () => {
       {isAnalyticsError || isCategoriesError ? (
         renderError()
       ) : (
-        <div className="grid grid-cols-2 items-start gap-5">
+        <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
           <CategoriesCard
             variant="Expense"
             categories={expenseCategories}

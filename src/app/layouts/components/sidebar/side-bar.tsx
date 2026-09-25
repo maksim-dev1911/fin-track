@@ -6,7 +6,7 @@ import AppLogo from '@/shared/components/logo/app-logo';
 
 const Sidebar = () => {
   return (
-    <aside className="fixed right-0 bottom-0 left-0 z-50 flex h-16 flex-row items-center justify-around border-t bg-white px-2 py-1 md:relative md:right-auto md:bottom-auto md:left-auto md:z-0 md:h-screen md:w-64 md:flex-col md:justify-between md:border-t-0 md:border-r md:px-3 md:py-4">
+    <aside className="fixed right-0 bottom-0 left-0 z-50 flex h-16 flex-row items-center justify-around border-t bg-white px-2 py-1 md:right-auto md:bottom-auto md:left-auto md:z-0 md:h-screen md:w-64 md:flex-col md:justify-between md:border-t-0 md:border-r md:px-3 md:py-4 lg:relative">
       <div className="contents md:flex md:w-full md:flex-col md:gap-2">
         <div className="hidden px-2 pt-1 pb-0 md:block md:w-full">
           <AppLogo textLogo />

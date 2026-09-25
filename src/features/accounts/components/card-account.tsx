@@ -18,6 +18,10 @@ type PropsType = {
 };
 
 const CardAccount: React.FC<PropsType> = ({ account, onDelete, setOnEdit }) => {
+  const isNegative = account.currentBalance < 0;
+
+  const formattedBalance = formatTransactionAmount(Math.abs(account.currentBalance), 'default');
+
   return (
     <Card className="p-5">
       <div className="flex items-center justify-between">
@@ -35,8 +39,13 @@ const CardAccount: React.FC<PropsType> = ({ account, onDelete, setOnEdit }) => {
           {account.type}
         </p>
       </div>
-      <p className="text-xl font-semibold">
-        {formatTransactionAmount(account.currentBalance, 'default')}
+      <p
+        className={`text-2xl font-bold tracking-tight transition-colors ${
+          isNegative ? 'text-expense' : 'text-foreground'
+        }`}
+      >
+        {isNegative ? '-' : ''}
+        {formattedBalance}
       </p>
       <Separator className="h-px" />
       <div className="text-muted-foreground flex items-center justify-between text-xs">

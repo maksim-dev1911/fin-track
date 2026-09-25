@@ -14,7 +14,7 @@ const AppLayout = () => {
         <Header />
 
         <main className="flex-1 overflow-y-auto bg-slate-50 pb-16 md:pb-0">
-          <div className="mx-auto max-w-7xl p-8">
+          <div className="mx-auto max-w-7xl p-4 md:p-8">
             <Outlet />
           </div>
         </main>

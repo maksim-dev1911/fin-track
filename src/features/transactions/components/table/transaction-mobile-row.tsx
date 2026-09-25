@@ -28,7 +28,7 @@ const TransactionMobileRow: React.FC<PropsType> = ({ transaction, onEdit, onOpen
       <div className="flex items-center gap-3">
         <span
           className="h-2.5 w-2.5 shrink-0 rounded-full"
-          style={{ backgroundColor: transaction.category?.color }}
+          style={{ backgroundColor: transaction.category.color }}
         />
 
         <div className="flex flex-col">

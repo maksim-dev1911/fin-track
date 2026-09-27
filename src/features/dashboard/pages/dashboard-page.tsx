@@ -91,7 +91,7 @@ const DashboardPage = () => {
 
         {analyticsOverTime && <IncomeVsExpensesChart analyticsOverTime={analyticsOverTime} />}
       </div>
-      <RecentTransactionsCard transactions={transactions?.data} />
+      {transactions && <RecentTransactionsCard transactions={transactions.data} />}
     </div>
   );
 };

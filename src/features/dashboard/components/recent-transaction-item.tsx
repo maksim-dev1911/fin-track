@@ -10,7 +10,7 @@ type PropsType = {
 
 const RecentTransactionItem: React.FC<PropsType> = ({ transaction }) => {
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 py-2">
+    <div className="flex items-center justify-between border-t py-2">
       <div className="flex items-center gap-4">
         <div
           className="h-2.5 w-2.5 rounded-[5px]"

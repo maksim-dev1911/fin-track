@@ -77,14 +77,14 @@ const PieChartDonut: React.FC<PropsType> = ({ analyticsByCategory, dateRange }) 
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy - 10}
-                          className="text-muted-foreground text-xs"
+                          className="fill-muted-foreground text-xs"
                         >
                           Spent
                         </tspan>
 
                         <tspan
                           x={viewBox.cx}
-                          y={viewBox.cy + 18}
+                          y={viewBox.cy + 12}
                           className="fill-foreground text-[19px] font-semibold"
                         >
                           {formatTransactionAmount(total, 'default')}

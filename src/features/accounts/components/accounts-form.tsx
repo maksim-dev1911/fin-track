@@ -156,7 +156,7 @@ const AccountsForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
             >
               Cancel
             </Button>
-            <Button className="px-4 py-5 text-white" type="submit">
+            <Button className="px-4 py-5" type="submit">
               {isEdit ? 'Save changes' : 'Save'}
             </Button>
           </div>

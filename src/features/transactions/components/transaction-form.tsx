@@ -237,7 +237,7 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
           >
             Cancel
           </Button>
-          <Button className="px-4 py-5 text-white" type="submit">
+          <Button className="px-4 py-5" type="submit">
             {isEdit ? 'Save changes' : 'Add transaction'}
           </Button>
         </div>

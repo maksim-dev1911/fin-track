@@ -15,7 +15,9 @@ const Header = () => {
 
   const { logout, isPending } = useLogout();
 
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+
+  const isDark = resolvedTheme === 'dark';
 
   return (
     <header className="bg-sidebar flex items-center justify-between border-b px-4 py-3 md:px-7 md:py-2">
@@ -31,16 +33,17 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-2">
         <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={() => setTheme(isDark ? 'light' : 'dark')}
+          aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           className="flex size-8 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-background)] text-sm font-medium text-[var(--color-foreground)] shadow-sm transition-all hover:bg-[var(--color-muted)] md:size-auto md:px-3 md:py-1.5"
         >
           <div
             className={`h-3 w-3 rounded-full transition-colors ${
-              theme === 'dark' ? 'bg-amber-400' : 'bg-slate-500'
+              isDark ? 'bg-amber-400' : 'bg-slate-500'
             }`}
           />
 
-          <span className="hidden md:block">{theme === 'dark' ? 'Light' : 'Dark'}</span>
+          <span className="hidden md:block">{isDark ? 'Light' : 'Dark'}</span>
         </button>
         <div className="block md:hidden">
           <button

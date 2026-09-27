@@ -32,23 +32,25 @@ const TransactionsPagination: React.FC<PropsType> = ({ setPage, page, data }) =>
           />
         </PaginationItem>
         {Array.from({ length: data?.totalPages ?? 0 }, (_, index) => index + 1).map(
-          (pageNumber) => (
-            <PaginationItem key={pageNumber}>
-              <PaginationLink
-                href="#"
-                className="text-white"
-                isActive={pageNumber === page}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(pageNumber);
-                }}
-              >
-                {pageNumber}
-              </PaginationLink>
-            </PaginationItem>
-          ),
-        )}
+          (pageNumber) => {
+            const isActive = pageNumber === page;
 
+            return (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  href="#"
+                  isActive={isActive}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(pageNumber);
+                  }}
+                >
+                  {pageNumber}
+                </PaginationLink>
+              </PaginationItem>
+            );
+          },
+        )}
         <PaginationItem>
           <PaginationNext
             href="#"

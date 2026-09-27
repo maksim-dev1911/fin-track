@@ -39,7 +39,7 @@ const TransactionsTable: React.FC<PropsType> = ({
   }
 
   return (
-    <div className="border-border bg-card mt-5 overflow-hidden rounded-2xl border">
+    <div className="border-border bg-card overflow-hidden rounded-2xl border">
       <div className="hidden md:block">
         <Table>
           <TableHeader className="bg-muted-foreground/10">

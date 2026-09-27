@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { Spinner } from '@/components/ui/spinner.tsx';
 import TransactionsTable from '@/features/transactions/components/table/transactions-table.tsx';
 import TransactionModal from '@/features/transactions/components/transaction-modal.tsx';
+import TransactionsSummary from '@/features/transactions/components/transactions-summary.tsx';
 import { useDeleteTransactionMutation } from '@/features/transactions/hooks/use-transactions-mutation.ts';
 import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
 import type {
@@ -106,6 +107,7 @@ const TransactionsPage = () => {
             setPage(1);
           }}
         />
+        <TransactionsSummary transactions={transactions} />
         {isError ? (
           renderError()
         ) : (

@@ -13,19 +13,19 @@ const TransactionsSummary: React.FC<PropsType> = ({ transactions }) => {
       <div className="text-muted-foreground">
         Income:{' '}
         <span className="text-income font-semibold">
-          {formatTransactionAmount(transactions?.summary.income, 'income')}
+          {formatTransactionAmount(transactions.summary.income, 'income')}
         </span>
       </div>
       <div className="text-muted-foreground">
         Expenses:{' '}
         <span className="text-expense font-semibold">
-          {formatTransactionAmount(transactions?.summary.expense, 'expense')}
+          {formatTransactionAmount(transactions.summary.expense, 'expense')}
         </span>
       </div>
       <div className="text-muted-foreground">
         Found:{' '}
         <span className="font-semibold text-slate-900 dark:text-white">
-          {transactions?.pagination.total}
+          {transactions.pagination.total}
         </span>
       </div>
     </div>

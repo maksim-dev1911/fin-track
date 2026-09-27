@@ -4,7 +4,7 @@ import type { TransactionsResponse } from '@/features/transactions/types/transac
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 
 type PropsType = {
-  transactions?: TransactionsResponse;
+  transactions: TransactionsResponse;
 };
 
 const TransactionsSummary: React.FC<PropsType> = ({ transactions }) => {
@@ -12,20 +12,20 @@ const TransactionsSummary: React.FC<PropsType> = ({ transactions }) => {
     <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-1 text-xs">
       <div className="text-muted-foreground">
         Income:{' '}
-        <span className="font-semibold text-emerald-600">
-          {formatTransactionAmount(transactions?.summary.income ?? 0, 'income')}
+        <span className="text-income font-semibold">
+          {formatTransactionAmount(transactions?.summary.income, 'income')}
         </span>
       </div>
       <div className="text-muted-foreground">
         Expenses:{' '}
-        <span className="font-semibold text-rose-500">
-          {formatTransactionAmount(transactions?.summary.expense ?? 0, 'expense')}
+        <span className="text-expense font-semibold">
+          {formatTransactionAmount(transactions?.summary.expense, 'expense')}
         </span>
       </div>
       <div className="text-muted-foreground">
         Found:{' '}
         <span className="font-semibold text-slate-900 dark:text-white">
-          {transactions?.data.length ?? 0}
+          {transactions?.pagination.total}
         </span>
       </div>
     </div>

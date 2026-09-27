@@ -107,7 +107,7 @@ const TransactionsPage = () => {
             setPage(1);
           }}
         />
-        <TransactionsSummary transactions={transactions} />
+        {transactions && <TransactionsSummary transactions={transactions} />}
         {isError ? (
           renderError()
         ) : (

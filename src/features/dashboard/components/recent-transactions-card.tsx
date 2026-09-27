@@ -8,7 +8,7 @@ import type { Transaction } from '@/features/transactions/types/transaction.type
 import Section from '@/shared/components/Section.tsx';
 
 type PropsType = {
-  transactions?: Transaction[];
+  transactions: Transaction[];
 };
 
 const RecentTransactionsCard: React.FC<PropsType> = ({ transactions }) => {

@@ -36,6 +36,7 @@ const TransactionsPagination: React.FC<PropsType> = ({ setPage, page, data }) =>
             <PaginationItem key={pageNumber}>
               <PaginationLink
                 href="#"
+                className="text-white"
                 isActive={pageNumber === page}
                 onClick={(e) => {
                   e.preventDefault();

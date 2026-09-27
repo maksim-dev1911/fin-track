@@ -16,7 +16,7 @@ const PageHeader: React.FC<PropsType> = ({ description, title, total, setOpenMod
         <p className="text-muted-foreground">{description}:</p>
         <p>{total}</p>
       </div>
-      <Button className="px-4 py-5" onClick={() => setOpenModal()}>
+      <Button className="px-4 py-5 text-white" onClick={() => setOpenModal()}>
         + {title}
       </Button>
     </div>

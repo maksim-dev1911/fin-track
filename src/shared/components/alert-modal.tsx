@@ -44,7 +44,7 @@ const AlertModal: React.FC<PropsType> = ({
           </span>
         </div>
 
-        <DialogTitle className="mb-1 text-lg font-semibold text-neutral-900">{title}</DialogTitle>
+        <DialogTitle className="mb-1 text-lg font-semibold">{title}</DialogTitle>
         <DialogDescription className="mb-6 text-sm text-neutral-500">
           {description}
         </DialogDescription>

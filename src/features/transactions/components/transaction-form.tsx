@@ -111,11 +111,17 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
             });
           }}
         >
-          <ToggleGroupItem value="expense" className="text-expense flex-1 data-[pressed]:bg-white">
+          <ToggleGroupItem
+            value="expense"
+            className="text-expense dark:data-[pressed]:bg-card flex-1 data-[pressed]:bg-white"
+          >
             Expense
           </ToggleGroupItem>
 
-          <ToggleGroupItem value="income" className="text-income flex-1 data-[pressed]:bg-white">
+          <ToggleGroupItem
+            value="income"
+            className="text-income dark:data-[pressed]:bg-card flex-1 data-[pressed]:bg-white"
+          >
             Income
           </ToggleGroupItem>
         </ToggleGroup>
@@ -231,7 +237,7 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
           >
             Cancel
           </Button>
-          <Button className="px-4 py-5" type="submit">
+          <Button className="px-4 py-5 text-white" type="submit">
             {isEdit ? 'Save changes' : 'Add transaction'}
           </Button>
         </div>

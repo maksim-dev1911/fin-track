@@ -24,7 +24,7 @@ const TransactionRow: React.FC<PropsType> = ({ transaction, onEdit, onOpenDelete
 
   return (
     <TableRow
-      className="cursor-pointer bg-white"
+      className="cursor-pointer"
       onClick={() => onEdit({ mode: 'edit', transaction: transaction })}
     >
       <TableCell>

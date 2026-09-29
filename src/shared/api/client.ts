@@ -33,7 +33,8 @@ apiClient.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      originalRequest.url !== endpoints.REFRESH
+      originalRequest.url !== endpoints.REFRESH &&
+      originalRequest.url !== endpoints.LOGIN
     ) {
       originalRequest._retry = true;
 

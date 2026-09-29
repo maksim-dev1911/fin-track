@@ -3,14 +3,13 @@ import type {
   TransactionRequest,
   TransactionsResponse,
 } from '@/features/transactions/types/transaction.types.ts';
+import { BaseApi } from '@/shared/api/base.api.ts';
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints';
 
-class TransactionsApi {
-  private readonly client: typeof apiClient;
-
+class TransactionsApi extends BaseApi {
   constructor(client: typeof apiClient) {
-    this.client = client;
+    super(client);
   }
 
   async getTransactions(params?: TransactionFiltersState) {

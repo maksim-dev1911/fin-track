@@ -5,7 +5,7 @@ import type { DashboardPeriod, RangeType } from '@/features/dashboard/types/anal
 import DatePicker from '@/shared/components/date-picker.tsx';
 
 type PropsType = {
-  value: string;
+  value: DashboardPeriod;
   onChange: (value: DashboardPeriod) => void;
   customRange: RangeType;
   setCustomRange: (value: RangeType) => void;

@@ -2,7 +2,6 @@ import React, { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import type { AxiosError } from 'axios';
 import { Controller } from 'react-hook-form';
-import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button.tsx';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field.tsx';
@@ -16,8 +15,8 @@ import {
 import { useCategoryForm } from '@/features/categories/hooks/use-category-form.ts';
 import type { CategoryFormType } from '@/features/categories/schemas/category.schema.ts';
 import type { CategoryModalState } from '@/features/categories/types/categories.types.ts';
+import ColorPicker from '@/shared/components/color-picker.tsx';
 import { applyServerValidationErrors } from '@/shared/lib/apply-server-validation-errors.ts';
-import ColorPicker from '@/shared/lib/color-picker.tsx';
 import type { ApiValidationError } from '@/shared/types/error.ts';
 
 type PropsType = {
@@ -62,17 +61,6 @@ const CategoriesForm: React.FC<PropsType> = ({ stateModal, setOpenModal }) => {
       const axiosError = error as AxiosError<ApiValidationError>;
 
       if (applyServerValidationErrors(form, axiosError)) return;
-
-      if (axiosError.response?.status === 409) {
-        toast.error(
-          isEdit
-            ? 'This category is used by transactions and its type or name cannot be changed.'
-            : 'A category with this name already exists.',
-        );
-        return;
-      }
-
-      toast.error('Something went wrong. Please try again.');
     }
   };
 

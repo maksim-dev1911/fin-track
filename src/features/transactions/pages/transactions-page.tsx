@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
-import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
 import TransactionsTable from '@/features/transactions/components/table/transactions-table.tsx';
 import TransactionModal from '@/features/transactions/components/transaction-modal.tsx';
 import TransactionsSummary from '@/features/transactions/components/transactions-summary.tsx';
-import { useDeleteTransactionMutation } from '@/features/transactions/hooks/use-transactions-mutation.ts';
 import { useTransactionsQuery } from '@/features/transactions/hooks/use-transactions-query.ts';
 import type {
   TransactionDeleteState,
   TransactionFiltersState,
   TransactionModalState,
 } from '@/features/transactions/types/transaction.types.ts';
+import { apiClient } from '@/shared/api/client.ts';
+import { endpoints } from '@/shared/api/endpoints.ts';
 import AlertModal from '@/shared/components/alert-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
-import type { ApiError } from '@/shared/types/error.ts';
+import { useDelete } from '@/shared/lib/use-delete.ts';
 
 import TransactionFilters from '../components/transaction-filters';
 
@@ -36,8 +36,6 @@ const TransactionsPage = () => {
 
   const { data: transactions, isLoading, isError, refetch } = useTransactionsQuery(queryParams);
 
-  const { mutateAsync: deleteTransaction, isPending } = useDeleteTransactionMutation();
-
   useEffect(() => {
     if (isError) {
       toast.error('Failed to load transactions', {
@@ -48,18 +46,13 @@ const TransactionsPage = () => {
 
   const handleCloseModal = (open: boolean) => setOpenDeleteModal({ open });
 
-  const handleDeleteTransaction = async (id?: string) => {
-    if (!id) return;
-    try {
-      await deleteTransaction(id);
-    } catch (error) {
-      const err = error as AxiosError<ApiError>;
-      const errorMessage = err.response?.data?.error?.message ?? 'Something went wrong.';
-      toast.error(`Failed to delete the transaction: ${errorMessage}`);
-    } finally {
-      setOpenDeleteModal(null);
-    }
-  };
+  const handleDeleteTransaction = useDelete({
+    mutationFn: (id: string) => apiClient.delete(`${endpoints.TRANSACTION}/${id}`),
+    invalidatedQueryKey: ['transactions'],
+    successMessage: 'Transaction deleted successfully',
+    errorMessage: 'Failed to delete the transaction',
+    onSuccess: () => setOpenDeleteModal(null),
+  });
 
   if (isLoading) {
     return <Spinner className="size-10" />;
@@ -89,10 +82,12 @@ const TransactionsPage = () => {
       )}
       {openDeleteModal && (
         <AlertModal
-          onDelete={handleDeleteTransaction}
+          onDelete={(id) => {
+            if (id) handleDeleteTransaction.mutate(id);
+          }}
           id={openDeleteModal.id}
           open={openDeleteModal.open}
-          isPending={isPending}
+          isPending={handleDeleteTransaction.isPending}
           setClose={handleCloseModal}
           variant="delete"
           title="Delete transaction?"

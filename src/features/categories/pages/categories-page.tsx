@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
 import CategoriesCard from '@/features/categories/components/categories-card.tsx';
 import CategoriesModal from '@/features/categories/components/categories-modal.tsx';
-import { useDeleteCategoryMutation } from '@/features/categories/hooks/use-categories-mutation.ts';
 import { useCategoriesQuery } from '@/features/categories/hooks/use-categories-query.ts';
 import type {
   CategoryDeleteModalState,
   CategoryModalState,
 } from '@/features/categories/types/categories.types.ts';
 import { useAnalyticsByCategoryQuery } from '@/features/dashboard/hooks/use-analytics-query.ts';
+import { apiClient } from '@/shared/api/client.ts';
+import { endpoints } from '@/shared/api/endpoints.ts';
 import AlertModal from '@/shared/components/alert-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
-import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
-import type { ApiError } from '@/shared/types/error.ts';
+import { useDelete } from '@/shared/lib/use-delete.ts';
 
 const CategoriesPage = () => {
   const [categoryModal, setCategoryModal] = useState<CategoryModalState>(null);
@@ -35,41 +34,27 @@ const CategoriesPage = () => {
     isError: isAnalyticsError,
     refetch: refetchAnalytics,
   } = useAnalyticsByCategoryQuery();
-  const { mutateAsync: deleteCategory, isPending } = useDeleteCategoryMutation();
-
-  useEffect(() => {
-    if (isCategoriesError || isAnalyticsError) {
-      toast.error('Failed to load data', {
-        description: getApiErrorMessage(),
-      });
-    }
-  }, [isCategoriesError, isAnalyticsError]);
 
   const handleRefetchAll = async () => {
     await Promise.all([refetchCategories(), refetchAnalytics()]);
   };
 
-  const handleDeleteCategory = async (id?: string) => {
-    if (!id) return;
-    try {
-      await deleteCategory(id);
-    } catch (error) {
-      const err = error as AxiosError<ApiError>;
-      const status = err.response?.status;
-      const errorMessage = err.response?.data?.error?.message;
-
-      if (status === 409) {
-        toast.warning(
-          errorMessage || 'This category is in use. Reassign or clear its transactions first.',
-        );
-        return;
+  const handleDeleteCategory = useDelete({
+    mutationFn: (id: string) => apiClient.delete(`${endpoints.CATEGORIES}/${id}`),
+    invalidatedQueryKey: ['categories'],
+    successMessage: 'Category deleted successfully',
+    errorMessage: 'Failed to delete the category',
+    onSuccess: () => setOpenDeleteModal(null),
+    onError: (error) => {
+      if (error.response?.status === 409) {
+        const message =
+          error.response?.data?.error?.message ??
+          'This category is in use. Reassign or clear its transactions first.';
+        toast.warning(message);
+        setOpenDeleteModal(null);
       }
-
-      toast.error(`Failed to delete the category: ${errorMessage || 'Something went wrong'}`);
-    } finally {
-      setOpenDeleteModal(null);
-    }
-  };
+    },
+  });
 
   const handleCloseModal = (open: boolean) => setOpenDeleteModal({ open });
 
@@ -104,10 +89,12 @@ const CategoriesPage = () => {
       )}
       {openDeleteModal && (
         <AlertModal
-          onDelete={handleDeleteCategory}
+          onDelete={(id) => {
+            if (id) handleDeleteCategory.mutate(id);
+          }}
           id={openDeleteModal.id}
           open={openDeleteModal.open}
-          isPending={isPending}
+          isPending={handleDeleteCategory.isPending}
           setClose={handleCloseModal}
           variant="delete"
           title="Delete category?"

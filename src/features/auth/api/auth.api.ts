@@ -1,3 +1,4 @@
+import { BaseApi } from '@/shared/api/base.api.ts';
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 
@@ -9,11 +10,9 @@ import type {
   User,
 } from '../types/auth.types';
 
-class AuthApi {
-  private readonly client: typeof apiClient;
-
+class AuthApi extends BaseApi {
   constructor(client: typeof apiClient) {
-    this.client = client;
+    super(client);
   }
 
   async login(data: LoginRequest): Promise<LoginResponse> {

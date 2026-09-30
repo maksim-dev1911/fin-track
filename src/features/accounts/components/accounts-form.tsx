@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import type { AxiosError } from 'axios';

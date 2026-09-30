@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
+import { accountsApi } from '@/features/accounts/api/accounts.api.ts';
 import AccountsModal from '@/features/accounts/components/accounts-modal.tsx';
 import CardsAccounts from '@/features/accounts/components/cards-accounts.tsx';
-import { useDeleteAccountMutation } from '@/features/accounts/hooks/use-accounts-mutation.ts';
 import { useAccountsQuery } from '@/features/accounts/hooks/use-accounts-query.ts';
 import type {
   AccountsModalState,
@@ -16,7 +15,7 @@ import AlertModal from '@/shared/components/alert-modal.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
 import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
-import type { ApiError } from '@/shared/types/error.ts';
+import { useDelete } from '@/shared/lib/use-delete.ts';
 
 const AccountsPage = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState<DeleteAccountState>(null);
@@ -24,32 +23,22 @@ const AccountsPage = () => {
   const [transactionError, setTransactionError] = useState<string | null>(null);
 
   const { data: accounts = [], isLoading, isError } = useAccountsQuery();
-  const { mutateAsync: deleteAccount, isPending } = useDeleteAccountMutation();
 
-  const handleDeleteAccount = async (id?: string) => {
-    try {
-      if (!id) return;
-      await deleteAccount(id);
-
-      setOpenDeleteModal(null);
-    } catch (error) {
-      const err = error as AxiosError<ApiError>;
-
-      if (err.response?.status === 409) {
+  const handleDeleteAccount = useDelete({
+    mutationFn: (id: string) => accountsApi.deleteAccount(id),
+    invalidatedQueryKey: ['accounts'],
+    successMessage: 'Account deleted successfully',
+    errorMessage: 'Failed to delete the account',
+    onSuccess: () => setOpenDeleteModal(null),
+    onError: (error) => {
+      if (error.response?.status === 409) {
         const message =
-          err.response?.data?.error?.message ?? 'This account still has transactions.';
-
-        setOpenDeleteModal(null);
-
+          error.response?.data?.error?.message ?? 'This account still has transactions.';
         setTransactionError(message);
-        return;
+        setOpenDeleteModal(null);
       }
-
-      const errorMessage = err.response?.data?.error?.message ?? 'Something went wrong.';
-      toast.error(`Failed to delete the account: ${errorMessage}`);
-      setOpenDeleteModal(null);
-    }
-  };
+    },
+  });
 
   const handleCloseDeleteModal = (open: boolean) => setOpenDeleteModal({ open });
 
@@ -86,11 +75,13 @@ const AccountsPage = () => {
       )}
       {openDeleteModal?.open && (
         <AlertModal
-          onDelete={handleDeleteAccount}
+          onDelete={(id) => {
+            if (id) handleDeleteAccount.mutate(id);
+          }}
           open={openDeleteModal.open}
           id={openDeleteModal.accountId}
           setClose={handleCloseDeleteModal}
-          isPending={isPending}
+          isPending={handleDeleteAccount.isPending}
           variant="delete"
           title="Delete account?"
           description="This action can’t be undone. Balances and analytics will be recalculated."

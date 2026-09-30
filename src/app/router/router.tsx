@@ -1,6 +1,7 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import AppLayout from '@/app/layouts/app-layout.tsx';
+import NotFoundPage from '@/app/layouts/components/not-found-page.tsx';
 import { routes } from '@/app/router/routes.ts';
 import AccountsPage from '@/features/accounts/pages/accounts-page.tsx';
 import { ProtectedRoute } from '@/features/auth/components/protected-route.tsx';
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         element: <AppLayout />,
         children: [
+          {
+            path: '/',
+            element: <Navigate to={routes.dashboard} replace />,
+          },
           {
             path: `${routes.dashboard}`,
             element: <DashboardPage />,
@@ -48,5 +53,9 @@ export const router = createBrowserRouter([
       { path: `${routes.login}`, element: <LoginPage /> },
       { path: `${routes.register}`, element: <RegisterPage /> },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ]);

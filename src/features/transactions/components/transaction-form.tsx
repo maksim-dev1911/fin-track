@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { type Dispatch, type SetStateAction, useEffect } from 'react';
 
 import type { AxiosError } from 'axios';
@@ -61,6 +62,18 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
         accountId: transaction.account.id,
         note: transaction.note ?? '',
       });
+    } else {
+      const today = new Date();
+      const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+      form.reset({
+        type: 'expense',
+        amount: undefined,
+        date: formattedDate,
+        categoryId: '',
+        accountId: '',
+        note: '',
+      });
     }
   }, [stateModal]);
 
@@ -85,7 +98,6 @@ const TransactionForm: React.FC<PropsType> = ({ setOpenModal, stateModal }) => {
       setOpenModal(null);
     } catch (error) {
       if (applyServerValidationErrors(form, error as AxiosError<ApiValidationError>)) return;
-      throw error;
     }
   };
   return (

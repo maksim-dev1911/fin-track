@@ -3,7 +3,11 @@ export const getApiErrorMessage = (message?: string) => {
     case 'Invalid credentials.':
       return 'The email or password you entered is incorrect.';
 
-    default:
+    case undefined:
+    case '':
       return 'Something went wrong.';
+
+    default:
+      return message;
   }
 };

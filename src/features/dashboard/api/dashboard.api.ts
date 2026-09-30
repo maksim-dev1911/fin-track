@@ -3,16 +3,15 @@ import type {
   AnalyticsOverTimeType,
   AnalyticSummary,
 } from '@/features/dashboard/types/analytics.types.ts';
+import { BaseApi } from '@/shared/api/base.api.ts';
 import { apiClient } from '@/shared/api/client';
 import { endpoints } from '@/shared/api/endpoints.ts';
 import type { ApiResponse } from '@/shared/api/types.ts';
 import type { DateRange } from '@/shared/lib/get-period-description.ts';
 
-class DashboardApi {
-  private readonly client: typeof apiClient;
-
+class DashboardApi extends BaseApi {
   constructor(client: typeof apiClient) {
-    this.client = client;
+    super(client);
   }
 
   async getAnalyticsByCategory(params?: Partial<DateRange>) {

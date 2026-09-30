@@ -2,15 +2,14 @@ import type {
   CategoryRequest,
   CategoryResponse,
 } from '@/features/categories/types/categories.types.ts';
+import { BaseApi } from '@/shared/api/base.api.ts';
 import { apiClient } from '@/shared/api/client.ts';
 import { endpoints } from '@/shared/api/endpoints.ts';
 import type { ApiResponse } from '@/shared/api/types.ts';
 
-class CategoriesApi {
-  private readonly client: typeof apiClient;
-
+class CategoriesApi extends BaseApi {
   constructor(client: typeof apiClient) {
-    this.client = client;
+    super(client);
   }
 
   async getCategories() {

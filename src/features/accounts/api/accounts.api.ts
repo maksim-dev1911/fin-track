@@ -1,13 +1,12 @@
 import type { AccountRequest, AccountResponse } from '@/features/accounts/types/accounts.types.ts';
+import { BaseApi } from '@/shared/api/base.api.ts';
 import { apiClient } from '@/shared/api/client';
 import { endpoints } from '@/shared/api/endpoints';
 import type { ApiResponse } from '@/shared/api/types.ts';
 
-class AccountsApi {
-  private readonly client: typeof apiClient;
-
+class AccountsApi extends BaseApi {
   constructor(client: typeof apiClient) {
-    this.client = client;
+    super(client);
   }
 
   async getAccounts() {

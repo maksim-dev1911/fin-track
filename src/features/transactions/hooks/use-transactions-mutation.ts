@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 import { transactionsApi } from '@/features/transactions/api/transactions.api.ts';
 import type {
@@ -7,13 +8,18 @@ import type {
   TransactionsResponse,
 } from '@/features/transactions/types/transaction.types.ts';
 import { queryClient } from '@/shared/api/client.ts';
+import { handleMutationError } from '@/shared/lib/handle-mutation-error.ts';
 import type { ApiError } from '@/shared/types/error.ts';
 
 export const useTransactionsMutation = () => {
   return useMutation<TransactionsResponse, AxiosError<ApiError>, TransactionRequest>({
     mutationFn: (data: TransactionRequest) => transactionsApi.createTransaction(data),
     onSuccess: async () => {
+      toast.success('Transaction created successfully');
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
+    },
+    onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+      handleMutationError({ error, fallbackTitle: 'Failed to create transaction' });
     },
   });
 };
@@ -26,17 +32,11 @@ export const useUpdateTransactionMutation = () => {
   >({
     mutationFn: ({ id, value }) => transactionsApi.updateTransaction(id, value),
     onSuccess: async () => {
+      toast.success('Transaction updated successfully');
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },
-  });
-};
-
-export const useDeleteTransactionMutation = () => {
-  return useMutation<void, AxiosError<ApiError>, string>({
-    mutationFn: (id: string) => transactionsApi.deleteTransaction(id),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['transactions'] });
-      await queryClient.invalidateQueries({ queryKey: ['analytics'] });
+    onError: (error: AxiosError<{ error?: { message?: string } }>) => {
+      handleMutationError({ error, fallbackTitle: 'Failed to update transaction' });
     },
   });
 };

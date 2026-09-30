@@ -8,7 +8,7 @@ import type {
   CategoryResponse,
 } from '@/features/categories/types/categories.types.ts';
 import { queryClient } from '@/shared/api/client.ts';
-import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import { handleMutationError } from '@/shared/lib/handle-mutation-error.ts';
 import type { ApiError } from '@/shared/types/error.ts';
 
 export const useCreateCategoryMutation = () => {
@@ -19,9 +19,7 @@ export const useCreateCategoryMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      toast.error('Failed to create category', {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
-      });
+      handleMutationError({ error, fallbackTitle: 'Failed to create category' });
     },
   });
 };
@@ -38,9 +36,7 @@ export const useUpdateCategoryMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      toast.error('Failed to updated category', {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
-      });
+      handleMutationError({ error, fallbackTitle: 'Failed to updated category' });
     },
   });
 };

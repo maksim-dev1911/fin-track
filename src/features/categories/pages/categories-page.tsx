@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
+import { categoriesApi } from '@/features/categories/api/categories.api.ts';
 import CategoriesCard from '@/features/categories/components/categories-card.tsx';
 import CategoriesModal from '@/features/categories/components/categories-modal.tsx';
 import { useCategoriesQuery } from '@/features/categories/hooks/use-categories-query.ts';
@@ -11,8 +12,6 @@ import type {
   CategoryModalState,
 } from '@/features/categories/types/categories.types.ts';
 import { useAnalyticsByCategoryQuery } from '@/features/dashboard/hooks/use-analytics-query.ts';
-import { apiClient } from '@/shared/api/client.ts';
-import { endpoints } from '@/shared/api/endpoints.ts';
 import AlertModal from '@/shared/components/alert-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
@@ -40,7 +39,7 @@ const CategoriesPage = () => {
   };
 
   const handleDeleteCategory = useDelete({
-    mutationFn: (id: string) => apiClient.delete(`${endpoints.CATEGORIES}/${id}`),
+    mutationFn: (id: string) => categoriesApi.deleteCategory(id),
     invalidatedQueryKey: ['categories'],
     successMessage: 'Category deleted successfully',
     errorMessage: 'Failed to delete the category',

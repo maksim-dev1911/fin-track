@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { accountsApi } from '@/features/accounts/api/accounts.api.ts';
 import type { AccountRequest, AccountResponse } from '@/features/accounts/types/accounts.types.ts';
 import { queryClient } from '@/shared/api/client.ts';
-import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import { handleMutationError } from '@/shared/lib/handle-mutation-error.ts';
 import type { ApiError } from '@/shared/types/error.ts';
 
 export const useAccountsMutation = () => {
@@ -16,9 +16,7 @@ export const useAccountsMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['accounts'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      toast.error('Failed to create account', {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
-      });
+      handleMutationError({ error, fallbackTitle: 'Failed to create account' });
     },
   });
 };
@@ -31,9 +29,7 @@ export const useUpdateAccountMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['accounts'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      toast.error('Failed to updated account', {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
-      });
+      handleMutationError({ error, fallbackTitle: 'Failed to updated account' });
     },
   });
 };

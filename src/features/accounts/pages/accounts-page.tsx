@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
+import { accountsApi } from '@/features/accounts/api/accounts.api.ts';
 import AccountsModal from '@/features/accounts/components/accounts-modal.tsx';
 import CardsAccounts from '@/features/accounts/components/cards-accounts.tsx';
 import { useAccountsQuery } from '@/features/accounts/hooks/use-accounts-query.ts';
@@ -10,8 +11,6 @@ import type {
   AccountsModalState,
   DeleteAccountState,
 } from '@/features/accounts/types/accounts.types.ts';
-import { apiClient } from '@/shared/api/client.ts';
-import { endpoints } from '@/shared/api/endpoints';
 import AlertModal from '@/shared/components/alert-modal.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
 import { formatTransactionAmount } from '@/shared/lib/format-money.ts';
@@ -26,7 +25,7 @@ const AccountsPage = () => {
   const { data: accounts = [], isLoading, isError } = useAccountsQuery();
 
   const handleDeleteAccount = useDelete({
-    mutationFn: (id: string) => apiClient.delete(`${endpoints.ACCOUNT}/${id}`),
+    mutationFn: (id: string) => accountsApi.deleteAccount(id),
     invalidatedQueryKey: ['accounts'],
     successMessage: 'Account deleted successfully',
     errorMessage: 'Failed to delete the account',

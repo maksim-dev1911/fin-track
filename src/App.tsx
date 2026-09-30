@@ -17,9 +17,9 @@ export const App = () => {
           unstyled: true,
           classNames: {
             toast:
-              'w-[360px] flex items-center gap-3 p-4 rounded-xl bg-[#1c1c1e] border border-zinc-800/60 shadow-2xl backdrop-blur-md',
-            title: 'text-[14px] font-medium text-zinc-100 font-sans tracking-tight',
-            description: 'text-[12px] text-zinc-400 font-normal leading-normal font-sans',
+              'w-[360px] flex items-center gap-3 p-4 rounded-xl bg-popover border-border shadow-2xl backdrop-blur-md',
+            title: 'text-[14px] font-medium text-foreground font-sans tracking-tight',
+            description: 'text-[12px] text-muted-foreground font-normal leading-normal font-sans',
           },
         }}
         icons={{

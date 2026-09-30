@@ -8,7 +8,7 @@ import type {
   TransactionsResponse,
 } from '@/features/transactions/types/transaction.types.ts';
 import { queryClient } from '@/shared/api/client.ts';
-import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import { handleMutationError } from '@/shared/lib/handle-mutation-error.ts';
 import type { ApiError } from '@/shared/types/error.ts';
 
 export const useTransactionsMutation = () => {
@@ -19,9 +19,7 @@ export const useTransactionsMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      toast.error('Failed to create transaction', {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
-      });
+      handleMutationError({ error, fallbackTitle: 'Failed to create transaction' });
     },
   });
 };
@@ -38,9 +36,7 @@ export const useUpdateTransactionMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      toast.error('Failed to updated transaction', {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
-      });
+      handleMutationError({ error, fallbackTitle: 'Failed to updated transaction' });
     },
   });
 };

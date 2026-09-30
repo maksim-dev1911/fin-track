@@ -15,9 +15,6 @@ export const useLogout = () => {
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
-
-      clearSession();
-      navigate(routes.login, { replace: true });
     } catch (error) {
       if (error) {
         const axiosError = error as AxiosError<{ error?: { message?: string } }>;
@@ -26,6 +23,9 @@ export const useLogout = () => {
           description: getApiErrorMessage(axiosError.response?.data?.error?.message),
         });
       }
+    } finally {
+      clearSession();
+      navigate(routes.login, { replace: true });
     }
   };
 

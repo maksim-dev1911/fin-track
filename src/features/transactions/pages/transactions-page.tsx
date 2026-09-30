@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { Spinner } from '@/components/ui/spinner.tsx';
+import { transactionsApi } from '@/features/transactions/api/transactions.api.ts';
 import TransactionsTable from '@/features/transactions/components/table/transactions-table.tsx';
 import TransactionModal from '@/features/transactions/components/transaction-modal.tsx';
 import TransactionsSummary from '@/features/transactions/components/transactions-summary.tsx';
@@ -12,8 +13,6 @@ import type {
   TransactionFiltersState,
   TransactionModalState,
 } from '@/features/transactions/types/transaction.types.ts';
-import { apiClient } from '@/shared/api/client.ts';
-import { endpoints } from '@/shared/api/endpoints.ts';
 import AlertModal from '@/shared/components/alert-modal.tsx';
 import EmptyError from '@/shared/components/empty-error.tsx';
 import PageHeader from '@/shared/components/page-header.tsx';
@@ -47,7 +46,7 @@ const TransactionsPage = () => {
   const handleCloseModal = (open: boolean) => setOpenDeleteModal({ open });
 
   const handleDeleteTransaction = useDelete({
-    mutationFn: (id: string) => apiClient.delete(`${endpoints.TRANSACTION}/${id}`),
+    mutationFn: (id: string) => transactionsApi.deleteTransaction(id),
     invalidatedQueryKey: ['transactions'],
     successMessage: 'Transaction deleted successfully',
     errorMessage: 'Failed to delete the transaction',

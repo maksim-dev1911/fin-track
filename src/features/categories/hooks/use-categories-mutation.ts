@@ -36,7 +36,7 @@ export const useUpdateCategoryMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      handleMutationError({ error, fallbackTitle: 'Failed to updated category' });
+      handleMutationError({ error, fallbackTitle: 'Failed to update category' });
     },
   });
 };

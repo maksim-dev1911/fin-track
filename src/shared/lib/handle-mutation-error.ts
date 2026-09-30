@@ -12,7 +12,7 @@ interface MutationErrorOptions {
 export const handleMutationError = ({
   error,
   fallbackTitle,
-  skipStatuses = [409, 422],
+  skipStatuses = [422],
 }: MutationErrorOptions) => {
   const status = error.response?.status;
 

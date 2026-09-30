@@ -36,7 +36,7 @@ export const useUpdateTransactionMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['transactions'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      handleMutationError({ error, fallbackTitle: 'Failed to updated transaction' });
+      handleMutationError({ error, fallbackTitle: 'Failed to update transaction' });
     },
   });
 };

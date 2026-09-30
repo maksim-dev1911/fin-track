@@ -29,7 +29,7 @@ export const useUpdateAccountMutation = () => {
       await queryClient.invalidateQueries({ queryKey: ['accounts'] });
     },
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
-      handleMutationError({ error, fallbackTitle: 'Failed to updated account' });
+      handleMutationError({ error, fallbackTitle: 'Failed to update account' });
     },
   });
 };

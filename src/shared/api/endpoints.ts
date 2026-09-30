@@ -6,7 +6,7 @@ export const endpoints = {
   LOGOUT: '/auth/logout',
   TRANSACTION: '/transactions',
   ACCOUNT: '/accounts',
-  CATEGORIES: '/categorieds',
+  CATEGORIES: '/categories',
   ANALYTICS_BY_CATEGORY: '/analytics/by-category',
   ANALYTICS_SUMMARY: '/analytics/summary',
   ANALYTICS_OVER_TIME: '/analytics/over-time',

@@ -2,13 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-import { getApiErrorMessage } from '@/shared/lib/get-api-error-message.ts';
+import { handleMutationError } from '@/shared/lib/handle-mutation-error.ts';
 
 interface UseDeleteOptions {
   mutationFn: (id: string) => Promise<unknown>;
   invalidatedQueryKey: unknown[];
   successMessage?: string;
-  errorMessage?: string;
+  errorMessage: string;
   onSuccess: () => void;
   onError?: (error: AxiosError<{ error?: { message?: string } }>) => void;
 }
@@ -33,17 +33,12 @@ export const useDelete = ({
     onError: (error: AxiosError<{ error?: { message?: string } }>) => {
       if (onError) {
         onError(error);
-
-        if (error.response?.status !== 409) {
-          toast.error(errorMessage, {
-            description: getApiErrorMessage(error.response?.data?.error?.message),
-          });
-        }
-        return;
       }
 
-      toast.error(errorMessage, {
-        description: getApiErrorMessage(error.response?.data?.error?.message),
+      handleMutationError({
+        error,
+        fallbackTitle: errorMessage || 'Failed to delete the item',
+        skipStatuses: [409],
       });
     },
   });
